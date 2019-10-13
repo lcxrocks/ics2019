@@ -200,5 +200,5 @@ void isa_exec(vaddr_t *pc) {
   set_width(opcode_table[opcode].width); //if width=0, width=2, then decinfo.src.width=.dest.width=src2.width
   
   idex(pc, &opcode_table[opcode]);//run opcode_table[opcode].e->decode(pc).
-  printf("hhhhhhh,opcode = %x\n",opcode);
+  //printf("hhhhhhh,opcode = %x\n",opcode);
 }
