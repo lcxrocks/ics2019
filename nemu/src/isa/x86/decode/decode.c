@@ -4,7 +4,7 @@
 #define make_DopHelper(name) void concat(decode_op_, name) (vaddr_t *pc, Operand *op, bool load_val)
 
 /* Refer to Appendix A in i386 manual for the explanations of these abbreviations */
-
+//op is a Operand, defined in cpu/decode.h. 
 /* Ib, Iv */
 static inline make_DopHelper(I) {
   /* pc here is pointing to the immediate */
@@ -301,7 +301,7 @@ make_DHelper(out_a2dx) {
 }
 
 void operand_write(Operand *op, rtlreg_t* src) {
-  if (op->type == OP_TYPE_REG) { rtl_sr(op->reg, src, op->width); }
-  else if (op->type == OP_TYPE_MEM) { rtl_sm(&op->addr, src, op->width); }
+  if (op->type == OP_TYPE_REG) { rtl_sr(op->reg, src, op->width); }//reg. Intel version mov opreg, src;
+  else if (op->type == OP_TYPE_MEM) { rtl_sm(&op->addr, src, op->width); }//mem. Intel version move opaddr, src
   else { assert(0); }
 }

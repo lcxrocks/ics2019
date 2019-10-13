@@ -51,7 +51,7 @@ make_group(gp7,
 
 /* TODO: Add more instructions!!! */
 
-static OpcodeEntry opcode_table [512] = {
+static OpcodeEntry opcode_table [512] = { //stores OpcodeEntry, which includes decode func and exec func and width of each opcode.
   /* 0x00 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x04 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x08 */	EMPTY, EMPTY, EMPTY, EMPTY,
@@ -110,7 +110,7 @@ static OpcodeEntry opcode_table [512] = {
   /* 0xdc */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xe0 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xe4 */	EMPTY, EMPTY, EMPTY, EMPTY,
-  /* 0xe8 */	EMPTY, EMPTY, EMPTY, EMPTY,
+  /* 0xe8 */	IDEX(J,call), EMPTY, EMPTY, EMPTY,
   /* 0xec */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xf0 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xf4 */	EMPTY, EMPTY, IDEXW(E, gp3, 1), IDEX(E, gp3),
@@ -193,8 +193,8 @@ static make_EHelper(2byte_esc) {
 }
 
 void isa_exec(vaddr_t *pc) {
-  uint32_t opcode = instr_fetch(pc, 1);
-  decinfo.opcode = opcode;
-  set_width(opcode_table[opcode].width);
-  idex(pc, &opcode_table[opcode]);
+  uint32_t opcode = instr_fetch(pc, 1);//get 1 byte instr ( and update pc), which becomes opcode
+  decinfo.opcode = opcode;//save opcode and goto opcode_table[opcode] to find it
+  set_width(opcode_table[opcode].width); //if width=0, width=2, then decinfo.src.width=.dest.width=src2.width
+  idex(pc, &opcode_table[opcode]);//run opcode_table[opcode].e->decode(pc).
 }

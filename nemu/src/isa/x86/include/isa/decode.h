@@ -5,7 +5,7 @@
 #include "cpu/decode.h"
 
 struct ISADecodeInfo {
-  bool is_operand_size_16;
+  bool is_operand_size_16; //if true, set width=2; else set width=4; (to decinfo.src/src2/dest.width)
   uint8_t ext_opcode;
 };
 
@@ -33,9 +33,10 @@ typedef union {
   uint8_t val;
 } SIB;
 
-void load_addr(vaddr_t *, ModR_M *, Operand *);
+void load_addr(vaddr_t *, ModR_M *, Operand *); 
 void read_ModR_M(vaddr_t *, Operand *, bool, Operand *, bool);
-
+//all these DHelper are all defined in x86/decode.c
+//They help us to save src,src2,dest to decinfo
 make_DHelper(I2E);
 make_DHelper(I2a);
 make_DHelper(I2r);

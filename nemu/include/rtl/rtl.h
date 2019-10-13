@@ -31,7 +31,7 @@ static inline void interpret_rtl_mv(rtlreg_t* dest, const rtlreg_t *src1) {
     rtl_li(&ir, imm); \
     rtl_ ## name (dest, src1, &ir); \
   }
-
+//the following are ALL done in c_op.h
 make_rtl_arith_logic(add)
 make_rtl_arith_logic(sub)
 make_rtl_arith_logic(and)
@@ -154,6 +154,11 @@ static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
 static inline void rtl_mux(rtlreg_t* dest, const rtlreg_t* cond, const rtlreg_t* src1, const rtlreg_t* src2) {
   // dest <- (cond ? src1 : src2)
   TODO();
+}
+
+static inline void interpret_rtl_push(rtlreg_t* src1){
+  cpu.esp -= 4; //stack increment
+  rtl_sm(&cpu.esp, src1, 4); //write to esp
 }
 
 #include "isa/rtl.h"
