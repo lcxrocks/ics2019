@@ -157,6 +157,7 @@ static inline void rtl_mux(rtlreg_t* dest, const rtlreg_t* cond, const rtlreg_t*
 }
 
 static inline void interpret_rtl_push(rtlreg_t* src1){
+  printf("hahahahn\n");
   cpu.esp -= 4; //stack increment
   rtl_sm(&cpu.esp, src1, 4); //write to esp
 }
