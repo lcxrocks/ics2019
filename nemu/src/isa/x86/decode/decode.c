@@ -165,6 +165,7 @@ make_DHelper(I) {
 }
 
 make_DHelper(r) {
+  printf("ahahhahah\n");
   decode_op_r(pc, id_dest, true);
 }
 
