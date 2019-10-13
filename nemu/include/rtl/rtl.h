@@ -155,13 +155,13 @@ static inline void rtl_mux(rtlreg_t* dest, const rtlreg_t* cond, const rtlreg_t*
   // dest <- (cond ? src1 : src2)
   TODO();
 }
-
-static inline void interpret_rtl_push(rtlreg_t* src1){
-  printf("hahahahn\n");
+/* !!!!!!!!here defines the rtl func which every ISA can use, but `push` is different.
+static inline void rtl_push(rtlreg_t* src1){
+  
   cpu.esp -= 4; //stack increment
   rtl_sm(&cpu.esp, src1, 4); //write to esp
 }
-
+*/
 #include "isa/rtl.h"
 
 #endif
