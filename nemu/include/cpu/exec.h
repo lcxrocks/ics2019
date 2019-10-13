@@ -42,7 +42,7 @@ static inline void idex(vaddr_t *pc, OpcodeEntry *e) {
   if (e->decode)
     e->decode(pc); //help stores decinfo.src/src2/dest
   
-  printf("why???\n");
+  printf("why???opcode= %x\n", decinfo.opcode);
   e->execute(pc); //then executes 
 }
 
