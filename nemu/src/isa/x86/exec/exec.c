@@ -198,6 +198,7 @@ void isa_exec(vaddr_t *pc) {
   decinfo.opcode = opcode;//save opcode and goto opcode_table[opcode] to find it
   //printf("Get opcode = %x\n",opcode);
   set_width(opcode_table[opcode].width); //if width=0, width=2, then decinfo.src.width=.dest.width=src2.width
-  printf("Get opcode 222= %x\n",opcode);
+  
   idex(pc, &opcode_table[opcode]);//run opcode_table[opcode].e->decode(pc).
+  printf("hhhhhhh\n");
 }
