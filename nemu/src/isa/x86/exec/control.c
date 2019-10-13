@@ -33,13 +33,13 @@ make_EHelper(call) {
   rtl_j(decinfo.jmp_pc);
   print_asm("call %x", decinfo.jmp_pc);
 }
-
+/*
 make_EHelper(push){
   TODO();
 
   print_asm("push %s", id_src);
 }
-
+*/
 make_EHelper(ret) {
   TODO();
 
