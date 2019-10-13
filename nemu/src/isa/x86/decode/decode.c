@@ -265,6 +265,7 @@ make_DHelper(J) {
 }
 
 make_DHelper(push_SI) {
+  printf("hahahhahahah/n");
   decode_op_SI(pc, id_dest, true);
 }
 
