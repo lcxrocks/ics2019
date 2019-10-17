@@ -135,14 +135,10 @@ static inline void rtl_not(rtlreg_t *dest, const rtlreg_t* src1) {
 }
 
 static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
-  /*
-  switch(width){
-    case 1: t0 = *src1 & 0xFF; struct{signed int t0: 8;} a;  t1= a.t0;  *dest=t1; break;
-    case 2: t0 = *src1 & 0xFFFF; struct{signed int t0: 16;} b; t1= b.t0; *dest=t1; break;
-    case 4: t0 = *src1 & 0xFFFFFFFF; struct{signed int t0: 32;} c; t1= c.t0; *dest=t1; break;
-   // case 8: t0 = *src1 & 0xFFFFFFFFFFFFFFFF; struct{signed int t0: 64;}d; t1= d.t0; *dest=t1; break;
-    default: assert(width!=0);
-  }*/
+  width*=8;
+  int const mask = 1U << (width-1);
+  s0 = *src1 & ((1U << width) - 1);
+  *dest = (s0 ^ mask) - mask;
   //Inspired from Zhihu.Bit Hacks.
 }
 
