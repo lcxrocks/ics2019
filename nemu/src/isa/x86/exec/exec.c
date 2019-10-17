@@ -22,7 +22,7 @@ static make_EHelper(name) { \
 /* 0x80, 0x81, 0x83 */
 make_group(gp1,
     EMPTY, EMPTY, EMPTY, EMPTY,
-    EMPTY, EMPTY, EMPTY, EMPTY)
+    EMPTY, EX(sub), EMPTY, EMPTY) //dont need decode_ID
 
 /* 0xc0, 0xc1, 0xd0, 0xd1, 0xd2, 0xd3 */
 make_group(gp2,
@@ -78,7 +78,7 @@ static OpcodeEntry opcode_table [512] = { //stores OpcodeEntry, which includes d
   /* 0x5c */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x60 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x64 */	EMPTY, EMPTY, EX(operand_size), EMPTY,
-  /* 0x68 */	EMPTY, EMPTY, EMPTY, EMPTY,
+  /* 0x68 */	IDEX(r,push), EMPTY, EMPTY, EMPTY,
   /* 0x6c */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x70 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x74 */	EMPTY, EMPTY, EMPTY, EMPTY,
@@ -198,7 +198,7 @@ void isa_exec(vaddr_t *pc) {
   decinfo.opcode = opcode;//save opcode and goto opcode_table[opcode] to find it
   //printf("Get opcode = %x\n",opcode);
   set_width(opcode_table[opcode].width); //if width=0, width=2, then decinfo.src.width=.dest.width=src2.width
-  
+  // width=0 means that we can't know by decode op. We have to check `decinfo.isa.is_operand_size_16`
   idex(pc, &opcode_table[opcode]);//run opcode_table[opcode].e->decode(pc).
   //printf("hhhhhhh,opcode = %x\n",opcode);
 }

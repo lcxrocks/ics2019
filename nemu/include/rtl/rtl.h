@@ -15,7 +15,7 @@ bool interpret_relop(uint32_t relop, const rtlreg_t src1, const rtlreg_t src2);
 
 static inline void interpret_rtl_li(rtlreg_t* dest, uint32_t imm) {
   *dest = imm;
-}
+}//load immediate number
 
 static inline void interpret_rtl_mv(rtlreg_t* dest, const rtlreg_t *src1) {
   *dest = *src1;
@@ -131,13 +131,19 @@ void interpret_rtl_exit(int state, vaddr_t halt_pc, uint32_t halt_ret);
 /* RTL pseudo instructions */
 
 static inline void rtl_not(rtlreg_t *dest, const rtlreg_t* src1) {
-  // dest <- ~src1
-  TODO();
+  *dest = ~*src1;
 }
 
 static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
-  // dest <- signext(src1[(width * 8 - 1) .. 0])
-  TODO();
+  /*
+  switch(width){
+    case 1: t0 = *src1 & 0xFF; struct{signed int t0: 8;} a;  t1= a.t0;  *dest=t1; break;
+    case 2: t0 = *src1 & 0xFFFF; struct{signed int t0: 16;} b; t1= b.t0; *dest=t1; break;
+    case 4: t0 = *src1 & 0xFFFFFFFF; struct{signed int t0: 32;} c; t1= c.t0; *dest=t1; break;
+   // case 8: t0 = *src1 & 0xFFFFFFFFFFFFFFFF; struct{signed int t0: 64;}d; t1= d.t0; *dest=t1; break;
+    default: assert(width!=0);
+  }*/
+  //Inspired from Zhihu.Bit Hacks.
 }
 
 static inline void rtl_setrelopi(uint32_t relop, rtlreg_t *dest,

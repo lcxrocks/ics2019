@@ -165,7 +165,7 @@ make_DHelper(I) {
 }
 
 make_DHelper(r) {
-  decode_op_r(pc, id_dest, true);
+  decode_op_r(pc, id_dest, true); //id_dest is the one we want
 }
 
 make_DHelper(E) {
@@ -265,7 +265,6 @@ make_DHelper(J) {
 }
 
 make_DHelper(push_SI) {
-  printf("hahahhahahah/n");
   decode_op_SI(pc, id_dest, true);
 }
 
