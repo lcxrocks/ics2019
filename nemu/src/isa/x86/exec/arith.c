@@ -9,6 +9,7 @@ make_EHelper(add) {
 make_EHelper(sub) {
   rtl_sub(&s1,&id_dest->val,&id_src->val);
   operand_write(id_dest, &s1);
+  
   print_asm_template2(sub);
 }
 
