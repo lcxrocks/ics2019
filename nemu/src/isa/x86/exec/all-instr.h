@@ -1,7 +1,7 @@
 #include "cpu/exec.h"
 //arith.c
 make_EHelper(sub);
-
+make_EHelper(add);
 //cc.c
 
 
