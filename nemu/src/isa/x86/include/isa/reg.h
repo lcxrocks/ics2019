@@ -41,10 +41,7 @@ union{
   //rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
 };
   vaddr_t pc;
-
-} CPU_state;
-
-typedef union{
+union{
   struct{
     uint32_t CF:1;
     uint32_t : 5;
@@ -57,7 +54,10 @@ typedef union{
     uint32_t :20;
   };
   uint32_t init; //give initial val.
-}eflags;
+};
+} CPU_state;
+
+
 
 static inline int check_reg_index(int index) {
   assert(index >= 0 && index < 8);
