@@ -5,7 +5,6 @@ make_EHelper(add);
 make_EHelper(cmp);
 //cc.c
 
-
 //control.c
 make_EHelper(call);
 make_EHelper(ret);
