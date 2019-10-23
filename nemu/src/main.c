@@ -6,6 +6,7 @@ int main(int argc, char *argv[]) {
   int is_batch_mode = init_monitor(argc, argv);
 
   /* Receive commands from user. */
+  //is_batch_mode=false; //debug --
   ui_mainloop(is_batch_mode);
 
   return 0;
