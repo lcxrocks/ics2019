@@ -14,6 +14,7 @@ make_EHelper(mov);
 make_EHelper(lea);
 make_EHelper(movzx);
 //logic.c
+make_EHelper(test);
 make_EHelper(xor);
 make_EHelper(and);
 //prefix.c
