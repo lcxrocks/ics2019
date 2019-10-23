@@ -12,6 +12,7 @@ make_EHelper(ret);
 make_EHelper(push);
 make_EHelper(mov);
 make_EHelper(lea);
+make_EHelper(movzx);
 //logic.c
 make_EHelper(xor);
 make_EHelper(and);
