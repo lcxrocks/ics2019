@@ -29,7 +29,7 @@ make_EHelper(popa) {
 }
 
 make_EHelper(leave) {
-  //TODO();
+  TODO();
 
   print_asm("leave");
 }
