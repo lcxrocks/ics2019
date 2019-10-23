@@ -29,8 +29,30 @@ make_EHelper(popa) {
 }
 
 make_EHelper(leave) {
-  TODO();
-
+  /*IF StackAddrSize = 16
+THEN
+   SP := BP;
+ELSE (* StackAddrSize = 32 *)
+   ESP := EBP;
+FI;*/
+  if(id_dest->width==2){
+    rtl_lr(&s0,R_EBP,2);
+    rtl_sr(R_ESP,&s0,2);
+  }
+  else{
+    rtl_lr(&s0,R_EBP,4);
+    rtl_sr(R_ESP,&s0,4);
+  }
+  if (decinfo.isa.is_operand_size_16) {
+    rtl_pop(&s0);
+    rtl_sr(R_BP,&s0,2);
+    //BP := Pop();
+  }
+  else { //* OperandSize = 32 *
+    rtl_pop(&s0);
+    rtl_sr(R_BP,&s0,4);
+    //EBP := Pop();
+  }
   print_asm("leave");
 }
 
