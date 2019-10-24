@@ -46,7 +46,7 @@ static int cmd_si(char *args){
      int steps = atoi(arg);
      cpu_exec(steps);
 }    
-   printf("done");
+   //printf("done");
    return 0;
 }
 
