@@ -7,6 +7,7 @@ make_EHelper(add) {
 }
 
 make_EHelper(sub) {
+  printf("----------------------id_src->val: 0x%8u\n",id_src->val);
   rtl_sub(&s1,&id_dest->val,&id_src->val);
   printf("################ id_src->val: 0x%8u\n",id_src->val);
   printf("################ id_dest->val: 0x%8u\n",id_dest->val);
