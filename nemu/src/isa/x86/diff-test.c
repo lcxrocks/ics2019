@@ -12,7 +12,7 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   printf("ebp 0x%8x %8u\n", ref_r->ebp,ref_r->ebp);
   printf("esi 0x%8x %8u\n", ref_r->esi,ref_r->esi);
   printf("edi 0x%8x %8u\n", ref_r->edi,ref_r->edi);
-  printf("############################################");
+  printf("############################################\n");
 //rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
   
   return !equal;
