@@ -53,5 +53,18 @@ void isa_reg_display() {
 }
 
 uint32_t isa_reg_str2val(const char *s, bool *success) {
+  for (int i = 0; i < 8; i++)
+  {
+     if (!strcmp(s,regsl[i])) //equal 0: str1=str2
+       return cpu.gpr[i]._32;
+     else if (!strcmp(s,regsw[i]))
+       return cpu.gpr[i]._16;
+     else if ((!strcmp(s, regsb[i])&&(i<4)))
+       return cpu.gpr[i]._8[0];
+     else if ((!strcmp(s, regsb[i])&&(i>4)))
+       return cpu.gpr[i]._8[1];
+     else if (!strcmp(s, "eip"))
+       return cpu.pc;
+  }
   return 0;
 }
