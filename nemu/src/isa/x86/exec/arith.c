@@ -7,10 +7,7 @@ make_EHelper(add) {
 }
 
 make_EHelper(sub) {
-  printf("----------------------id_src->val: 0x%8x\n",id_src->val);
   rtl_sub(&s1,&id_dest->val,&id_src->val);
-  printf("################ id_src->val: 0x%8x\n",id_src->val);
-  printf("################ id_dest->val: 0x%8x\n",id_dest->val);
   operand_write(id_dest, &s1);
   
   print_asm_template2(sub);
