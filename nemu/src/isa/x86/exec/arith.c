@@ -8,21 +8,21 @@ make_EHelper(add) {
 
 make_EHelper(sub) {
   rtl_sub(&s1,&id_dest->val,&id_src->val);
-  printf("$$$$$$$$$$$$$$$$$$$ id_src->val: 0x%8x\n", id_src->val);
+  
   operand_write(id_dest, &s1);
   
   print_asm_template2(sub);
 }
 
 make_EHelper(cmp) {
-  printf("$$$$$$$$$$$$$$$$$$$$$$$ id_dest->val: %8x, id_src->val: %8x\n;",id_dest->val, id_src->val);
+  printf("$$$$$$$$$$$$$$$$$$$$$$$ id_dest->val: %8x, id_src->val: %8x\n",id_dest->val, id_src->val);
   rtl_sub(&s0,&id_dest->val, &id_src->val);
-  printf("$$$$$$$$$$$$$$$$$$$$$$$ id_dest->val: %8x, id_src->val: %8x\n;",id_dest->val, id_src->val);
+  printf("$$$$$$$$$$$$$$$$$$$$$$$ id_dest->val: %8x, id_src->val: %8x\n",id_dest->val, id_src->val);
   //update ZFSF
-  rtl_update_ZFSF(&s1, id_dest->width);
+  rtl_update_ZFSF(&s0, id_dest->width);
 
   // update CF
-  rtl_is_add_carry(&s1, &s1, &s0);
+  rtl_is_add_carry(&s1,&s0, &id_src->val); //dest, res, src1
   rtl_is_add_carry(&s0, &s0, &id_dest->val);
   rtl_or(&s0, &s0, &s1);
   rtl_set_CF(&s0);

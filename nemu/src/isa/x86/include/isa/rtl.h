@@ -79,7 +79,7 @@ static inline void rtl_is_add_carry(rtlreg_t* dest,
   int mask=(1<<(width*8))-1;
   t0 = *res & mask;
   t1 = *src1 & mask;*/
-  if( t0 < t1 ) *dest=1;
+  if( *res < *src1 ) *dest=1;
   else *dest=0;
 
   //TODO();
@@ -101,13 +101,17 @@ make_rtl_setget_eflags(SF)
 static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
   // eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
   t0=(4-width)*8;//remove the redundant bits out of our sight
+  printf("cpu.ZF=%8x",cpu.ZF);
   cpu.ZF=((*result & (0xFFFFFFFF)>>t0))== 0;
+  printf("cpu.ZF=%8x",cpu.ZF);
 }
 
 static inline void rtl_update_SF(const rtlreg_t* result, int width) {
   // eflags.SF <- is_sign(result[width * 8 - 1 .. 0])
   t0=width*8-1;//lower-bits
+  printf("cpu.SF=%8x",cpu.SF);
   cpu.SF=((*result >> t0) & 1);
+  printf("cpu.SF=%8x",cpu.SF);
 }
 
 static inline void rtl_update_ZFSF(const rtlreg_t* result, int width) {
