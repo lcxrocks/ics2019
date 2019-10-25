@@ -42,9 +42,9 @@ static inline make_DopHelper(SI) {
   {
     op->simm = instr_fetch(pc,op->width);
   }
-
+  printf("$$$$3333$$$$$$$$ id_src->val: 0x%8x\n", id_src->val);
   rtl_li(&op->val, op->simm);
-
+  printf("$$$$3333333$$$$$$$$$ id_src->val: 0x%8x\n", id_src->val);
   print_Dop(op->str, OP_STR_SIZE, "$0x%x", op->simm);
 }
 
