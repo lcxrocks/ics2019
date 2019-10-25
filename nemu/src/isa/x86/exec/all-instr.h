@@ -21,7 +21,11 @@ make_EHelper(leave);
 //logic.c
 make_EHelper(test);
 make_EHelper(xor);
+make_EHelper(or);
 make_EHelper(and);
+make_EHelper(shl);
+make_EHelper(sar);
+make_EHelper(shr);
 //prefix.c
 
 //special.c
