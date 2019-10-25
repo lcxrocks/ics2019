@@ -33,8 +33,10 @@ static inline make_DopHelper(SI) {
    */
   //op->simm = instr_fetch(pc,op->width); old version by lcx, wrong!!!
   if(op->width==1){
+    printf("$$$$$$$$$$$$$$$$$$$ id_src->val: 0x%8x\n", id_src->val);
     rtl_li(&t0, instr_fetch(pc,op->width));
     rtl_sext(&op->imm,&t0, op->width); //union, dont be scared.
+    printf("$$$$$$$$$$$$$$$$$$$ id_src->val: 0x%8x\n", id_src->val);
   }
   else
   {
