@@ -32,8 +32,15 @@ static inline make_DopHelper(SI) {
    op->simm = ???
    */
   //op->simm = instr_fetch(pc,op->width); old version by lcx, wrong!!!
-  rtl_li(&t0, instr_fetch(pc,op->width));
-  rtl_sext(&op->imm,&t0, op->width);
+  if(op->width==1){
+    rtl_li(&t0, instr_fetch(pc,op->width));
+    rtl_sext(&op->imm,&t0, op->width); //union, dont be scared.
+  }
+  else
+  {
+    op->simm = instr_fetch(pc,op->width);
+  }
+
   rtl_li(&op->val, op->simm);
 
   print_Dop(op->str, OP_STR_SIZE, "$0x%x", op->simm);
