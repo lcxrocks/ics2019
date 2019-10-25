@@ -32,11 +32,11 @@ static inline make_DopHelper(SI) {
    */
   //op->simm = instr_fetch(pc,op->width); old version by lcx, wrong!!!
   if(op->width==1){
-    printf("$$$$$$$$$$$$$$$$$$$ id_src->val: 0x%8x\n", id_src->val);
+    //printf("$$$$$$$$$$$$$$$$$$$ id_src->val: 0x%8x\n", id_src->val);
     rtl_li(&t0, instr_fetch(pc,op->width));
-    printf("asuhdausbdu$$$$$$$ t0: 0x%8x\n", t0);
+    //printf("asuhdausbdu$$$$$$$ t0: 0x%8x\n", t0);
     rtl_sext(&op->imm,&t0, op->width); 
-    printf("$$$$$$$$$$$$$$$$$$$ t0: 0x%8x\n", t0);
+   //printf("$$$$$$$$$$$$$$$$$$$ t0: 0x%8x\n", t0);
   }
   else
   {
