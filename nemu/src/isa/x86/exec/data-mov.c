@@ -6,7 +6,9 @@ make_EHelper(mov) {
 }
 
 make_EHelper(push) {
+  printf("$$$$$$$$$$$$$$$ id_dest->val: %8x\n",id_dest->val);
   rtl_push(&id_dest->val);
+  printf("$$$$$$$$$$$$$$$ id_dest->val: %8x\n",id_dest->val);
   print_asm_template1(push);
 }
 
