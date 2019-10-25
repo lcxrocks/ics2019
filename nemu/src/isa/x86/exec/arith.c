@@ -37,11 +37,11 @@ make_EHelper(inc) {
   
   //id_dest->val += 1;
   s0=1;
-  printf("^^^^^^^^^^^^^^^^^^id_dest:val %8x ^^^^^\n",id_dest->val);
+  //printf("^^^^^^^^^^^^^^^^^^id_dest:val %8x ^^^^^\n",id_dest->val);
   rtl_add(&id_dest->val,&id_dest->val,&s0);
-  printf("^^^^^^^^^^^^^^^^^^id_dest:val %8x ^^^^^\n",id_dest->val);
+  //printf("^^^^^^^^^^^^^^^^^^id_dest:val %8x ^^^^^\n",id_dest->val);
   operand_write(id_dest, &id_dest->val);
-  printf("^^^^^^^^^^^^^^^^^^id_dest:val %8x ^^^^^\n",id_dest->val);
+  //printf("^^^^^^^^^^^^^^^^^^id_dest:val %8x ^^^^^\n",id_dest->val);
   print_asm_template1(inc);
 }
 
