@@ -41,6 +41,9 @@ make_EHelper(sar) {
 }
 
 make_EHelper(shl) {
+  printf("asdoasdhaso pc: %8ls\n", pc);
+  printf("asdoasdhaso id_dest->val: %8x\n", id_dest->val);
+  printf("asdoasdhaso id_src->val: %8x\n", id_src->val);
   rtl_shl(&s0, &id_dest->val, &id_src->val);
   operand_write(id_dest, &s0);
   // unnecessary to update CF and OF in NEMU
