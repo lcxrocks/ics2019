@@ -24,7 +24,6 @@ static inline make_DopHelper(SI) {
   assert(op->width == 1 || op->width == 4);
 
   op->type = OP_TYPE_IMM;
-
   /* TODO: Use instr_fetch() to read `op->width' bytes of memory
    * pointed by 'pc'. Interpret the result as a signed immediate,
    * and assign it to op->simm.
@@ -35,16 +34,15 @@ static inline make_DopHelper(SI) {
   if(op->width==1){
     printf("$$$$$$$$$$$$$$$$$$$ id_src->val: 0x%8x\n", id_src->val);
     rtl_li(&t0, instr_fetch(pc,op->width));
-    rtl_sext(&op->imm,&t0, op->width); //union, dont be scared.
+    printf("$$$$$$$$$$$$$$$$$$$ id_src->val: 0x%8x\n", t0);
+    rtl_sext(&op->imm,&t0, op->width); 
     printf("$$$$$$$$$$$$$$$$$$$ id_src->val: 0x%8x\n", id_src->val);
   }
   else
   {
     op->simm = instr_fetch(pc,op->width);
   }
-  printf("$$$$3333$$$$$$$$ id_src->val: 0x%8x\n", id_src->val);
   rtl_li(&op->val, op->simm);
-  printf("$$$$3333333$$$$$$$$$ id_src->val: 0x%8x\n", id_src->val);
   print_Dop(op->str, OP_STR_SIZE, "$0x%x", op->simm);
 }
 
