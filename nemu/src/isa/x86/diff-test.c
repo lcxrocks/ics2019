@@ -7,6 +7,7 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   printf("eax_QEMU 0x%8x %8u\n", ref_r->eax,ref_r->eax);
   printf("ecx_QEMU 0x%8x %8u\n", ref_r->ecx, ref_r->ecx);
   printf("edx_QEMU 0x%8x %8u\n", ref_r->edx,ref_r->edx);
+  printf("ebx_QEMU 0x%8x %8u\n", ref_r->ebx,ref_r->ebx);
   printf("esp_QEMU 0x%8x %8u\n", ref_r->esp,ref_r->esp);
   printf("ebp_QEMU 0x%8x %8u\n", ref_r->ebp,ref_r->ebp);
   printf("esi_QEMU 0x%8x %8u\n", ref_r->esi,ref_r->esi);
