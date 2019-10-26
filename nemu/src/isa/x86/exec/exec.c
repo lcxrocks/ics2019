@@ -54,7 +54,7 @@ make_group(gp7,
 static OpcodeEntry opcode_table [512] = { //stores OpcodeEntry, which includes decode func and exec func and width of each opcode.
   /* 0x00 */	EMPTY, IDEX(G2E,add),EMPTY , IDEX(E2G,add),
   /* 0x04 */	EMPTY, EMPTY, EMPTY, EMPTY,
-  /* 0x08 */	EMPTY, EMPTY, EMPTY, EMPTY,
+  /* 0x08 */	EMPTY, EMPTY, IDEXW(E2G,or,1), EMPTY,
   /* 0x0c */	EMPTY, EMPTY, EMPTY, EX(2byte_esc),
   /* 0x10 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x14 */	EMPTY, EMPTY, EMPTY, EMPTY,
