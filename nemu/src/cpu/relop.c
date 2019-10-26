@@ -2,8 +2,6 @@
 #include "rtl/relop.h"
 
 bool interpret_relop(uint32_t relop, const rtlreg_t src1, const rtlreg_t src2) {
-  printf("@@@@@@@@@@@@ src1: %8x\n", src1);
-  printf("@@@@@@@@@@@@ src2: %8x\n", src2);
   switch (relop) {
     case RELOP_FALSE: return false;
     case RELOP_TRUE: return true;

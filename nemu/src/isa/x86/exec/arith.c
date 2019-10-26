@@ -39,9 +39,9 @@ make_EHelper(sub) {
 }
 
 make_EHelper(cmp) {
-  //printf("$$$$$$$$$$$$$$$$$$$$$$$ id_dest->val: %8x, id_src->val: %8x\n",id_dest->val, id_src->val);
+  printf("$$$$$$$$$$$$$$$$$$$$$$$ id_dest->val: %8x, id_src->val: %8x\n",id_dest->val, id_src->val);
   rtl_sub(&s0,&id_dest->val, &id_src->val);
-  //printf("$$$$$$$$$$$$$$$$$$$$$$$ id_dest->val: %8x, id_src->val: %8x\n",id_dest->val, id_src->val);
+  printf("$$$$$$$$$$$$$$$$$$$$$$$ id_dest->val: %8x, id_src->val: %8x\n",id_dest->val, id_src->val);
   //update ZFSF
   rtl_update_ZFSF(&s0, id_dest->width);
 
