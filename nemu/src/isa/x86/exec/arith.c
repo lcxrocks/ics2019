@@ -21,9 +21,7 @@ make_EHelper(add) {
 
 make_EHelper(sub) {
   rtl_sub(&s1,&id_dest->val,&id_src->val);
-  
   operand_write(id_dest, &s1);
-
   rtl_update_ZFSF(&s1, id_dest->width);
 
   // update CF
@@ -41,7 +39,7 @@ make_EHelper(sub) {
 make_EHelper(cmp) {
   rtl_sub(&s0,&id_dest->val, &id_src->val);
   //printf("$$$$$$$$$$$$$$$$$$$$$$$ id_dest->val: %8x, id_src->val: %8x\n",id_dest->val, id_src->val);
-  //printf("s0::::::::::::::::::::%8x\n",s0);
+  printf("s0::::::::::::::::::::%8x\n",s0);
   //update ZFSF
   rtl_update_ZFSF(&s0, id_dest->width);
   
