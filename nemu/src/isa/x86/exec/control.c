@@ -50,10 +50,11 @@ make_EHelper(ret_imm) {
 make_EHelper(call_rm) {
   rtl_li(&s0,decinfo.seq_pc);
   rtl_push(&s0);
-  printf("s0: %8x\n", s0);
+  
   decinfo.is_jmp=true;
   decinfo_set_jmp(decinfo.is_jmp);
-  rtl_j(decinfo.jmp_pc);
+  
+  rtl_j(id_dest->val);
 
   print_asm("call *%s", id_dest->str);
 }
