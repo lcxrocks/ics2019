@@ -58,6 +58,7 @@ static inline void rtl_is_sub_carry(rtlreg_t* dest,
   t1 = *src1 & mask;*/
   if(*res > *src1) *dest=1;
   else *dest=0;
+  printf("ressssssssssssss: %8x\n", *dest);
 }
 
 static inline void rtl_is_add_overflow(rtlreg_t* dest,
