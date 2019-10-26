@@ -127,7 +127,7 @@ make_EHelper(sbb) {
   // s1 = s0 - CF
   rtl_get_CF(&s1);
   rtl_sub(&s1, &s0, &s1);
-  uint32_t res=s1;
+  uint32_t res=s0;
   operand_write(id_dest, &s1);
 
   if (id_dest->width != 4) {
