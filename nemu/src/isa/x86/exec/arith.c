@@ -126,7 +126,6 @@ make_EHelper(sbb) {
   rtl_get_CF(&s1);
   rtl_sub(&s1, &s0, &s1);
   uint32_t res=s1;
-  printf("kasudaksbdis s1: %8x\n",s1);
   operand_write(id_dest, &s1);
 
   if (id_dest->width != 4) {
