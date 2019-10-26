@@ -143,9 +143,7 @@ make_DHelper(I_E2G) {
  */
 make_DHelper(I2E) {
   decode_op_rm(pc, id_dest, true, NULL, false);
-  printf("###+++++++++++++++++++++### id_src->val: %8x\n", id_src->val);
   decode_op_I(pc, id_src, true);
-  printf("###+++++++++++++++++++++### id_src->val: %8x\n", id_src->val);
 }
 
 make_DHelper(mov_I2E) {
