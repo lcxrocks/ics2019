@@ -139,6 +139,7 @@ static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   printf("asdaksdbapsidasbp src1: %8x\n", *src1);
   printf("$$$$$$$$$$$$$$$$$$$ width: %8x\n",width);
   t1 = *src1 & ((1U << (width*8)) - 1);
+  printf("$$$$$$$$$$$$$$$$$$$ reslut: %8x\n",((1U<<(width*8))-1));
   *dest = (t1 ^ mask) - mask;
   //Inspired from Zhihu.Bit Hacks.
 }
