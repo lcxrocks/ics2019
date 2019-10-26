@@ -44,9 +44,9 @@ make_EHelper(cmp) {
   //update ZFSF
   //printf("width: %8x\n", id_dest->width);
   rtl_update_ZFSF(&s0, id_dest->width);
-  //uint32_t res=s0;
+  uint32_t res=s0;
   // update CF
-  rtl_is_sub_carry(&s1,&s0, &id_src->val); //dest, res, src1
+  rtl_is_sub_carry(&s1,&res, &id_src->val); //dest, res, src1
   rtl_is_sub_carry(&s0,&s0, &id_dest->val);
   rtl_or(&s0, &s0, &s1);
   rtl_set_CF(&s0);
