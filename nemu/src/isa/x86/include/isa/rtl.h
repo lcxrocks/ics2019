@@ -101,9 +101,7 @@ make_rtl_setget_eflags(SF)
 static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
   // eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
   t0=(4-width)*8;//remove the redundant bits out of our sight
-  printf("result: %8x \n", t0);
-  printf("cpu.ZF=%8x \n",cpu.ZF);
-  cpu.ZF=((*result & (0xFFFFFFFF)>>t0))== 0;
+  cpu.ZF=(((*result & (0xFFFFFFFF)>>t0))== 0 );
   printf("asdasdasdasdsad cpu.ZF=%8x\n",cpu.ZF);
 }
 
