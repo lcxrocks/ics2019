@@ -40,19 +40,19 @@ make_EHelper(sub) {
 
 make_EHelper(cmp) {
   rtl_sub(&s0,&id_dest->val, &id_src->val);
-  printf("$$$$$$$$$$$$$$$$$$$$$$$ id_dest->val: %8x, id_src->val: %8x\n",id_dest->val, id_src->val);
-  printf("s0::::::::::::::::::::%8x\n",s0);
+  //printf("$$$$$$$$$$$$$$$$$$$$$$$ id_dest->val: %8x, id_src->val: %8x\n",id_dest->val, id_src->val);
+  //printf("s0::::::::::::::::::::%8x\n",s0);
   //update ZFSF
   rtl_update_ZFSF(&s0, id_dest->width);
   
   // update CF
-  rtl_is_sub_carry(&s1,&s0, &id_src->val); //dest, res, src1
-  rtl_is_sub_carry(&s0, &s0, &id_dest->val);
+  rtl_is_add_carry(&s1,&s0, &id_src->val); //dest, res, src1
+  rtl_is_add_carry(&s0, &s0, &id_dest->val);
   rtl_or(&s0, &s0, &s1);
   rtl_set_CF(&s0);
   
   // update OF
-  rtl_is_sub_overflow(&s0, &s0, &id_dest->val, &id_src->val, id_dest->width);
+  rtl_is_add_overflow(&s0, &s0, &id_dest->val, &id_src->val, id_dest->width);
   rtl_set_OF(&s0);
 
   print_asm_template2(cmp);
