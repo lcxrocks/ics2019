@@ -49,17 +49,17 @@ static inline void rtl_is_sub_overflow(rtlreg_t* dest,
   else *dest=0;
   //TODO();
 }
-
+// add width. 
 static inline void rtl_is_sub_carry(rtlreg_t* dest,
-    const rtlreg_t* res, const rtlreg_t* src1) {
+    const rtlreg_t* res, const rtlreg_t* src1, int width) {
   // dest <- is_carry(src1 - src2)
-  /*
+  
   int mask=(1<<(width*8))-1;
   t0 = *res & mask;
-  t1 = *src1 & mask;*/
+  t1 = *src1 & mask;
   printf("res: %8x\n", *res);
   printf("src1: %8x\n", *src1);
-  if(*res > *src1) *dest=1;
+  if(t0 > t1) *dest=1;
   else *dest=0;
 }
 
