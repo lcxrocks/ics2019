@@ -6,6 +6,7 @@ make_EHelper(cmp);
 make_EHelper(inc);
 make_EHelper(dec);
 make_EHelper(imul1);
+make_EHelper(mul);
 make_EHelper(adc);
 //cc.c
 make_EHelper(setcc);
