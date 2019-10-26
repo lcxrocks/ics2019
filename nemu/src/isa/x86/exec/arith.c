@@ -26,9 +26,9 @@ make_EHelper(sub) {
   uint32_t res = s1;
 
   // update CF
-  rtl_is_sub_carry(&s0,&s1, &id_src->val); //dest, res, src1
-  rtl_is_sub_carry(&s1, &s1, &id_dest->val);
-  rtl_or(&s0, &s0, &s1);
+  rtl_is_sub_carry(&s0,&s1, &id_dest->val); //dest, res, src1
+  //rtl_is_sub_carry(&s1, &s1, &id_dest->val);
+  //rtl_or(&s0, &s0, &s1);
   rtl_set_CF(&s0);
 
   // update OF
