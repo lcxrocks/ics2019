@@ -44,7 +44,7 @@ make_EHelper(cmp) {
   printf("$$$$$$$$$$$$$$$$$$$$$$$ id_dest->val: %8x, id_src->val: %8x\n",id_dest->val, id_src->val);
   //update ZFSF
   rtl_update_ZFSF(&s0, id_dest->width);
-
+  printf("asdsadsadasdsa cppu.ZF: %8x\n",cpu.ZF);
   // update CF
   rtl_is_add_carry(&s1,&s0, &id_src->val); //dest, res, src1
   rtl_is_add_carry(&s0, &s0, &id_dest->val);
