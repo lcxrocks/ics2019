@@ -63,6 +63,12 @@ make_EHelper(inc) {
   s0=1;
   rtl_add(&id_dest->val,&id_dest->val,&s0);
   operand_write(id_dest, &id_dest->val);
+  rtl_update_ZFSF(&id_dest->val, id_dest->width);
+  
+  uint32_t res=id_dest->val;
+  // update OF
+  rtl_is_sub_overflow(&s0, &res, &id_dest->val, &id_src->val, id_dest->width);
+  rtl_set_OF(&s0);
   print_asm_template1(inc);
 }
 
@@ -70,6 +76,12 @@ make_EHelper(dec) {
   s0=1;
   rtl_sub(&id_dest->val,&id_dest->val,&s0);
   operand_write(id_dest, &id_dest->val);
+  rtl_update_ZFSF(&id_dest->val, id_dest->width);
+  
+  uint32_t res=id_dest->val;
+  // update OF
+  rtl_is_sub_overflow(&s0, &res, &id_dest->val, &id_src->val, id_dest->width);
+  rtl_set_OF(&s0);
   print_asm_template1(dec);
 }
 
