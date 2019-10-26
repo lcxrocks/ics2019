@@ -198,6 +198,9 @@ make_EHelper(imul1) {
 
 // imul with two operands
 make_EHelper(imul2) {
+  printf("$$$$$$$$$$$$$$$$$$$ id_src: %8x\n",id_src->val);
+  printf("$$$$$$$$$$$$$$$$$$$ id_dest: %8x\n",id_dest->val);
+
   rtl_sext(&s0, &id_src->val, id_src->width);
   rtl_sext(&s1, &id_dest->val, id_dest->width);
   printf("$$$$$$$$$$$$$$$$$$$ s0: %8x\n",s0);
