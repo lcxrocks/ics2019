@@ -46,8 +46,8 @@ make_EHelper(cmp) {
   rtl_update_ZFSF(&s0, id_dest->width);
   
   // update CF
-  rtl_is_sub_carry(&s1,&s0, &id_src->val, id_dest->width); //dest, res, src1
-  rtl_is_sub_carry(&s0, &s0, &id_dest->val, id_dest->width);
+  rtl_is_sub_carry(&s1,&s0, &id_src->val); //dest, res, src1
+  rtl_is_sub_carry(&s0, &s0, &id_dest->val);
   rtl_or(&s0, &s0, &s1);
   rtl_set_CF(&s0);
   
@@ -59,14 +59,10 @@ make_EHelper(cmp) {
 }
 
 make_EHelper(inc) {
-  
   //id_dest->val += 1;
   s0=1;
-  //printf("^^^^^^^^^^^^^^^^^^id_dest:val %8x ^^^^^\n",id_dest->val);
   rtl_add(&id_dest->val,&id_dest->val,&s0);
-  //printf("^^^^^^^^^^^^^^^^^^id_dest:val %8x ^^^^^\n",id_dest->val);
   operand_write(id_dest, &id_dest->val);
-  //printf("^^^^^^^^^^^^^^^^^^id_dest:val %8x ^^^^^\n",id_dest->val);
   print_asm_template1(inc);
 }
 
@@ -126,8 +122,8 @@ make_EHelper(sbb) {
   rtl_update_ZFSF(&s1, id_dest->width);
   //s1: result 
   // update CF
-  rtl_is_sub_carry(&s1, &s1, &s0, id_dest->width);//dest, res, src1;
-  rtl_is_sub_carry(&s0, &s0, &id_dest->val, id_dest->width);
+  rtl_is_sub_carry(&s1, &s1, &s0);//dest, res, src1;
+  rtl_is_sub_carry(&s0, &s0, &id_dest->val);
   rtl_or(&s0, &s0, &s1);//dest, a,b ;
   rtl_set_CF(&s0);//cpu.CF=&s0
   
