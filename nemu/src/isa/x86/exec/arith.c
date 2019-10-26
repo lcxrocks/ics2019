@@ -53,8 +53,8 @@ make_EHelper(cmp) {
   // update OF
   rtl_is_sub_overflow(&s0, &res, &id_dest->val, &id_src->val, id_dest->width);
   rtl_set_OF(&s0);
-  printf("ZF, SF, CF, OF: %8x, %8x, %8x, %8x \n",cpu.ZF, cpu.SF, cpu.CF, cpu.OF);
-  printf("\n");
+  //printf("ZF, SF, CF, OF: %8x, %8x, %8x, %8x \n",cpu.ZF, cpu.SF, cpu.CF, cpu.OF);
+  //printf("\n");
   print_asm_template2(cmp);
 }
 
