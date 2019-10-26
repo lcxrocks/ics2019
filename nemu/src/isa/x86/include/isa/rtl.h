@@ -41,7 +41,7 @@ static inline void rtl_pop(rtlreg_t* dest) {
 static inline void rtl_is_sub_overflow(rtlreg_t* dest,
     const rtlreg_t* res, const rtlreg_t* src1, const rtlreg_t* src2, int width) {
   // dest <- is_overflow(src1 - src2)
-  //t1= -*src2;
+  t1= ~*src2+1;
   rtl_msb(&t0, src1, width);
   rtl_msb(&t1, src2, width);
   rtl_msb(dest, res, width);
