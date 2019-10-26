@@ -56,9 +56,6 @@ static inline void rtl_is_sub_carry(rtlreg_t* dest,
   int mask=(1<<(width*8))-1;
   t0 = *res & mask;
   t1 = *src1 & mask;*/
-
-  printf("res: %8x\n", *res);
-  printf("src1: %8x\n", *src1);
   if(*res > *src1) *dest=1;
   else *dest=0;
 }

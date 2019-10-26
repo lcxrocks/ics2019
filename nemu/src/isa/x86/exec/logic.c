@@ -72,8 +72,9 @@ make_EHelper(setcc) {
   print_asm("set%s %s", get_cc_name(cc), id_dest->str);
 }
 
-make_EHelper(not) {
-  TODO();
-
+make_EHelper(not) {//dest,src
+  
+  rtl_not(&s0, &id_src->val);
+  operand_write(id_dest, &s0);
   print_asm_template1(not);
 }
