@@ -203,6 +203,7 @@ make_EHelper(imul2) {
 
   rtl_sext(&s0, &id_src->val, id_src->width);
   rtl_sext(&s1, &id_dest->val, id_dest->width);
+  
   printf("$$$$$$$$$$$$$$$$$$$ s0: %8x\n",s0);
   printf("$$$$$$$$$$$$$$$$$$$ s1: %8x\n",s1);
   rtl_imul_lo(&s0, &s1, &s0);
