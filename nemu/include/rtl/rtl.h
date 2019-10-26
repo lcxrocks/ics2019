@@ -135,13 +135,18 @@ static inline void rtl_not(rtlreg_t *dest, const rtlreg_t* src1) {
 }
 
 static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
+  if(width!=4)
+  {
   int const mask = 1U << (width*8-1);
-  printf("asdaksdbapsidasbp src1: %8x\n", *src1);
-  printf("$$$$$$$$$$$$$$$$$$$ width: %8x\n",width);
   t1 = *src1 & ((1U << (width*8)) - 1);
-  printf("$$$$$$$$$$$$$$$$$$$ reslut: %8x\n",((1U<<(width*8))-1));
   *dest = (t1 ^ mask) - mask;
   //Inspired from Zhihu.Bit Hacks.
+  }
+  else
+  {
+    *dest=*src1;
+  }
+  
 }
 
 static inline void rtl_setrelopi(uint32_t relop, rtlreg_t *dest,
