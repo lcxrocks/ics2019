@@ -51,7 +51,7 @@ make_EHelper(call_rm) {
   rtl_li(&s0,decinfo.seq_pc);
   rtl_push(&s0);
   //decinfo.is_jmp=true;
-  //decinfo_set_jmp(decinfo.is_jmp);
+  decinfo_set_jmp(decinfo.is_jmp);
   rtl_j(decinfo.jmp_pc);
 
   print_asm("call *%s", id_dest->str);
