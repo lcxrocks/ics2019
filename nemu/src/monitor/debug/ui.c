@@ -149,7 +149,7 @@ static int cmd_p(char *args) {
    bool lcxnb=true;
    char *arg = strtok(NULL, " ");
    uint32_t expr_cpt=expr(arg, &lcxnb);
-   printf("%u\n",expr_cpt);
+   printf("%u    %8x\n",expr_cpt,expr_cpt);
    return 0;
 }
 
