@@ -47,7 +47,7 @@ make_EHelper(cmp) {
   uint32_t res=s0;
   // update CF 
   uint32_t tmp=~id_src->val+1;
-  rtl_is_sub_carry(&s1,&res, &id_src->val); //dest, res, src1
+  rtl_is_sub_carry(&s1,&res, &id_dest->val); //dest, res, src1
   rtl_is_add_carry(&s0,&res, &tmp);
   rtl_or(&s0, &s0, &s1);
   rtl_set_CF(&s0);
