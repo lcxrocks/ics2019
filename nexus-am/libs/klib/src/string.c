@@ -3,11 +3,18 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 size_t strlen(const char *s) {
-  return 0;
+  size_t cnt=0;
+  while(s[cnt]!='\0') cnt++;
+  return cnt;
 }
 
 char *strcpy(char* dst,const char* src) {
-  return NULL;
+  size_t i=0;
+  while(src[i]!='\0'){
+    dst[i]=src[i];
+    i++;
+  }
+  return dst;
 }
 
 char* strncpy(char* dst, const char* src, size_t n) {
