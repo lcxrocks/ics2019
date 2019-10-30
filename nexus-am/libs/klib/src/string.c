@@ -41,11 +41,22 @@ char* strcat(char* dst, const char* src) {
 }
 
 int strcmp(const char* s1, const char* s2) {
-  return 0;
-}
+  for(;*s1==*s2;++s1,++s2)
+      if(*s1=='\0')
+          return 0;
+  return((*s1<*s2)?-1:+1);
+} 
 
 int strncmp(const char* s1, const char* s2, size_t n) {
-  return 0;
+  size_t i=0;
+  while(*s1==*s2 && i<n ){
+    if(i==n) return 0;
+    else if (*s1 == '\0') return 0;
+    s1++;
+    s2++;
+    i++;
+  }
+  return ((*s1 < *s2)? -1:+1);
 }
 
 void* memset(void* v,int c,size_t n) {
