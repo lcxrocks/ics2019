@@ -2,7 +2,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
-
+#include <assert.h>
 char *mystrcpy(char* dst,const char* src) {
   size_t i=0;
   while(src[i]!='\0'){
@@ -27,12 +27,12 @@ void* mymemset(void* v,int c,size_t n) {
   return v;
 }
 
-char buf[256]={};
+char _buf[256]={};
 char str[256]={};
-char *myitoa(int val, char *buf, int base){
-    mymemset(buf,0,sizeof(buf));
+char *myitoa(int val, char *_buf, int base){
+    mymemset(_buf,0,sizeof(_buf));
     mymemset(str,0,sizeof(str));
-    char *p = buf;
+    char *p = _buf;
     char *firstdig = str;
     char tmp;
     unsigned digval;
@@ -52,10 +52,10 @@ char *myitoa(int val, char *buf, int base){
 
     }while(val > 0);
     *p++ = '\0';
-    int len = mystrlen(buf);
+    int len = mystrlen(_buf);
     for (int i = 0; i < len; i++)
     {
-        str[i] = buf[len-1-i]; 
+        str[i] = _buf[len-1-i]; 
     }
 
     return str;
@@ -83,10 +83,10 @@ int myvsprintf(char *out, const char *fmt, va_list ap) {
                 continue;
 
       case 'd': 
-                myitoa(va_arg(ap, int),buf,10);
-                printf("buf1: %s\n",str);  
+                myitoa(va_arg(ap, int),_buf,10);
+                printf("_buf1: %s\n",str);  
                 out = mystrcpy(out, str);
-                printf("buf: %s\n",str);  
+                printf("_buf: %s\n",str);  
                 string_length=mystrlen(str);
                 out+=string_length;
                 continue;
@@ -98,18 +98,25 @@ int myvsprintf(char *out, const char *fmt, va_list ap) {
 int mysprintf(char *out, const char *fmt, ...) {
   int ans;
   va_list ap;
-
+  mymemset(out,0,mystrlen(out));
   va_start(ap,fmt);
   ans = myvsprintf(out,fmt,ap);
   va_end(ap);
 
   return ans;
 }
-
+char buf[128];
 int main(){
-    char buf[100];
-    int a=300;
-    char str[30]="I have an apple";
-    mysprintf(buf, "i have a pencil which cost me %d yuan, %s", a, str);
-    printf("buf: %s\n", buf);
+
+    mysprintf(buf, "%s", "Hello world!\n");
+	assert(strcmp(buf, "Hello world!\n") == 0);
+
+	mysprintf(buf, "%d + %d = %d\n", 1, 1, 2);
+    printf("buf2: %s\n",buf);
+	assert(strcmp(buf, "1 + 1 = 2\n") == 0);
+
+	mysprintf(buf, "%d + %d = %d\n", 2, 10, 12);
+	assert(strcmp(buf, "2 + 10 = 12\n") == 0);
+
+	return 0;
 }*/

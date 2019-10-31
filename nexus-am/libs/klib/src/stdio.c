@@ -75,7 +75,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 int sprintf(char *out, const char *fmt, ...) {
   int ans;
   va_list ap;
-
+  memset(out,0,strlen(out));
   va_start(ap,fmt);
   ans = vsprintf(out,fmt,ap);
   va_end(ap);
