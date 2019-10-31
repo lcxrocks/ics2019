@@ -20,7 +20,7 @@
 #define memset my_memset
 #define memcpy my_memcpy
 #define memcmp my_memcmp
-#define printf my_printf
+//#define printf my_printf
 #define vsprintf my_vsprintf
 #define sprintf my_sprintf
 #define snprintf my_snprintf

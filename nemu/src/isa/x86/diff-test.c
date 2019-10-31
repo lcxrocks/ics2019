@@ -3,7 +3,7 @@
 
 bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   bool equal = memcmp(&cpu, ref_r, DIFFTEST_REG_SIZE);
-  
+  /*
   printf("eax_QEMU 0x%8x %8u\n", ref_r->eax,ref_r->eax);
   printf("ecx_QEMU 0x%8x %8u\n", ref_r->ecx, ref_r->ecx);
   printf("edx_QEMU 0x%8x %8u\n", ref_r->edx,ref_r->edx);
@@ -15,7 +15,7 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   printf("eip_QEMU 0x%8x %8u\n", ref_r->pc,ref_r->pc);
   printf("############################################\n");
 //rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
-  
+  */
   return !equal;
 }
 
