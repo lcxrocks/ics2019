@@ -3,13 +3,13 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
-char buf[256]={};
+char _buf[256]={};
 char str[256]={};
 
-char *itoa(int val, char *buf, int base){
-    memset(buf,0,sizeof(buf));
+char *itoa(int val, char *_buf, int base){
+    memset(_buf,0,sizeof(_buf));
     memset(str,0,sizeof(str));
-    char *p = buf;
+    char *p = _buf;
     unsigned digval;
     if(val < 0){
         *p++ = '-';
@@ -27,10 +27,10 @@ char *itoa(int val, char *buf, int base){
 
     }while(val > 0);
     *p++ = '\0';
-    int len = strlen(buf);
+    int len = strlen(_buf);
     for (int i = 0; i < len; i++)
     {
-        str[i] = buf[len-1-i]; 
+        str[i] = _buf[len-1-i]; 
     }
 
     return str;
@@ -59,10 +59,10 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
                 out+=string_length;
                 continue;
 
-      case 'd': itoa(va_arg(ap, int),buf,10);
-                printf("buf1: %s\n",str);  
+      case 'd': itoa(va_arg(ap, int),_buf,10);
+                //printf("_buf1: %s\n",str);  
                 out = strcpy(out, str);
-                printf("buf: %s\n",str);  
+                //printf("_buf: %s\n",str);  
                 string_length=strlen(str);
                 out+=string_length;
                 continue;
