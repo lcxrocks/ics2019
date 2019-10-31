@@ -15,6 +15,7 @@ char *strcpy(char* dst,const char* src) {
     dst[i]=src[i];
     i++;
   }
+  dst[i]='\0';
   return dst;
 }
 
@@ -60,7 +61,11 @@ int strncmp(const char* s1, const char* s2, size_t n) {
 }
 
 void* memset(void* v,int c,size_t n) {
-  return NULL;
+  int i;
+  for (i = 0; i < n; i++){
+    ((char*)v)[i] = (unsigned char)c;
+  }
+  return v;
 }
 
 void* memcpy(void* out, const void* in, size_t n) {
