@@ -1,4 +1,4 @@
-
+/*
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
@@ -112,4 +112,4 @@ int main(){
     char str[30]="I have an apple";
     mysprintf(buf, "i have a pencil which cost me %d yuan, %s", a, str);
     printf("buf: %s\n", buf);
-}
+}*/

@@ -5,12 +5,11 @@
 
 char buf[256]={};
 char str[256]={};
+
 char *itoa(int val, char *buf, int base){
     memset(buf,0,sizeof(buf));
     memset(str,0,sizeof(str));
     char *p = buf;
-    char *firstdig = str;
-    char tmp;
     unsigned digval;
     if(val < 0){
         *p++ = '-';
