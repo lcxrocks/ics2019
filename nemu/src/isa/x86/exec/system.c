@@ -66,7 +66,15 @@ make_EHelper(in) {
 }
 
 make_EHelper(out) {
-  TODO();
+    rtl_host_lm(&s0, &id_dest->val, id_dest->width);
+  rtl_host_lm(&s1, &id_src->val,id_src->width);
+
+  switch(id_src->width){
+    case 1: pio_write_b(s0,s1); break;
+    case 2: pio_write_w(s0,s1); break;
+    case 4: pio_write_l(s0,s1); break;
+    default: printf("func Ehelper_out() down at %d\n", __LINE__); assert(0); break;
+  }
 
   print_asm_template2(out);
 }
