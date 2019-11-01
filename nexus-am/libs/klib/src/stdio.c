@@ -37,6 +37,7 @@ char *itoa(int val, char *_buf, int base){
 }
 
 int printf(const char *fmt, ...) {
+  
   int ans;
   memset(output,0,sizeof(output));
   char *f=output;
