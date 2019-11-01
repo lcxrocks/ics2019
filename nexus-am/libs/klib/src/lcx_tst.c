@@ -1,4 +1,4 @@
-/*
+
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
@@ -60,7 +60,18 @@ char *myitoa(int val, char *_buf, int base){
 
     return str;
 }
-
+char output[1024]={};
+int myprintf(const char *fmt, ...) {
+  int ans;
+  memset(output,0,sizeof(output));
+  char *f=output;
+  va_list ap;
+  va_start(ap,fmt);
+  ans = vsprintf(output, fmt, ap);
+  va_end(ap);
+  printf("%s\n",output);
+  return ans;
+}
 int myvsprintf(char *out, const char *fmt, va_list ap) {
   int cnt = 0;
   char *s;
@@ -108,15 +119,17 @@ int mysprintf(char *out, const char *fmt, ...) {
 char buf[128];
 int main(){
 
-    mysprintf(buf, "%s", "Hello world!\n");
-	assert(strcmp(buf, "Hello world!\n") == 0);
+  myprintf("%s", "Hello world!\n");
+  printf("buf1: %s\n",buf);
+	
 
 	mysprintf(buf, "%d + %d = %d\n", 1, 1, 2);
-    printf("buf2: %s\n",buf);
+  myprintf("buf2: %s\n",buf);
 	assert(strcmp(buf, "1 + 1 = 2\n") == 0);
 
 	mysprintf(buf, "%d + %d = %d\n", 2, 10, 12);
-	assert(strcmp(buf, "2 + 10 = 12\n") == 0);
+	myprintf("buf3: %s\n",buf);
+  assert(strcmp(buf, "2 + 10 = 12\n") == 0);
 
 	return 0;
-}*/
+}

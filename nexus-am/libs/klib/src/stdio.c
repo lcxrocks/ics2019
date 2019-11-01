@@ -45,7 +45,9 @@ int printf(const char *fmt, ...) {
   ans = vsprintf(output, fmt, ap);
   va_end(ap);
   for(;*f;f++)
-    _putc(*f++);
+  {  _putc(*f);
+    f++;
+  }
   return ans;
 }
 
