@@ -5,7 +5,7 @@
 
 char _buf[256]={};
 char str[256]={};
-
+char output[1024]={};
 char *itoa(int val, char *_buf, int base){
     memset(_buf,0,sizeof(_buf));
     memset(str,0,sizeof(str));
@@ -37,7 +37,16 @@ char *itoa(int val, char *_buf, int base){
 }
 
 int printf(const char *fmt, ...) {
-  return 0;
+  int ans;
+  memset(output,0,sizeof(output));
+  char *f=output;
+  va_list ap;
+  va_start(ap,fmt);
+  ans = vsprintf(output, fmt, ap);
+  va_end(ap);
+  for(;*f;f++)
+    _putc(*f++);
+  return ans;
 }
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
