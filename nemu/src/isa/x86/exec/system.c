@@ -66,16 +66,11 @@ make_EHelper(in) {
 }
 
 make_EHelper(out) {
-  rtl_host_lm(&s0, &id_dest->val, id_dest->width);
-  rtl_host_lm(&s1, &id_src->val,id_src->width);
-  //printf("s0->width: %8x, s1->width: %8x hah\n ", id_dest->width,id_src->width);
-
   switch(id_dest->width){
-    case 1: pio_write_b(s0,id_src->val); break;
+    case 1: pio_write_b(id_dest->val,id_src->val); break;
     case 2: pio_write_w(id_dest->val,id_src->val); break;
     case 4: pio_write_l(id_dest->val,id_src->val); break;
     default: printf("func Ehelper_out() down at %d\n", __LINE__); assert(0); break;
   }
-
   print_asm_template2(out);
 }
