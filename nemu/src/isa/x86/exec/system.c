@@ -42,8 +42,26 @@ void pio_write_w(ioaddr_t, uint32_t);
 void pio_write_b(ioaddr_t, uint32_t);
 
 make_EHelper(in) {
-  TODO();
+  //TODO();
+  rtl_host_lm(&s0,&id_src->val,id_src->width);
+  switch (id_dest->width)
+  {
+  case 1:
+    s1 = pio_read_b(s0);
+    break;
+  case 2:
+    s1 = pio_read_w(s0);
+    break;
+  case 4:
+    s1 = pio_read_l(s0);
+    break;
 
+  default:
+    printf("func Ehelper_in() down at %d\n", __LINE__); 
+    assert(0);
+    break;
+  }
+  operand_write(id_dest, &s1);
   print_asm_template2(in);
 }
 
