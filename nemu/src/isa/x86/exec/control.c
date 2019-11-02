@@ -32,7 +32,7 @@ make_EHelper(call) {
   decinfo.is_jmp=true;
   decinfo_set_jmp(decinfo.is_jmp);
   rtl_j(decinfo.jmp_pc);
-  printf("decinfo.jmp_pc: %8x\n",decinfo.jmp_pc);
+  //printf("decinfo.jmp_pc: %8x\n",decinfo.jmp_pc);
   print_asm("call %x", decinfo.jmp_pc);
 }
 
