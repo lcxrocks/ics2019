@@ -10,6 +10,7 @@ make_EHelper(imul2);
 make_EHelper(mul);
 make_EHelper(adc);
 make_EHelper(sbb);
+make_EHelper(div);
 make_EHelper(idiv);
 //cc.c
 make_EHelper(setcc);
