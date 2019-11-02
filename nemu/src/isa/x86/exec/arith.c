@@ -93,6 +93,7 @@ make_EHelper(neg) {
   rtl_set_CF(&s0);
   /* neg = ~ + 1 */
   s0 = 1;
+  printf("id_src: %8x\n",id_src->val);
   rtl_not(&id_dest->val,&id_src->val);
   printf("id_dest: %8x\n",id_dest->val);
   rtl_add(&id_dest->val,&id_dest->val,&s0);
