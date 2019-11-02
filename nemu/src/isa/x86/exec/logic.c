@@ -49,7 +49,7 @@ make_EHelper(sar) {
  // printf("src: %8x; dest %8x, width: %8x \n",id_src->val,id_dest->val,id_dest->width);
   rtl_sext(&id_dest->val,&id_dest->val,id_dest->width);
   rtl_sar(&s0, &id_dest->val, &id_src->val);
-  printf("s0: %8x; src: %8x; dest %8x\n",s0, id_src->val,id_dest->val);
+  //printf("s0: %8x; src: %8x; dest %8x\n",s0, id_src->val,id_dest->val);
   operand_write(id_dest, &s0);
   // unnecessary to update CF and OF in NEMU
   rtl_update_ZFSF(&s0,id_dest->width);
