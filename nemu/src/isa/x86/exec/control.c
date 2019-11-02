@@ -29,6 +29,7 @@ make_EHelper(call) {
   // the target address is calculated at the decode stage
   rtl_li(&s0,decinfo.seq_pc);
   rtl_push(&s0);
+  printf("jmp to %8x\n",s0);
   decinfo.is_jmp=true;
   decinfo_set_jmp(decinfo.is_jmp);
   rtl_j(decinfo.jmp_pc);
