@@ -73,16 +73,15 @@ make_EHelper(cltd) {
 }
 
 make_EHelper(cwtl) {
-  rtl_sext(&s1, &id_src->val, id_dest->width);
-  operand_write(id_dest, &s1);
-  /*
+  s1 = cpu.eax;
+  rtl_msb(&s0, &s1, 1); //msb of al
+  rtl_msb(&s1, &s1, 2); //msb of ax
   if (decinfo.isa.is_operand_size_16) {
-    rtl_sext(cpu.gpr[R_AX]._16, cpu.gpr[R_AL]._8, 1);
-    //TODO();
-  }
+    rtl_sext(&cpu.eax,&cpu.eax,1);
+  } //cwde
   else {
-    rtl_sext(cpu.eax, cpu.gpr[R_AX]._16, 2);
-  }*/
+    rtl_sext(&cpu.eax,&cpu.eax,2);
+  }
 
   print_asm(decinfo.isa.is_operand_size_16 ? "cbtw" : "cwtl");
 }
