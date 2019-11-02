@@ -88,7 +88,7 @@ make_EHelper(dec) {
 }
 
 make_EHelper(neg) {
-  printf("fuck id_src: %8x\n",id_src->val);
+  printf("fuck id_src: %8x\n",id_dest->val);
   if(id_src->val==0) s0 = 0;   
   else s0 = 1;
   rtl_set_CF(&s0);
