@@ -84,7 +84,6 @@ void read_ModR_M(vaddr_t *pc, Operand *rm, bool load_rm_val, Operand *reg, bool 
   if (reg != NULL) {
     reg->type = OP_TYPE_REG;
     reg->reg = m.reg;
-    printf("m.reg:%8x \n",m.reg);
     if (load_reg_val) {
       rtl_lr(&reg->val, reg->reg, reg->width);
     }
@@ -97,9 +96,9 @@ void read_ModR_M(vaddr_t *pc, Operand *rm, bool load_rm_val, Operand *reg, bool 
   if (m.mod == 3) {
     rm->type = OP_TYPE_REG;
     rm->reg = m.R_M;
-    printf("rm.reg:%8x \n",m.R_M);
     if (load_rm_val) {
       rtl_lr(&rm->val, m.R_M, rm->width);
+      printf("rm->val: %8x\n",rm->val);
     }
 
 #ifdef DEBUG
