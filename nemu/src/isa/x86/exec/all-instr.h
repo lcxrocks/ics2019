@@ -3,6 +3,7 @@
 make_EHelper(sub);
 make_EHelper(add);
 make_EHelper(cmp);
+make_EHelper(neg);
 make_EHelper(inc);
 make_EHelper(dec);
 make_EHelper(imul1);
