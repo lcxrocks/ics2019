@@ -76,6 +76,11 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
                 string_length=strlen(str);
                 out+=string_length;
                 continue;
+      case 'x': itoa(va_arg(ap,int),_buf,16);
+                out = strcpy(out,str);
+                string_length=strlen(str);
+                out+=string_length;
+                continue;
     }
   }
   
