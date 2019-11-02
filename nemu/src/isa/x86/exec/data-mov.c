@@ -77,13 +77,15 @@ make_EHelper(cwtl) {
   s1 = cpu.eax;
   rtl_msb(&s0, &s1, 1); //msb of al
   rtl_msb(&s1, &s1, 2); //msb of ax
+  */
   if (decinfo.isa.is_operand_size_16) {
-    rtl_sext(&cpu.eax,&cpu.eax,1);
+    rtl_sext(&s0,&cpu.eax,1);
+    cpu.gpr[R_AX]._16 = s0;
   } //cwde
   else {
     rtl_sext(&cpu.eax,&cpu.eax,2);
   }
-*/
+
   print_asm(decinfo.isa.is_operand_size_16 ? "cbtw" : "cwtl");
 }
 
