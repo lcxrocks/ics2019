@@ -94,6 +94,7 @@ make_EHelper(neg) {
   /* neg = ~ + 1 */
   s0 = 1;
   rtl_not(&id_dest->val,&id_src->val);
+  printf("id_dest: %8x\n",id_dest->val);
   rtl_add(&id_dest->val,&id_dest->val,&s0);
   operand_write(id_dest,&id_dest->val);
   print_asm_template1(neg);
