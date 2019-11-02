@@ -88,12 +88,12 @@ make_EHelper(dec) {
 }
 
 make_EHelper(neg) {
-  /*
+  printf("fuck id_src: %8x\n",id_src->val);
   if(id_src->val==0) s0 = 0;   
   else s0 = 1;
   rtl_set_CF(&s0);
-   neg = ~ + 1 
-  s0 = 1;*/
+  /* neg = ~ + 1 */
+  s0 = 1;
   /*printf("id_src: %8x\n",id_src->val);
   rtl_not(&id_dest->val,&id_src->val);
   printf("id_dest: %8x\n",id_dest->val);
