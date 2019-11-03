@@ -31,9 +31,9 @@ size_t __am_video_write(uintptr_t reg, void *buf, size_t size) {
       int cp_bytes = sizeof(uint32_t) * (w < W-x ? w : W-x);
       
       for (int i = 0; i < h && y + i < H; i ++) {
-        printf("pixels: %d\n",pixels);
+        //printf("pixels: %d\n",pixels);
         memcpy(&fb[(y + i) * W + x], pixels, cp_bytes);
-        printf("fb[j]: %d\n",fb[i]);
+        //printf("fb[j]: %d\n",fb[i]);
         pixels += w;
       }
       /* copied from native  */
