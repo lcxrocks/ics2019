@@ -3,7 +3,7 @@
 #include <nemu.h>
 #include <klib.h>
 
-uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
+static uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
 
 size_t __am_video_read(uintptr_t reg, void *buf, size_t size) {
   switch (reg) {
