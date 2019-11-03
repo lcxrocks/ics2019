@@ -106,38 +106,4 @@ make_EHelper(rol){
     rtl_set_OF(&s1);
   }
   print_asm_template2(rol);
-  /*
-  uint32_t count = 0;
-  rtl_host_lm(&count,&id_dest->val,id_dest->width); //count
-  assert(count != 0);
-  if (count == 1){
-    rtl_msb(&s1, &id_dest->val, id_dest->width);
-    if(s1 != cpu.CF) cpu.OF=1;
-    else cpu.OF = 0;
-  }
-
-  while(count != 0){
-    rtl_msb(&s0, &id_dest->val, id_dest->width);
-    id_dest->val = 2*id_dest->val + s0;
-    //printf("id_dest->width: %8x\n",id_dest->width);
-    switch (id_dest->width)
-    {
-    case 1:
-      id_dest->val &= 0xFF;
-      break;
-    case 2:
-      id_dest->val &= 0xFFFF;
-      break;
-    case 4:
-      id_dest->val &= 0xFFFFFFFF;
-      break;
-    default:
-      printf("rol down at line %d\n",__LINE__);
-      assert(0);
-      break;
-    }
-    count--;
-  }
-  operand_write(id_dest, &id_dest->val);
-  print_asm_template2(rol);  */
 }
