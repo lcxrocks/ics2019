@@ -102,7 +102,7 @@ make_EHelper(rol){
   while(count != 0){
     rtl_msb(&s0, &id_dest->val, id_dest->width);
     id_dest->val = 2*id_dest->val + s0;
-    printf("id_dest->width: %8x\n",id_dest->width);
+    //printf("id_dest->width: %8x\n",id_dest->width);
     switch (id_dest->width)
     {
     case 1:
@@ -112,8 +112,8 @@ make_EHelper(rol){
       id_dest->val &= 0xFFFF;
       break;
     case 4:
-      printf("hahahhahahahah");
       id_dest->val &= 0xFFFFFFFF;
+      break;
     default:
       printf("rol down at line %d\n",__LINE__);
       assert(0);
