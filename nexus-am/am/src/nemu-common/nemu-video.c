@@ -48,6 +48,6 @@ void __am_vga_init() {
   int i;
   int size = screen_width() * screen_height();
   //uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
-  for (i = 0; i < size; i ++) fb[i] = 1;
+  for (i = 0; i < size; i ++) fb[i] = 2;
   draw_sync();
 }
