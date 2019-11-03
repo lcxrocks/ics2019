@@ -3,6 +3,8 @@
 #include <nemu.h>
 #include <klib.h>
 
+#define W 400
+#define H 300
 static uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
 
 size_t __am_video_read(uintptr_t reg, void *buf, size_t size) {
@@ -25,7 +27,7 @@ size_t __am_video_write(uintptr_t reg, void *buf, size_t size) {
       /*  by lcx  */
       int x = ctl->x, y = ctl->y, w = ctl->w, h = ctl->h;
       uint32_t *pixels = ctl->pixels;
-      int W = screen_width(), H = screen_height();
+      //int W = screen_width(), H = screen_height();
       int cp_bytes = sizeof(uint32_t) * (w < W-x ? w : W-x);
       for (int j = 0; j < h && y + j < H; j ++) {
         memcpy(&fb[(y + j) * W + x], pixels, cp_bytes);
