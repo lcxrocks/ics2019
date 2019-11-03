@@ -90,6 +90,23 @@ make_EHelper(not) {//dest,src
 }
 
 make_EHelper(rol){
+  rtl_host_lm(&s0, &id_dest->val, id_dest->width);
+  rtl_host_lm(&s1, &id_src->val, id_dest->width);
+  uint32_t topdig = 0;
+  for (; s1 > 0; s1--){
+    rtl_msb(&topdig, &s0, id_dest->width);
+    rtl_shli(&s0, &s0, 1);
+    rtl_or(&s0, &s0, &topdig);
+  }
+  operand_write(id_dest, &s0);
+  if (s1 == 1){
+    rtl_get_CF(&s1);
+    rtl_msb(&topdig, &s0, id_dest->width);
+    rtl_xor(&s1, &s1, &topdig);
+    rtl_set_OF(&s1);
+  }
+  print_asm_template2(rol);
+  /*
   uint32_t count = 0;
   rtl_host_lm(&count,&id_dest->val,id_dest->width); //count
   assert(count != 0);
@@ -122,5 +139,5 @@ make_EHelper(rol){
     count--;
   }
   operand_write(id_dest, &id_dest->val);
-  print_asm_template2(rol);  
+  print_asm_template2(rol);  */
 }
