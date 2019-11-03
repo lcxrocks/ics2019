@@ -6,7 +6,7 @@
 char _buf[256]={};
 char str[256]={};
 char output[1024]={};
-char *itoa(int val, char *_buf, int base){
+char *myitoa(int val, char *_buf, int base){
     memset(_buf,0,sizeof(_buf));
     memset(str,0,sizeof(str));
     char *p = _buf;
@@ -69,14 +69,14 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
                 out+=string_length;
                 continue;
 
-      case 'd': itoa(va_arg(ap, int),_buf,10);
+      case 'd': myitoa(va_arg(ap, int),_buf,10);
                 //printf("_buf1: %s\n",str);  
                 out = strcpy(out, str);
                 //printf("_buf: %s\n",str);  
                 string_length=strlen(str);
                 out+=string_length;
                 continue;
-      case 'x': itoa(va_arg(ap,int),_buf,16);
+      case 'x': myitoa(va_arg(ap,int),_buf,16);
                 out = strcpy(out,str);
                 string_length=strlen(str);
                 out+=string_length;
