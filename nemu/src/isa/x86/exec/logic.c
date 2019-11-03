@@ -112,6 +112,7 @@ make_EHelper(rol){
       id_dest->val &= 0xFFFF;
       break;
     case 4:
+      printf("hahahhahahahah");
       id_dest->val &= 0xFFFFFFFF;
     default:
       printf("rol down at line %d\n",__LINE__);
