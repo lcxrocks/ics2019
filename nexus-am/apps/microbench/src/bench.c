@@ -68,8 +68,8 @@ int main(const char *args) {
   int setting_id = -1;
 
   if      (strcmp(setting_name, "test" ) == 0) setting_id = 0;
-  else if (strcmp(setting_name, "train") == 0) setting_id = 0;
-  else if (strcmp(setting_name, "ref"  ) == 0) setting_id = 0;
+  else if (strcmp(setting_name, "train") == 0) setting_id = 1;
+  else if (strcmp(setting_name, "ref"  ) == 0) setting_id = 2;
   else {
     printf("Invalid mainargs: \"%s\"; "
            "must be in {test, train, ref}\n", setting_name);
@@ -84,7 +84,7 @@ int main(const char *args) {
   int pass = 1;
   uint32_t t0 = uptime();
 
-  for (int i = ARR_SIZE(benchmarks)-1; i < ARR_SIZE(benchmarks); i ++) {
+  for (int i = 0; i < ARR_SIZE(benchmarks); i ++) {
     Benchmark *bench = &benchmarks[i];
     current = bench;
     setting = &bench->settings[setting_id];
