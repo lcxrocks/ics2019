@@ -1,8 +1,23 @@
 #include "cpu/exec.h"
 
 make_EHelper(lidt) {
-  TODO();
-    
+  //TODO();
+  //read a six byte data op(48 bit).
+  //16bit: 24+16; //higher order bit not used.
+  //32bit: 32+16; 
+  if (decinfo.isa.is_operand_size_16) {
+    rtl_lm(&cpu.idtr.limit,&id_dest->addr,2);
+    s1=id_dest->addr+2;
+    rtl_lm(&s0,&s0,4);
+    s1=0x00ffffff;
+    rtl_and(&s0,&s0,&s1);
+    rtl_lm(&cpu.idtr.base,&s0,4);
+  } 
+  else {
+    s1=id_dest->addr+2;
+    rtl_lm(&cpu.idtr.limit,&id_dest->addr,2);
+    rtl_lm(&cpu.idtr.base,&s1,4);
+  }
   print_asm_template1(lidt);
 }
 
