@@ -17,6 +17,7 @@ void raise_intr(uint32_t NO, vaddr_t ret_addr) {
   s0 = vaddr_read(cpu.idtr.base+NO,2); //low_addr
   s1 = vaddr_read(cpu.idtr.base+NO+6,2); //high_addr
   //4. concat offset 
+  printf("s1:  0x%8x\n",s1);
   rtl_shli(&s1,&s1,16);
   printf("s1:  0x%8x\n",s1);
   rtl_or(&s0,&s0,&s1);
