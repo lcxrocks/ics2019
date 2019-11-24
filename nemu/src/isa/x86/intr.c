@@ -7,10 +7,12 @@ void raise_intr(uint32_t NO, vaddr_t ret_addr) {
   /* TODO: Trigger an interrupt/exception with ``NO''.
    * That is, use ``NO'' to index the IDT.
    */
+  /*
   printf("int: 0x%8x\n", NO);
   printf("pc: 0x%8x\n", cpu.pc);
   printf("cpu.idtr.base: 0x%8x\n", cpu.idtr.base);
   printf("cpu.idtr.limit:0x%8x\n", cpu.idtr.limit);
+  */
   //1.push regs
   rtl_push(&cpu.init);//eflags
   rtl_push(&cpu.cs);
