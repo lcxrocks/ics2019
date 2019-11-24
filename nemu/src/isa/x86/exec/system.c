@@ -8,7 +8,7 @@ make_EHelper(lidt) {
   if (decinfo.isa.is_operand_size_16) {
     rtl_lm((uint32_t*)&cpu.idtr.limit,&id_dest->addr,2);
     s1=id_dest->addr+2;
-    rtl_lm(&s0,&s0,4);
+    rtl_lm(&s0,&s1,4);
     s1=0x00ffffff;
     rtl_and(&s0,&s0,&s1);
     rtl_lm(&cpu.idtr.base,&s0,4);
@@ -17,6 +17,7 @@ make_EHelper(lidt) {
     s1=id_dest->addr+2;
     rtl_lm((uint32_t*)&cpu.idtr.limit,&id_dest->addr,2);
     rtl_lm(&cpu.idtr.base,&s1,4);
+    printf("hahhahahahhah\n");
   }
   print_asm_template1(lidt);
 }
