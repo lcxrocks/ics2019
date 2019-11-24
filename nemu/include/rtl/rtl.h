@@ -110,6 +110,7 @@ static inline void interpret_rtl_setrelop(uint32_t relop, rtlreg_t *dest,
 
 static inline void interpret_rtl_j(vaddr_t target) {
   cpu.pc = target;
+  printf("cpu.pc: 0x%8x\n",cpu.pc);
   decinfo_set_jmp(true);
 }
 
