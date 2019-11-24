@@ -33,6 +33,7 @@ make_EHelper(movsx);
 make_EHelper(leave);
 make_EHelper(cltd);
 make_EHelper(cwtl);
+make_EHelper(pusha);
 //logic.c
 make_EHelper(test);
 make_EHelper(xor);

@@ -17,9 +17,42 @@ make_EHelper(pop) {
 }
 
 make_EHelper(pusha) {
-  TODO();
-
+  /*
+  if(decinfo.isa.is_operand_size_16){
+    rtl_lm(&s0,&cpu.gpr[R_SP]_16,2);
+    rtl_push(&cpu.gpr[R_AX]._16);
+    rtl_push(&cpu.gpr[R_CX]._16);
+    rtl_push(&cpu.gpr[R_DX]._16);
+    rtl_push(&cpu.gpr[R_BX]._16);
+    rtl_push(&s0);
+    rtl_push(&cpu.gpr[R_BP]._16);
+    rtl_push(&cpu.gpr[R_SI]._16);
+    rtl_push(&cpu.gpr[R_DI]._16);
+  }
+  else
+  {*/
+    rtl_lm(&s0,&cpu.esp,4);
+    rtl_push(&cpu.eax);
+    rtl_push(&cpu.ecx);
+    rtl_push(&cpu.edx);
+    rtl_push(&cpu.ebx);
+    rtl_push(&s0);
+    rtl_push(&cpu.ebp);
+    rtl_push(&cpu.esi);
+    rtl_push(&cpu.edi);
+  
+  
   print_asm("pusha");
+   /*
+   Temp := (SP);
+   Push(AX);
+   Push(CX);
+   Push(DX);
+   Push(BX);
+   Push(Temp);
+   Push(BP);
+   Push(SI);
+   Push(DI);*/
 }
 
 make_EHelper(popa) {
