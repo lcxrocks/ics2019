@@ -8,7 +8,7 @@ void raise_intr(uint32_t NO, vaddr_t ret_addr) {
    * That is, use ``NO'' to index the IDT.
    */
   printf("int: 0x%8x\n", NO);
-  printf("eip: 0x%8x\n", cpu.pc);
+  printf("pc: 0x%8x\n", cpu.pc);
   printf("cpu.idtr.base: 0x%8x\n", cpu.idtr.base);
   printf("cpu.idtr.limit:0x%8x\n", cpu.idtr.limit);
   //1.push regs
@@ -16,10 +16,11 @@ void raise_intr(uint32_t NO, vaddr_t ret_addr) {
   rtl_push(&cpu.cs);
   rtl_push(&cpu.pc);
   //2.read IDT addr
-  rtl_li(&s0, cpu.idtr.base);
+  vaddr_t idt_addr;
+  rtl_li(&idt_addr, cpu.idtr.base);
   //3.search in IDT by NO.
-  s0 = vaddr_read(cpu.idtr.base+NO,2); //low_addr
-  s1 = vaddr_read(cpu.idtr.base+NO+6,2); //high_addr
+  s0 = vaddr_read(idt_addr+NO,2); //low_addr
+  s1 = vaddr_read(idt_addr+NO+6,2); //high_addr
   //4. concat offset 
   printf("s1:  0x%8x\n",s1);
   rtl_shli(&s1,&s1,16);
