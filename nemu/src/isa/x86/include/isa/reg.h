@@ -57,7 +57,7 @@ union{
 };
 struct{
   vaddr_t base; //linear base address
-  uint16_t limit;
+  uint32_t limit;
 }idtr;//Interrupt Descriptor Table register 
 rtlreg_t cs;
 } CPU_state;
