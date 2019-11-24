@@ -56,9 +56,10 @@ union{
   uint32_t init; //give initial val.
 };
 struct{
-  uint32_t limit;
   vaddr_t base; //linear base address
+  uint16_t limit;
 }idtr;//Interrupt Descriptor Table register 
+rtlreg_t cs;
 } CPU_state;
 
 

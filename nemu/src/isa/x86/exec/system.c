@@ -6,7 +6,7 @@ make_EHelper(lidt) {
   //16bit: 24+16; //higher order bit not used.
   //32bit: 32+16; 
   if (decinfo.isa.is_operand_size_16) {
-    rtl_lm(&cpu.idtr.limit,&id_dest->addr,2);
+    rtl_lm((uint32_t*)&cpu.idtr.limit,&id_dest->addr,2);
     s1=id_dest->addr+2;
     rtl_lm(&s0,&s0,4);
     s1=0x00ffffff;
@@ -15,7 +15,7 @@ make_EHelper(lidt) {
   } 
   else {
     s1=id_dest->addr+2;
-    rtl_lm(&cpu.idtr.limit,&id_dest->addr,2);
+    rtl_lm((uint32_t*)&cpu.idtr.limit,&id_dest->addr,2);
     rtl_lm(&cpu.idtr.base,&s1,4);
   }
   print_asm_template1(lidt);
