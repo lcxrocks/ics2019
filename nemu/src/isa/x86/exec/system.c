@@ -17,7 +17,7 @@ make_EHelper(lidt) {
     s1=id_dest->addr+2;
     rtl_lm((uint32_t*)&cpu.idtr.limit,&id_dest->addr,2);
     rtl_lm(&cpu.idtr.base,&s1,4);
-    printf("limit: %d    base: %d\n",cpu.idtr.limit,cpu.idtr.base);
+    printf("limit: 0x%8x    base: 0x%8x\n",cpu.idtr.limit,cpu.idtr.base);
   }
   print_asm_template1(lidt);
 }
