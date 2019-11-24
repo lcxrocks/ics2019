@@ -19,8 +19,8 @@ void raise_intr(uint32_t NO, vaddr_t ret_addr) {
   vaddr_t idt_addr;
   rtl_li(&idt_addr, cpu.idtr.base);
   //3.search in IDT by NO.
-  s0 = vaddr_read(idt_addr+NO,2); //low_addr
-  s1 = vaddr_read(idt_addr+NO+6,2); //high_addr
+  s0 = vaddr_read(idt_addr+8*NO,2); //low_addr
+  s1 = vaddr_read(idt_addr+8*NO+6,2); //high_addr
   //4. concat offset 
   printf("s1:  0x%8x\n",s1);
   rtl_shli(&s1,&s1,16);
