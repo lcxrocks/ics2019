@@ -19,7 +19,7 @@ _Context* __am_irq_handle(_Context *c) {
   printf("-----context \% edx: 0x%x----\n",c->edx);
   printf("-----context \% ecx: 0x%x----\n",c->ecx);
   printf("-----context \% eax: 0x%x----\n",c->eax);
-
+  printf("-----context c.irq : 0x%x----\n",c->irq);
   if (user_handler) {
     _Event ev = {0};
     switch (c->irq) {
