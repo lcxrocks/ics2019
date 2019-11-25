@@ -48,16 +48,9 @@ make_EHelper(iret) {
   //TODO();
 
   rtl_pop(&s0);
-  printf("stacktop1 : 0x%x\n",s0);
-  rtl_pop(&s0);
-  printf("stacktop2 : 0x%x\n",s0);
-  rtl_pop(&s0);
-  printf("stacktop3 : 0x%x\n",s0);
-  rtl_pop(&s0);
-  printf("stacktop4 : 0x%x\n",s0);
-  rtl_pop(&s0);
-  printf("stacktop5 : 0x%x\n",s0);
-  //rtl_j(cpu.pc);
+  rtl_pop(&cpu.cs);
+  rtl_pop(&cpu.init); //eflags
+  rtl_j(s0);
   print_asm("iret");
   
 }

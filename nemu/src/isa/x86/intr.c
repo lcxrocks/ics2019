@@ -16,7 +16,7 @@ void raise_intr(uint32_t NO, vaddr_t ret_addr) {
   //1.push regs
   rtl_push(&cpu.init);//eflags
   rtl_push(&cpu.cs);
-  rtl_push(&cpu.pc);
+  rtl_push(&ret_addr);//woshishabi
   //2.read IDT addr
   vaddr_t idt_addr;
   rtl_li(&idt_addr, cpu.idtr.base);
