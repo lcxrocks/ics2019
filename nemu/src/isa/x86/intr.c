@@ -27,7 +27,7 @@ void raise_intr(uint32_t NO, vaddr_t ret_addr) {
   rtl_shli(&s1,&s1,16);
   rtl_or(&s0,&s0,&s1);
   //5.jmp to s0
-  printf("s0: 0x%8x\n",s0);
+  //printf("s0: 0x%8x\n",s0);
   rtl_j(s0);
   //didn't set the limit, could be a bug. ---lcx 11.23
 }
