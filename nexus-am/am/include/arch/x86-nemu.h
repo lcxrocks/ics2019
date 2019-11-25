@@ -2,9 +2,14 @@
 #define __ARCH_H__
 
 struct _Context {
-  uintptr_t edi,esi,ebp,esp,ebx,edx,ecx,eax;
   struct _AddressSpace *as;
+  uintptr_t edi,esi,ebp,esp,ebx,edx,ecx,eax; //gprs
   int irq;
+  uintptr_t err;
+  uintptr_t pc;
+  uintptr_t cs;
+  uintptr_t eflag;
+  
      /*
    Temp := (SP);
    Push(AX);

@@ -42,7 +42,7 @@ static int cmd_si(char *args){
   char *arg = strtok(NULL, " ");
   if (arg==NULL) cpu_exec(1);
   else{
-     printf("arg: %s\n",arg);
+     //printf("arg: %s\n",arg);
      int steps = atoi(arg);
      cpu_exec(steps);
 }    
