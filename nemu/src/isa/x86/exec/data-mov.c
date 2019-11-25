@@ -17,9 +17,12 @@ make_EHelper(pop) {
 }
 
 make_EHelper(pusha) {
-  /*
+  
   if(decinfo.isa.is_operand_size_16){
-    rtl_lm(&s0,&cpu.gpr[R_SP]_16,2);
+    
+    printf("pusha 16 bit unimplemented!\n");
+    TODO();
+    /*rtl_lm(&s0,&cpu.gpr[R_SP]_16,2);
     rtl_push(&cpu.gpr[R_AX]._16);
     rtl_push(&cpu.gpr[R_CX]._16);
     rtl_push(&cpu.gpr[R_DX]._16);
@@ -27,10 +30,10 @@ make_EHelper(pusha) {
     rtl_push(&s0);
     rtl_push(&cpu.gpr[R_BP]._16);
     rtl_push(&cpu.gpr[R_SI]._16);
-    rtl_push(&cpu.gpr[R_DI]._16);
+    rtl_push(&cpu.gpr[R_DI]._16);*/
   }
   else
-  {*/
+  {
     rtl_lm(&s0,&cpu.esp,4);
     rtl_push(&cpu.eax);
     rtl_push(&cpu.ecx);
@@ -40,23 +43,27 @@ make_EHelper(pusha) {
     rtl_push(&cpu.ebp);
     rtl_push(&cpu.esi);
     rtl_push(&cpu.edi);
-  
+  }
   
   print_asm("pusha");
-   /*
-   Temp := (SP);
-   Push(AX);
-   Push(CX);
-   Push(DX);
-   Push(BX);
-   Push(Temp);
-   Push(BP);
-   Push(SI);
-   Push(DI);*/
 }
 
 make_EHelper(popa) {
-  TODO();
+  if(decinfo.isa.is_operand_size_16){
+    printf("popa 16 bit unimplemented!\n");
+    TODO();
+  }
+  else
+  {
+    rtl_pop(&cpu.edi);
+    rtl_pop(&cpu.esi);
+    rtl_pop(&cpu.ebp);
+    rtl_pop(&cpu.ebx);//throw away esp;
+    rtl_pop(&cpu.ebx);
+    rtl_pop(&cpu.edx);
+    rtl_pop(&cpu.ecx);
+    rtl_pop(&cpu.eax);
+  }
 
   print_asm("popa");
 }
