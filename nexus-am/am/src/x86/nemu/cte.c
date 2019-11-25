@@ -11,14 +11,14 @@ void __am_vecnull();
 _Context* __am_irq_handle(_Context *c) {
   _Context *next = c;
   
-  printf("-----context \%edi: 0x%x\n",c->edi);
-  printf("-----context \%esi: 0x%x\n",c->esi);
-  printf("-----context \%ebp: 0x%x\n",c->ebp);
-  printf("-----context \%esp: 0x%x\n",c->esp);
-  printf("-----context \%ebx: 0x%x\n",c->ebx);
-  printf("-----context \%edx: 0x%x\n",c->edx);
-  printf("-----context \%ecx: 0x%x\n",c->ecx);
-  printf("-----context \%eax: 0x%x\n",c->eax);
+  printf("-----context \% edi: 0x%x----\n",c->edi);
+  printf("-----context \% esi: 0x%x----\n",c->esi);
+  printf("-----context \% ebp: 0x%x----\n",c->ebp);
+  printf("-----context \% esp: 0x%x----\n",c->esp);
+  printf("-----context \% ebx: 0x%x----\n",c->ebx);
+  printf("-----context \% edx: 0x%x----\n",c->edx);
+  printf("-----context \% ecx: 0x%x----\n",c->ecx);
+  printf("-----context \% eax: 0x%x----\n",c->eax);
 
   if (user_handler) {
     _Event ev = {0};
