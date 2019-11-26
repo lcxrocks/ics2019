@@ -8,9 +8,16 @@
 # define Elf_Ehdr Elf32_Ehdr
 # define Elf_Phdr Elf32_Phdr
 #endif
+/* read `len' bytes starting from `offset' of ramdisk into `buf' */
+size_t ramdisk_read(void *buf, size_t offset, size_t len);
+/* write `len' bytes starting from `buf' into the `offset' of ramdisk */
+size_t ramdisk_write(const void *buf, size_t offset, size_t len) ;
+/*return the size of ramdisk. unit: 1 byte*/
+size_t get_ramdisk_size() ;
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  TODO();
+  //TODO();
+  ramdisk_read((void *)0x3000000,0,get_ramdisk_size());
   return 0;
 }
 

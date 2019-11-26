@@ -29,5 +29,5 @@ void init_ramdisk() {
 }
 
 size_t get_ramdisk_size() {
-  return RAMDISK_SIZE;
+  return RAMDISK_SIZE; //unit : byte
 }
