@@ -17,9 +17,9 @@ size_t get_ramdisk_size() ;
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
   //TODO();
-  ramdisk_read((void *)0x4000000,0,get_ramdisk_size());
+  ramdisk_read((void *)0x100000,0,get_ramdisk_size());
   //ramdisk_write((void *)0x3000000,0,get_ramdisk_size());
-  return ((uintptr_t)0x4000000);
+  return ((uintptr_t)0x100000);
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
