@@ -16,15 +16,14 @@ size_t ramdisk_write(const void *buf, size_t offset, size_t len) ;
 size_t get_ramdisk_size() ;
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  //TODO();
-  ramdisk_read((void *)0x3000000,0,get_ramdisk_size());
+  TODO();
+  //ramdisk_read((void *)0x3000000,0,get_ramdisk_size());
   //ramdisk_write((void *)0x3000000,0,get_ramdisk_size());
-  return ((uintptr_t)0x3000000);
+  //return ((uintptr_t)0x3000000);
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
   uintptr_t entry = loader(pcb, filename);
-  printf("entry: %x\n",entry);
   Log("Jump to entry = %x", entry);
   ((void(*)())entry) ();
 }
