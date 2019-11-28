@@ -14,3 +14,16 @@ void init_irq(void) {
   Log("Initializing interrupt/exception handler...");
   _cte_init(do_event);
 }
+
+
+/*
+enum {
+  _EVENT_NULL = 0,
+  _EVENT_ERROR = 1
+  _EVENT_IRQ_TIMER = 2,
+  _EVENT_IRQ_IODEV = 3,
+  _EVENT_PAGEFAULT = 4,
+  _EVENT_YIELD = 5,
+  _EVENT_SYSCALL = 6, 
+};
+*/
