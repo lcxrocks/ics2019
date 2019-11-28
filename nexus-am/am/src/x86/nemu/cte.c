@@ -24,7 +24,7 @@ _Context* __am_irq_handle(_Context *c) {
     _Event ev = {0};
     switch (c->irq) {
       case 0x81 : ev.event = _EVENT_YIELD; break;
-      case 0x80 : ev.event = _EVENT_SYSCALL; break;
+      case 0x80 : printf("hhahahahahha\n"); ev.event = _EVENT_SYSCALL; break;
       default: ev.event = _EVENT_ERROR; break;
     }
 
