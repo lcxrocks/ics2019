@@ -20,7 +20,6 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   ramdisk_read((void *)0x3001000,0x1000,0x3a43);
   ramdisk_read((void *)0x3005000,0x5000,0x1918);
   ramdisk_read((void *)0x3008000,0x7000,0x8d8);
-  //ramdisk_write((void *)0x3000000,0,get_ramdisk_size());
   return ((uintptr_t)0x3000000);
 }
 
