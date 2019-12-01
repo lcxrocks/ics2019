@@ -26,6 +26,6 @@ struct _Context {
 #define GPR2 eip
 #define GPR3 eip
 #define GPR4 eip
-#define GPRx eip
+#define GPRx eax
 
 #endif
