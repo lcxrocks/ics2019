@@ -3,10 +3,10 @@
 
 _Context* do_syscall(_Context *c) {
   uintptr_t a[4];
-  a[0] = c->GPR1;
+  a[0] = c->GPR1; //sys-call number
 
   switch (a[0]) {
-    //case 0x80: sys_yield(); break;
+    //case 0x80: _yield(); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
