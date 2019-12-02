@@ -8,7 +8,7 @@ _Context* do_syscall(_Context *c) {
   switch (a[0]) {
     case SYS_exit: _halt(c->GPRx); break;
     //case SYS_yield: _yield(); c->GPRx = 0; break;
-    case SYS_write: printf("hahsys_write!!\n");break;
+    //case SYS_write: printf("hahsys_write!!\n");break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
