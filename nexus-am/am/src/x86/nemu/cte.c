@@ -10,8 +10,13 @@ void __am_vecnull();
 
 _Context* __am_irq_handle(_Context *c) {
   _Context *next = c;
-  printf("stacktop1 0x%x", c+4);
-  
+  printf("stacktop1 (c) 0x%x\n", c);
+  printf("stacktop1 (c) 0x%x\n", c+4);
+  printf("stacktop1 (c) 0x%x\n", c+8);
+  printf("stacktop1 (c) 0x%x\n", c+12);
+  printf("stacktop1 (c) 0x%x\n", c+16);
+
+
   // printf("-----context \% edi: 0x%x----\n",c->edi);
   // printf("-----context \% esi: 0x%x----\n",c->esi);
   // printf("-----context \% ebp: 0x%x----\n",c->ebp);
