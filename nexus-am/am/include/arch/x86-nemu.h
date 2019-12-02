@@ -3,7 +3,15 @@
 
 struct _Context {
   struct _AddressSpace *as;
-  uintptr_t edi,esi,ebp,esp,ebx,edx,ecx,eax; //gprs
+  //uintptr_t edi,esi,ebp,esp,ebx,edx,ecx,eax; //gprs
+  uintptr_t edi;
+  uintptr_t esi;
+  uintptr_t ebp;
+  uintptr_t esp;
+  uintptr_t ebx;
+  uintptr_t edx;
+  uintptr_t ecx;
+  uintptr_t eax;
   int irq;
   uintptr_t pc;
   uintptr_t cs;
@@ -12,9 +20,9 @@ struct _Context {
 };
 
 #define GPR1 eax
-#define GPR2 eip
-#define GPR3 eip
-#define GPR4 eip
+#define GPR2 pc
+#define GPR3 pc
+#define GPR4 pc
 #define GPRx eax
 
 #endif
