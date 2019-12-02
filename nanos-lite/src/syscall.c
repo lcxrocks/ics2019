@@ -6,7 +6,7 @@ _Context* do_syscall(_Context *c) {
   a[1] = c->GPR2; //arg1: fd
   a[2] = c->GPR3; //arg2: buf
   a[3] = c->GPR4; //arg3: count
-  
+  //
   //printf("--------------a[0]: %x--------------\n",a[0]);
   switch (a[0]) {
     case SYS_exit: _halt(c->GPRx); break;
