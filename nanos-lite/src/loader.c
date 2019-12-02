@@ -16,7 +16,7 @@ size_t ramdisk_write(const void *buf, size_t offset, size_t len) ;
 size_t get_ramdisk_size() ;
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  //TODO();
+  //TODO(); WRONG!!!!
   // ramdisk_read((void *)0x3001000,0x1000,0x3a43);
   // ramdisk_read((void *)0x3005000,0x5000,0x1918);
   // ramdisk_read((void *)0x3008000,0x7000,0x8d8);
@@ -34,7 +34,6 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 //   Elf32_Word	p_flags;		/* Segment flags */
 //   Elf32_Word	p_align;		/* Segment alignment */
 // } Elf32_Phdr;
-
   Elf_Phdr phdr[ehdr.e_phnum]; //segement view
   ramdisk_read(&phdr, ehdr.e_phoff, ehdr.e_phentsize * ehdr.e_phnum);
 
