@@ -2,15 +2,6 @@
 #include "syscall.h"
 _Context* do_syscall(_Context *c) {
   uintptr_t a[4];
-  printf("-----context \% edi: 0x%x----\n",c->edi);
-  printf("-----context \% esi: 0x%x----\n",c->esi);
-  printf("-----context \% ebp: 0x%x----\n",c->ebp);
-  printf("-----context \% esp: 0x%x----\n",c->esp);
-  printf("-----context \% ebx: 0x%x----\n",c->ebx);
-  printf("-----context \% edx: 0x%x----\n",c->edx);
-  printf("-----context \% ecx: 0x%x----\n",c->ecx);
-  printf("-----context \% eax: 0x%x----\n",c->eax);
-  printf("-----context c.irq : 0x%x----\n",c->irq);
   a[0] = c->GPR1; //sys-call type
   a[1] = c->GPR2; //arg1: fd
   a[2] = c->GPR3; //arg2: buf
@@ -22,6 +13,7 @@ _Context* do_syscall(_Context *c) {
     case SYS_yield: _yield(); c->GPRx = 0; break;
     case SYS_write: if(a[1]==1||a[1]==2) //stdout/stderr
                     { 
+                      printf("sys_write !!!!\n");
                       int cnt = 0;
                       for (int i = 0; i < a[3]; i++)
                       {
@@ -30,6 +22,11 @@ _Context* do_syscall(_Context *c) {
                       }
                       c->GPRx = cnt;
                     }            
+                    else
+                    {
+                      c->GPRx = -1;
+                    }
+                    
                     break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
