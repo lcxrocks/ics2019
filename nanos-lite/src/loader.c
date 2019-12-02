@@ -23,17 +23,6 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   // return ((uintptr_t)0x3000000);
   Elf_Ehdr ehdr;
   ramdisk_read(&ehdr, 0, sizeof(ehdr));
-//   typedef struct
-// {
-//   Elf32_Word	p_type;			/* Segment type */
-//   Elf32_Off	p_offset;		/* Segment file offset */
-//   Elf32_Addr	p_vaddr;		/* Segment virtual address */
-//   Elf32_Addr	p_paddr;		/* Segment physical address */
-//   Elf32_Word	p_filesz;		/* Segment size in file */
-//   Elf32_Word	p_memsz;		/* Segment size in memory */
-//   Elf32_Word	p_flags;		/* Segment flags */
-//   Elf32_Word	p_align;		/* Segment alignment */
-// } Elf32_Phdr;
   Elf_Phdr phdr[ehdr.e_phnum]; //segement view
   ramdisk_read(&phdr, ehdr.e_phoff, ehdr.e_phentsize * ehdr.e_phnum);
 

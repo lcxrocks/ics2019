@@ -3,12 +3,27 @@
 
 _Context* do_syscall(_Context *c) {
   uintptr_t a[4];
-  a[0] = c->GPR1; //sys-call number
+  printf("-----context \% edi: 0x%x----\n",c->edi);
+  printf("-----context \% esi: 0x%x----\n",c->esi);
+  printf("-----context \% ebp: 0x%x----\n",c->ebp);
+  printf("-----context \% esp: 0x%x----\n",c->esp);
+  printf("-----context \% ebx: 0x%x----\n",c->ebx);
+  printf("-----context \% edx: 0x%x----\n",c->edx);
+  printf("-----context \% ecx: 0x%x----\n",c->ecx);
+  printf("-----context \% eax: 0x%x----\n",c->eax);
+  printf("-----context c.irq : 0x%x----\n",c->irq);
+  a[0] = c->GPR1; //sys-call type
+  a[1] = c->GPR2; //arg1
+  a[2] = c->GPR3; //arg2
+  a[3] = c->GPR4; //arg3
+  //
   printf("--------------a[0]: %x--------------\n",a[0]);
   switch (a[0]) {
     case SYS_exit: _halt(c->GPRx); break;
     case SYS_yield: _yield(); c->GPRx = 0; break;
-    case SYS_write: printf("hahsys_write!!\n");break;
+    case SYS_write: //;int fd = a[1];
+                    printf("hahahhahahhah\n");
+                    break;//fd, buf, count; 
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
