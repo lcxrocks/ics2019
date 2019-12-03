@@ -54,13 +54,12 @@ void _exit(int status) {
 }
 
 int _open(const char *path, int flags, mode_t mode) {
-  _exit(SYS_open);
-  return 0;
+  return (int)_syscall_(SYS_open, (char *)pathname,(int) flags, (int) mode);
 }
 
 int _write(int fd, void *buf, size_t count) {
   //_exit(SYS_write);
-  return _syscall_(SYS_write, (intptr_t)fd, (intptr_t)buf, (intptr_t)count);
+  return (int)_syscall_(SYS_write, (intptr_t)fd, (intptr_t)buf, (intptr_t)count);
 }
 
 void *_sbrk(intptr_t increment) {
@@ -68,18 +67,15 @@ void *_sbrk(intptr_t increment) {
 }
 
 int _read(int fd, void *buf, size_t count) {
-  _exit(SYS_read);
-  return 0;
+  return (int)_syscall_(SYS_read, (int)fd, (void *)buf, (size_t)len));
 }
 
 int _close(int fd) {
-  _exit(SYS_close);
-  return 0;
+  return (int)_syscall_(SYS_close, (int)fd, 0 , 0);
 }
 
 off_t _lseek(int fd, off_t offset, int whence) {
-  _exit(SYS_lseek);
-  return 0;
+  return (off_t)_syscall_(SYS_lseek, (int)fd, (size_t) offset, (int) whence);
 }
 
 int _execve(const char *fname, char * const argv[], char *const envp[]) {
