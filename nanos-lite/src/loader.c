@@ -35,7 +35,8 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
       fs_lseek(fd, phdr[i].p_offset, SEEK_SET);
       fs_read(fd, content, phdr[i].p_filesz);
       uint32_t *p_start = (uint32_t *)phdr[i].p_vaddr;
-      memcpy(p_start, content, phdr[i].p_filesz);
+      fs_write(fd, p_start, phdr[i].p_filesz);
+      //memcpy(p_start, content, phdr[i].p_filesz);
 
       if (phdr[i].p_memsz > phdr[i].p_filesz) //.bss
       {
