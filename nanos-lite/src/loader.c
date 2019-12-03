@@ -2,7 +2,7 @@
 #include <elf.h>
 int fs_open(const char *pathname);
 size_t fs_read(int fd, void *buf, size_t len);
-
+size_t fs_lseek(int fd, size_t offset, int whence);
 #ifdef __ISA_AM_NATIVE__
 # define Elf_Ehdr Elf64_Ehdr
 # define Elf_Phdr Elf64_Phdr
