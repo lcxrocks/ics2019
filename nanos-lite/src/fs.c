@@ -95,14 +95,14 @@ size_t fs_lseek(int fd, size_t offset, int whence)
 }
 
 size_t fs_write(int fd, const void *buf, size_t len)
-{
+{/*
   if(fd==1||fd==2) //stdout/stderr
   { 
     serial_write(buf,19991130,len);
     return len;
   }            
   else
-  {
+  {*/
     int size = file_table[fd].size; 
     int disk_offset = file_table[fd].disk_offset;
     int open_offset = file_table[fd].open_offset;
@@ -122,5 +122,5 @@ size_t fs_write(int fd, const void *buf, size_t len)
 
     file_table[fd].open_offset = write_end;
     return ret;
-  }
+  //}
 }
