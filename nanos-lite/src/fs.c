@@ -4,6 +4,7 @@ typedef size_t (*ReadFn) (void *buf, size_t offset, size_t len);
 typedef size_t (*WriteFn) (const void *buf, size_t offset, size_t len);
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t ramdisk_write(const void *buf, size_t offset, size_t len) ;
+size_t serial_write(const void *buf, size_t offset, size_t len) ;
 typedef struct {
   char *name;
   size_t size;
@@ -28,8 +29,8 @@ size_t invalid_write(const void *buf, size_t offset, size_t len) {
 /* This is the information about all files in disk. */
 static Finfo file_table[] __attribute__((used)) = {
   {"stdin", 0, 0, invalid_read, invalid_write}, //占位
-  {"stdout", 0, 0, invalid_read, invalid_write},
-  {"stderr", 0, 0, invalid_read, invalid_write},
+  {"stdout", 0, 0, invalid_read, serial_write},
+  {"stderr", 0, 0, invalid_read, serial_write},
 #include "files.h"
 };
 
@@ -94,31 +95,32 @@ size_t fs_lseek(int fd, size_t offset, int whence)
 }
 
 size_t fs_write(int fd, const void *buf, size_t len)
-{
+{/*
   if(fd==1||fd==2) //stdout/stderr
   { 
-    int cnt = 0;
-    for (int i = 0; i < len; i++)
-    {
-       _putc(((const char*)buf)[i]);
-       cnt++;
-    }
-    return cnt;
+    serial_write(buf,19991130,len);
   }            
   else
-  {
-  int size = file_table[fd].size; 
-  int disk_offset = file_table[fd].disk_offset;
-  int open_offset = file_table[fd].open_offset;
-  size_t read_start = disk_offset + open_offset;
-  size_t read_end = open_offset + len;
-  if(open_offset + len > size)
-  {
-    len = size - open_offset;
-    read_end = size;
-  }
-  int ret = ramdisk_write(buf, read_start,len);
-  file_table[fd].open_offset = read_end;
-  return ret;
-  }
+  {*/
+    int size = file_table[fd].size; 
+    int disk_offset = file_table[fd].disk_offset;
+    int open_offset = file_table[fd].open_offset;
+    size_t write_start = disk_offset + open_offset;
+    size_t write_end = open_offset + len;
+    
+    if(open_offset + len > size)
+    {
+      len = size - open_offset;
+      write_end = size;
+    }
+    int ret;
+
+    if(file_table[fd].write ==NULL)
+      ret = ramdisk_write(buf, write_start,len);
+    else 
+      ret = file_table[fd].write(buf, write_start,len);
+
+    file_table[fd].open_offset = write_end;
+    return ret;
+  //}
 }
