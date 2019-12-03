@@ -50,7 +50,7 @@ int fs_open(const char *pathname)
   }
   panic("File not found!\n");
 }
-
+// 
 int fs_close(int fd)
 {
   return 0;
