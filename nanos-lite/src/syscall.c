@@ -46,6 +46,7 @@ extern intptr_t _end; //must have a type, or gcc complains.
 
 void *sys_brk(intptr_t increment)
 {
+  /*
   if(increment == 0) return (void *)_end;
   else 
   {
@@ -53,5 +54,6 @@ void *sys_brk(intptr_t increment)
     _end += increment;
     return (void *) pre_end;
   }
-  return (void *)-1;
+  return (void *)-1;*/
+  return 0;
 }
