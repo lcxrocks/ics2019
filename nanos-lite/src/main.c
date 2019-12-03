@@ -22,13 +22,13 @@ int main() {
 #ifdef HAS_CTE
   init_irq();
 #endif
-  printf("break1\n");
+
   init_fs();
-  printf("break2\n");
+
   init_proc();
 
   Log("Finish initialization");
-  printf("didn't ??\n");
+
 #ifdef HAS_CTE
   _yield();
 #endif

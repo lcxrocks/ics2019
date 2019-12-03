@@ -23,8 +23,9 @@ void init_proc() {
   switch_boot_pcb();
 
   Log("Initializing processes...");
-
+  printf("initing\n");
   naive_uload(NULL,"/bin/hello");
+  printf("gotcha!!!!!\n");
   // load program here
 
 }
