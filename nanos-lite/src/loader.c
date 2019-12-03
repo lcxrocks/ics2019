@@ -16,7 +16,7 @@ size_t ramdisk_write(const void *buf, size_t offset, size_t len) ;
 /*return the size of ramdisk. unit: 1 byte*/
 size_t get_ramdisk_size() ;
 
-static uintptr_t loader(PCB *pcb, const char *filename) {
+static uintptr_t loader(PCB *pcb, const char *filename) { //
   Elf_Ehdr ehdr;
   int fd = fs_open(filename);
   fs_read(fd, &ehdr, sizeof(ehdr));
