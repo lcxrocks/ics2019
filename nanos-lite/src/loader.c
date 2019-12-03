@@ -1,8 +1,7 @@
 #include "proc.h"
 #include <elf.h>
-int fs_open(const char *pathname);
-size_t fs_read(int fd, void *buf, size_t len);
-size_t fs_lseek(int fd, size_t offset, int whence);
+#include "fs.h"
+
 #ifdef __ISA_AM_NATIVE__
 # define Elf_Ehdr Elf64_Ehdr
 # define Elf_Phdr Elf64_Phdr
@@ -23,6 +22,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   fs_read(fd, &ehdr, sizeof(ehdr));
   //ramdisk_read(&ehdr, 0, sizeof(ehdr));
   Elf_Phdr phdr[ehdr.e_phnum]; //segement view
+  fs_lseek(fd,ehdr.e_phoff,SEEK_SET);
   fs_read(fd, &phdr, ehdr.e_phentsize * ehdr.e_phnum);
   //ramdisk_read(&phdr, ehdr.e_phoff, ehdr.e_phentsize * ehdr.e_phnum);
 
