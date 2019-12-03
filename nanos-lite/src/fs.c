@@ -3,6 +3,7 @@
 typedef size_t (*ReadFn) (void *buf, size_t offset, size_t len);
 typedef size_t (*WriteFn) (const void *buf, size_t offset, size_t len);
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
+size_t ramdisk_write(const void *buf, size_t offset, size_t len) ;
 typedef struct {
   char *name;
   size_t size;
@@ -90,4 +91,21 @@ size_t fs_lseek(int fd, size_t offset, int whence)
     break;
   }
   return file_table[fd].open_offset;
+}
+
+size_t fs_write(int fd, const void *buf, size_t len)
+{
+  int size = file_table[fd].size; 
+  int disk_offset = file_table[fd].disk_offset;
+  int open_offset = file_table[fd].open_offset;
+  size_t read_start = disk_offset + open_offset;
+  size_t read_end = open_offset + len;
+  if(open_offset + len > size)
+  {
+    len = size - open_offset;
+    read_end = size;
+  }
+  int ret = ramdisk_write(buf, read_start,len);
+  file_table[fd].open_offset = read_end;
+  return ret;
 }
