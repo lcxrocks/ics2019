@@ -106,8 +106,7 @@ size_t fs_write(int fd, const void *buf, size_t len)
     return cnt;
   }            
   else
-  return -1;
-  /*
+  {
   int size = file_table[fd].size; 
   int disk_offset = file_table[fd].disk_offset;
   int open_offset = file_table[fd].open_offset;
@@ -122,5 +121,6 @@ size_t fs_write(int fd, const void *buf, size_t len)
   file_table[fd].open_offset = read_end;
   for (int i = 0; i < len; i++)
      _putc(((const char*)buf)[i]);
-  return ret;*/
+  return ret;
+  }
 }
