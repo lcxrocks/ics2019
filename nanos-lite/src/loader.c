@@ -31,7 +31,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     if (phdr[i].p_type == PT_LOAD)
     {
       size_t content[phdr[i].p_filesz];
-      ramdisk_read(content, phdr[i].p_offset, phdr[i].p_filesz);
+      //ramdisk_read(content, phdr[i].p_offset, phdr[i].p_filesz);
+      fs_lseek(fd, phdr[i].p_offset, SEEK_SET);
+      fs_read(fd, content, phdr[i].p_filesz);
       uint32_t *ptr1 = (uint32_t *)phdr[i].p_vaddr;
       memcpy(ptr1, content, phdr[i].p_filesz);
 
