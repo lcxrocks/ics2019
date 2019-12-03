@@ -1,14 +1,15 @@
 #include "fs.h"
-extern uint8_t ramdisk_start;
+//extern uint8_t ramdisk_start;
 typedef size_t (*ReadFn) (void *buf, size_t offset, size_t len);
 typedef size_t (*WriteFn) (const void *buf, size_t offset, size_t len);
-
+size_t ramdisk_read(void *buf, size_t offset, size_t len);
 typedef struct {
   char *name;
   size_t size;
   size_t disk_offset;
   ReadFn read;
   WriteFn write;
+  size_t open_offset;
 } Finfo;
 
 enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_FB}; //0,1,2,3 fd value;
@@ -42,10 +43,12 @@ int fs_open(const char *pathname)
   for (size_t i = 2; i < NR_FILES; i++)
   {
     if(strcmp(file_table[i].name, pathname)==0)
+    {  
+      file_table[i].open_offset = 0;
       return i;
+    }
   }
-  printf("File not found!\n");
-  assert(0);
+  panic("File not found!\n");
 }
 
 int fs_close(int fd)
@@ -53,19 +56,19 @@ int fs_close(int fd)
   return 0;
 }
 
-size_t fs_read(int fd, void *buf, size_t count)
+size_t fs_read(int fd, void *buf, size_t len)
 {
   int size = file_table[fd].size; 
   int disk_offset = file_table[fd].disk_offset;
-  if(count > size)
+  int open_offset = file_table[fd].open_offset;
+  size_t read_start = disk_offset + open_offset;
+  size_t read_end = open_offset + len;
+  if(open_offset + len > size)
   {
-    printf("fs_read() too much!\n");
-    return -1;
+    len = size - open_offset;
+    read_end = size; 
   }
-  else
-  {
-    memcpy(buf,&ramdisk_start+disk_offset,count);
-    return count;
-  }
-  
+  int ret = ramdisk_read(buf, read_start, len);
+  file_table[fd].open_offset = read_end;
+  return ret;
 }
