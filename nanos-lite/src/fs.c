@@ -117,7 +117,7 @@ size_t fs_write(int fd, const void *buf, size_t len)
     if(file_table[fd].write ==NULL)
       ret = ramdisk_write(buf, write_start,len);
     else 
-      ret = file_table[fd].write(buf, write_start,len);
+      ret = file_table[fd].write(buf, 0, len);
 
     file_table[fd].open_offset = write_end;
     return ret;
