@@ -10,11 +10,13 @@ _Context* do_syscall(_Context *c) {
   a[2] = c->GPR3; //arg2: 
   a[3] = c->GPR4; //arg3: 
   //
-  //printf("--------------a[0]: %x--------------\n",a[0]);
+  printf("--------------a[0]: %x--------------\n",a[0]);
   switch (a[0]) {
     case SYS_exit: _halt(c->GPRx); break;
     case SYS_yield: _yield(); c->GPRx = 0; break;
-    case SYS_write: c->GPRx = sys_write((int)a[1],(void *)a[2],(size_t)a[3]); break;
+    case SYS_open: c->GPRx = fs_open((char *)a[1]); break;
+    case SYS_read: c->GPRx = fs_read((int)a[1],(void *)a[2],(size_t)a[3]); break;
+    case SYS_write: c->GPRx = fs_write((int)a[1],(void *)a[2],(size_t)a[3]); break;
     case SYS_brk: c->GPRx = (uintptr_t) sys_brk((intptr_t)a[1]); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
