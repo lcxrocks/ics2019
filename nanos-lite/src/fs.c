@@ -120,6 +120,6 @@ size_t fs_write(int fd, const void *buf, size_t len)
     else 
       ret = file_table[fd].write(buf, 0, len);
     file_table[fd].open_offset = write_end;
-    return ret;
+    return ret; //VFS
   //}
 }
