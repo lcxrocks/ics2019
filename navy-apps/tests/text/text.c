@@ -2,6 +2,7 @@
 #include <assert.h>
 
 int main() {
+  printf("wwwwwwwwwwwwwwwwwww\n");
   FILE *fp = fopen("/share/texts/num", "r+");
   assert(fp);
   //printf("wtf???\n");
