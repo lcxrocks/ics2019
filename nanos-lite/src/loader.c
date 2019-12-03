@@ -34,13 +34,13 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       //ramdisk_read(content, phdr[i].p_offset, phdr[i].p_filesz);
       fs_lseek(fd, phdr[i].p_offset, SEEK_SET);
       fs_read(fd, content, phdr[i].p_filesz);
-      uint32_t *ptr1 = (uint32_t *)phdr[i].p_vaddr;
-      memcpy(ptr1, content, phdr[i].p_filesz);
+      uint32_t *p_start = (uint32_t *)phdr[i].p_vaddr;
+      memcpy(p_start, content, phdr[i].p_filesz);
 
       if (phdr[i].p_memsz > phdr[i].p_filesz) //.bss
       {
-        char *ptr2 = (char *)(phdr[i].p_vaddr + phdr[i].p_filesz);
-        memset(ptr2, 0, phdr[i].p_memsz - phdr[i].p_filesz);
+        char *bss_start = (char *)(phdr[i].p_vaddr + phdr[i].p_filesz);
+        memset(bss_start, 0, phdr[i].p_memsz - phdr[i].p_filesz);
       }
     }
   }
