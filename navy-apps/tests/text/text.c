@@ -2,8 +2,8 @@
 #include <assert.h>
 
 int main() {
-  //FILE *fp = fopen("/share/texts/num", "r+");
-  //assert(fp);
+  FILE *fp = fopen("/share/texts/num", "r+");
+  assert(fp);
   printf("wtf???\n");
   fseek(fp, 0, SEEK_END);
   long size = ftell(fp);
