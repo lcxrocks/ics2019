@@ -95,6 +95,19 @@ size_t fs_lseek(int fd, size_t offset, int whence)
 
 size_t fs_write(int fd, const void *buf, size_t len)
 {
+  if(fd==1||fd==2) //stdout/stderr
+  { 
+    int cnt = 0;
+    for (int i = 0; i < len; i++)
+    {
+       _putc(((const char*)buf)[i]);
+       cnt++;
+    }
+    return cnt;
+  }            
+  else
+  return -1;
+  /*
   int size = file_table[fd].size; 
   int disk_offset = file_table[fd].disk_offset;
   int open_offset = file_table[fd].open_offset;
@@ -109,5 +122,5 @@ size_t fs_write(int fd, const void *buf, size_t len)
   file_table[fd].open_offset = read_end;
   for (int i = 0; i < len; i++)
      _putc(((const char*)buf)[i]);
-  return ret;
+  return ret;*/
 }
