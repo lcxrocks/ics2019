@@ -47,3 +47,25 @@ int fs_open(const char *pathname)
   printf("File not found!\n");
   assert(0);
 }
+
+int fs_close(int fd)
+{
+  return 0;
+}
+
+size_t fs_read(int fd, void *buf, size_t count)
+{
+  int size = file_table[fd].size; 
+  int disk_offset = file_table[fd].offset;
+  if(count > size)
+  {
+    printf("fs_read() too much!\n");
+    return -1;
+  }
+  else
+  {
+    memcpy(buf,&ramdisk_start+dis_offset,count);
+    return count;
+  }
+  
+}
