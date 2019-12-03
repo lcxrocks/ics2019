@@ -24,7 +24,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   //ramdisk_read(&ehdr, 0, sizeof(ehdr));
   Elf_Phdr phdr[ehdr.e_phnum]; //segement view
   ramdisk_read(&phdr, ehdr.e_phoff, ehdr.e_phentsize * ehdr.e_phnum);
-  
+
   for (uint16_t i = 0; i < ehdr.e_phnum; i++)
   {
     if (phdr[i].p_type == PT_LOAD)
@@ -47,7 +47,9 @@ return ehdr.e_entry;
 void naive_uload(PCB *pcb, const char *filename) {
   uintptr_t entry = loader(pcb, filename);
   Log("Jump to entry = %x", entry);
+  printf("wrong1?\n");
   ((void(*)())entry) ();
+  printf("wrong!!!!\n");
 }
 
 void context_kload(PCB *pcb, void *entry) {
