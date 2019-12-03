@@ -14,7 +14,7 @@ _Context* do_syscall(_Context *c) {
   switch (a[0]) {
     case SYS_exit: _halt(c->GPRx); break;
     case SYS_yield: _yield(); c->GPRx = 0; break;
-    case SYS_write: c->GPRx = sys_write((int)a[1],(void *)a[2],(size_t)a[3]); break;
+    case SYS_write: printf("fuck!\n");c->GPRx = sys_write((int)a[1],(void *)a[2],(size_t)a[3]); break;
     case SYS_brk: c->GPRx = (uintptr_t) sys_brk((intptr_t)a[1]); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
@@ -24,7 +24,7 @@ _Context* do_syscall(_Context *c) {
 
 int sys_write(int fd, void *buf, size_t count)
 {
-  //if(fd==1||fd==2) //stdout/stderr
+  if(fd==1||fd==2) //stdout/stderr
   { 
     int cnt = 0;
     for (int i = 0; i < count; i++)
@@ -34,8 +34,8 @@ int sys_write(int fd, void *buf, size_t count)
     }
     return cnt;
   }            
-  //else
-  //return -1;
+  else
+  return -1;
 }
 
 extern intptr_t _end; //must have a type, or gcc complains.
