@@ -19,11 +19,11 @@ size_t get_ramdisk_size() ;
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Ehdr ehdr;
-  //int fd = fs_open(filename);
-  //fs_read(fd, &ehdr, sizeof(ehdr));
-  ramdisk_read(&ehdr, 0, sizeof(ehdr));
+  int fd = fs_open(filename);
+  fs_read(fd, &ehdr, sizeof(ehdr));
+  //ramdisk_read(&ehdr, 0, sizeof(ehdr));
   Elf_Phdr phdr[ehdr.e_phnum]; //segement view
-  //ramdisk_read(&phdr, ehdr.e_phoff, ehdr.e_phentsize * ehdr.e_phnum);
+  ramdisk_read(&phdr, ehdr.e_phoff, ehdr.e_phentsize * ehdr.e_phnum);
 
   for (uint16_t i = 0; i < ehdr.e_phnum; i++)
   {
