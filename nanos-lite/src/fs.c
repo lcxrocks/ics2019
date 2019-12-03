@@ -1,5 +1,5 @@
 #include "fs.h"
-
+extern uint8_t ramdisk_start;
 typedef size_t (*ReadFn) (void *buf, size_t offset, size_t len);
 typedef size_t (*WriteFn) (const void *buf, size_t offset, size_t len);
 
@@ -56,7 +56,7 @@ int fs_close(int fd)
 size_t fs_read(int fd, void *buf, size_t count)
 {
   int size = file_table[fd].size; 
-  int disk_offset = file_table[fd].offset;
+  int disk_offset = file_table[fd].disk_offset;
   if(count > size)
   {
     printf("fs_read() too much!\n");
@@ -64,7 +64,7 @@ size_t fs_read(int fd, void *buf, size_t count)
   }
   else
   {
-    memcpy(buf,&ramdisk_start+dis_offset,count);
+    memcpy(buf,&ramdisk_start+disk_offset,count);
     return count;
   }
   
