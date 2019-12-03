@@ -1,5 +1,6 @@
 #include "common.h"
 #include "syscall.h"
+#include "fs.h"
 int sys_write(int fd, void *buf, size_t count);
 void *sys_brk(intptr_t increment); 
 _Context* do_syscall(_Context *c) {
@@ -23,7 +24,7 @@ _Context* do_syscall(_Context *c) {
 
 int sys_write(int fd, void *buf, size_t count)
 {
-  if(fd==1||fd==2) //stdout/stderr
+  //if(fd==1||fd==2) //stdout/stderr
   { 
     int cnt = 0;
     for (int i = 0; i < count; i++)
@@ -33,8 +34,8 @@ int sys_write(int fd, void *buf, size_t count)
     }
     return cnt;
   }            
-  else
-  return -1;
+  //else
+  //return -1;
 }
 
 extern intptr_t _end; //must have a type, or gcc complains.
