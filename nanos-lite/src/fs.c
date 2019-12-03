@@ -106,6 +106,8 @@ size_t fs_write(int fd, const void *buf, size_t len)
     read_end = size;
   }
   int ret = ramdisk_write(buf, read_start,len);
+  for (int i = 0; i < len; i++)
+       _putc(((const char*)buf)[i]);
   file_table[fd].open_offset = read_end;
   return ret;
 }
