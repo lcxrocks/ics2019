@@ -41,7 +41,7 @@ void init_fs() {
 
 int fs_open(const char *pathname)
 {
-  for (size_t i = 2; i < NR_FILES; i++)
+  for (size_t i = 0; i < NR_FILES; i++)
   {
     if(strcmp(file_table[i].name, pathname)==0)
     {  
