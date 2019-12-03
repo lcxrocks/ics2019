@@ -39,7 +39,7 @@ void init_fs() {
   // TODO: initialize the size of /dev/fb
 }
 
-int fs_open(const char *pathname)
+int fs_open(const char *pathname, int flags, int mode)
 {
   for (size_t i = 0; i < NR_FILES; i++)
   {
