@@ -114,7 +114,7 @@ size_t fs_write(int fd, const void *buf, size_t len)
       write_end = size;
     }
     int ret;
-
+    printf("buf: %s\n",buf);
     if(file_table[fd].write ==NULL)
       ret = ramdisk_write(buf, write_start,len);
     else 
