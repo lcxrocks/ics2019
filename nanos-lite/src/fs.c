@@ -103,17 +103,17 @@ size_t fs_write(int fd, const void *buf, size_t len)
   }            
   else
   {*/
-    int size = file_table[fd].size; 
+    //int size = file_table[fd].size; 
     int disk_offset = file_table[fd].disk_offset;
     int open_offset = file_table[fd].open_offset;
     size_t write_start = disk_offset + open_offset;
     size_t write_end = open_offset + len;
     
-    if(open_offset + len > size)
-    {
-      len = size - open_offset;
-      write_end = size;
-    }
+    // if(open_offset + len > size)
+    // {
+    //   len = size - open_offset;
+    //   write_end = size;
+    // }
     int ret;
     if(file_table[fd].write ==NULL)
       ret = ramdisk_write(buf, write_start,len);
