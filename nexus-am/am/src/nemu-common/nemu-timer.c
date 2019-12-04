@@ -1,6 +1,7 @@
 #include <am.h>
 #include <amdev.h>
 #include <nemu.h>
+#include <stdio.h>
 
 uint32_t starttime;
 size_t __am_timer_read(uintptr_t reg, void *buf, size_t size) {
@@ -8,6 +9,8 @@ size_t __am_timer_read(uintptr_t reg, void *buf, size_t size) {
     case _DEVREG_TIMER_UPTIME: {
       /* by lcx */
       uint32_t cur_time = inl(RTC_ADDR);
+      printf("cur_time: %d\n",cur_time);
+      printf("start_time: %d\n",starttime);
       /* current time */
       _DEV_TIMER_UPTIME_t *uptime = (_DEV_TIMER_UPTIME_t *)buf;
       uptime->hi = 0;
