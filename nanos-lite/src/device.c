@@ -29,8 +29,11 @@ size_t events_read(void *buf, size_t offset, size_t len) {
     if(down) cnt = sprintf(tmp, "kd %s\n", keyname[key & 0x7fff]);
     else cnt = sprintf(tmp, "ku %s\n", keyname[key & 0x7fff]);
   }
-  else 
+  else {
+    int time = uptime();
     cnt = sprintf(tmp, "t %d\n", uptime());
+    Log("uptime : %d\n",time);
+  }
   if (len < cnt)
     cnt = len;
   memcpy(buf, tmp, len);
