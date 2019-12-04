@@ -15,11 +15,11 @@ int main() {
         break;
       }
     }
-    printf("buf: %s\n",buf);
+    printf("buf: %s ++++++",buf);
     int is_time = buf[0] == 't';
     time += is_time;
     if (!is_time) {
-      printf("receive event: %s\n", buf);
+      printf("receive event: %s+++++\n", buf);
     }
     else if (time % 1024 == 0) {
       printf("receive time event for the %dth time: %s\n", time, buf);
