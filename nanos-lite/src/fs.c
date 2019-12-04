@@ -42,7 +42,9 @@ static Finfo file_table[] __attribute__((used)) = {
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
-
+  file_table[FD_FB].size = W*H*sizeof(pixels);
+  file_table[FD_FB].open_offset = 0;
+  Log("file_table finished int!(size: %d)",file_table[FD_FB].size);
 }
 
 int fs_open(const char *pathname, int flags, int mode)

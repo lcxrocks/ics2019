@@ -1,6 +1,7 @@
 #include "common.h"
 #include <amdev.h>
-
+int32_t SCREEN_W;
+int32_t SCREEN_H;
 size_t serial_write(const void *buf, size_t offset, size_t len) {
   //printf("that buf: %s\n",buf);
   for (int i = 0; i < len; i++)
@@ -44,7 +45,21 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-  return 0;
+  uint32_t pixel_addr= offset/4; //uint32_t *pixel;
+  int x = pixel_addr % SCREEN_W;
+  int y = pixel_addr / SCREEN_W;
+  int cnt = len/4;
+  for (int i = 0; i < cnt; i++)
+  {
+    draw_rect(buf, x, y, 1, 1);
+    if(x==SCREEN_W)
+    {
+      x=0;
+      y++;
+    }
+    else x++;
+  }
+  return len;
 }
 
 size_t fbsync_write(const void *buf, size_t offset, size_t len) {
