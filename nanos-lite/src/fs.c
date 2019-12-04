@@ -75,7 +75,7 @@ size_t fs_read(int fd, void *buf, size_t len)
     read_end = size; 
   }
   int ret;
-  if(file_table[fd].read !=NULL)
+  if(file_table[fd].read != NULL)
     ret = file_table[fd].read(buf, 0, len);
   else 
     ret = ramdisk_write(buf, read_start,ram_read_len);
