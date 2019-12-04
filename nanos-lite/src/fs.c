@@ -1,5 +1,8 @@
 #include "fs.h"
 size_t events_read(void *buf, size_t offset, size_t len);
+size_t fb_write(const void *buf, size_t offset, size_t len);
+size_t dispinfo_read(void *buf, size_t offset, size_t len);
+size_t fbsync_write(const void *buf, size_t offset, size_t len);
 //extern uint8_t ramdisk_start;
 typedef size_t (*ReadFn) (void *buf, size_t offset, size_t len);
 typedef size_t (*WriteFn) (const void *buf, size_t offset, size_t len);
@@ -33,7 +36,9 @@ static Finfo file_table[] __attribute__((used)) = {
   {"stdout", 0, 0, invalid_read, serial_write},
   {"stderr", 0, 0, invalid_read, serial_write},
   {"/dev/fb",0, 0, invalid_read, fb_write},
-  {"/dev/events" ,0,0, events_read, invalid_write}, 
+  {"/dev/events" ,0, 0, events_read, invalid_write}, 
+  {"/dev/fbsync", 0, 0,invalid_read, fbsync_write},
+  {"/proc/dispinfo",0, 0,dispinfo_read, invalid_write},
   
 #include "files.h"
 };
@@ -42,7 +47,9 @@ static Finfo file_table[] __attribute__((used)) = {
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
-  file_table[FD_FB].size = W*H*sizeof(pixels);
+  int W = screen_width();
+  int H = screen_height();
+  file_table[FD_FB].size = W*H*4;
   file_table[FD_FB].open_offset = 0;
   Log("file_table finished int!(size: %d)",file_table[FD_FB].size);
 }
