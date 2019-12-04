@@ -76,7 +76,7 @@ int myprintf(const char *fmt, ...) {
   va_end(ap);
   //printf("%s\n",output);
   ans = mystrlen(output);
-  printf("ans: %d\n",ans);
+  //printf("ans: %d\n",ans);
   for(;*f;f++)
     _putc(*f);
   return ans;
@@ -101,8 +101,9 @@ int myvsprintf(char *out, const char *fmt, va_list ap) {
                 s = va_arg(ap, char *);
                 out = mystrcpy(out, s);  
                 string_length=mystrlen(s);
-                printf("string_length: %d\n",string_length);
+                //printf("string_length: %d\n",string_length);
                 out+=string_length;
+                cnt += string_length-1;
                 continue;
 
       case 'd': 
@@ -112,6 +113,7 @@ int myvsprintf(char *out, const char *fmt, va_list ap) {
                 //printf("_buf: %s\n",str);  
                 string_length=mystrlen(str);
                 out+=string_length;
+                cnt += string_length-1;
                 continue;
     }
     //cnt++;
@@ -133,12 +135,15 @@ int mysprintf(char *out, const char *fmt, ...) {
 char buf[128];
 int main(){
 
-  myprintf("%s", "Hello world!\n");
+  int hello = myprintf("%s", "Hello world!\n");
+  printf("hello %d\n",hello);
   //printf("hahahhahahah\n");
   //printf("buf1: %s\n",buf);
-	//char s[128] = "FUCK!!!\n";
-	//int haha = mysprintf(buf, "vent %s\n", s);
-  //printf("hahah: %d\n",haha);
+	char s[128] = "FUCK!!!!!!!!!!!!!!!!!\n";
+	int haha = mysprintf(buf, "vent %s\n", s);
+  printf("hahah: %d\n",haha);
+  int haha_std = sprintf(buf, "vent %s\n",s);
+  printf("hahahaaaaaa: %d\n",haha);
   //myprintf("buf2: %s\n",buf);
 	//assert(strcmp(buf, "1 + 1 = 2\n") == 0);
 

@@ -75,15 +75,16 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
                 //printf("_buf: %s\n",str);  
                 string_length=strlen(str);
                 out+=string_length;
+                cnt+=string_length-1;
                 continue;
       case 'x': myitoa(va_arg(ap,int),_buf,16);
                 out = strcpy(out,str);
                 string_length=strlen(str);
                 out+=string_length;
+                cnt+=string_length-1;
                 continue;
     }
   }
-  
   return cnt;
 }
 
