@@ -1,7 +1,7 @@
 #include "common.h"
 #include <amdev.h>
-int32_t SCREEN_W;
-int32_t SCREEN_H;
+// int32_t SCREEN_W;
+// int32_t SCREEN_H;
 size_t serial_write(const void *buf, size_t offset, size_t len) {
   //printf("that buf: %s\n",buf);
   for (int i = 0; i < len; i++)
@@ -46,6 +46,7 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
   uint32_t pixel_addr= offset/4; //uint32_t *pixel;
+  int SCREEN_W = screen_width();
   int x = pixel_addr % SCREEN_W;
   int y = pixel_addr / SCREEN_W;
   int cnt = len/4;
@@ -70,6 +71,9 @@ size_t fbsync_write(const void *buf, size_t offset, size_t len) {
 void init_device() {
   Log("Initializing devices...");
   _ioe_init();
+  int screen_w = screen_width();
+  int screen_h = screen_height();
+  sprintf(dispinfo,"WIDTH=%d\nHEIGHT=%d\n",screen_w,screen_height);
 
   // TODO: print the string to array `dispinfo` with the format
   // described in the Navy-apps convention
