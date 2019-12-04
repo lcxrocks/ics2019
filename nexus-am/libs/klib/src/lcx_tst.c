@@ -93,6 +93,7 @@ int myvsprintf(char *out, const char *fmt, va_list ap) {
       //printf("this char: %c\n",*(out-1));
       continue;
     }
+    cnt--;
     //cnt++; //+ %
     //printf("cnt : %d\n",cnt);
     fmt++; //skip '%'
@@ -118,6 +119,7 @@ int myvsprintf(char *out, const char *fmt, va_list ap) {
     }
     //cnt++;
   }
+  cnt++; //'\0'
   printf("cnt: %d\n",cnt);
   return cnt;
 }
@@ -134,16 +136,22 @@ int mysprintf(char *out, const char *fmt, ...) {
 }
 char buf[128];
 int main(){
+  //if(down) cnt = sprintf(tmp, "kd %s\n", keyname[key & 0x7fff]);
+  char key[20] ="lcxsb";
+  int wtf = mysprintf(buf, "ku %s %s %s \n",key, key,key);
+  int thell= sprintf(buf,"ku %s %s %s \n",key,key, key);
 
-  int hello = myprintf("%s", "Hello world!\n");
-  printf("hello %d\n",hello);
-  //printf("hahahhahahah\n");
-  //printf("buf1: %s\n",buf);
-	char s[128] = "FUCK!!!!!!!!!!!!!!!!!\n";
-	int haha = mysprintf(buf, "vent %s\n", s);
-  printf("hahah: %d\n",haha);
-  int haha_std = sprintf(buf, "vent %s\n",s);
-  printf("hahahaaaaaa: %d\n",haha);
+  printf("wtf: %d\n",wtf);
+  printf("thell: %d\n",thell);
+  // int hello = myprintf("%s", "Hello world!\n");
+  // printf("hello %d\n",hello);
+  // //printf("hahahhahahah\n");
+  // //printf("buf1: %s\n",buf);
+	// char s[128] = "FUCK!!!!!!!!!!!!!!!!!\n";
+	// int haha = mysprintf(buf, "vent %s\n", s);
+  // printf("hahah: %d\n",haha);
+  // int haha_std = sprintf(buf, "vent %s\n",s);
+  // printf("hahahaaaaaa: %d\n",haha);
   //myprintf("buf2: %s\n",buf);
 	//assert(strcmp(buf, "1 + 1 = 2\n") == 0);
 
