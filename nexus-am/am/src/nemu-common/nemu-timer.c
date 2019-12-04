@@ -11,7 +11,7 @@ size_t __am_timer_read(uintptr_t reg, void *buf, size_t size) {
       uint32_t cur_time = inl(RTC_ADDR);
       printf("cur_time: %d\n",cur_time);
       printf("start_time: %d\n",starttime);
-      printf("ahahhahaha%d\n",1234557);
+      printf("ahahhahaha%d\n",-1234557);
       /* current time */
       _DEV_TIMER_UPTIME_t *uptime = (_DEV_TIMER_UPTIME_t *)buf;
       uptime->hi = 0;
