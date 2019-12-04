@@ -32,7 +32,7 @@ static Finfo file_table[] __attribute__((used)) = {
   {"stdin", 0, 0, invalid_read, invalid_write}, //占位
   {"stdout", 0, 0, invalid_read, serial_write},
   {"stderr", 0, 0, invalid_read, serial_write},
-  {"/dev/events" ,0,0, events_read, invalid_write},
+  {"/dev/events" ,65532,0, events_read, invalid_write}, //FUCK
   
 #include "files.h"
 };
@@ -68,16 +68,20 @@ size_t fs_read(int fd, void *buf, size_t len)
   int open_offset = file_table[fd].open_offset;
   size_t read_start = disk_offset + open_offset;
   size_t read_end = open_offset + len;
-  printf("read_start: %d\n",read_start);
-  printf("size: %d\n",size);
-  printf("len :%d\n",len);
-  /*
+  //printf("read_start: %d\n",read_start);
+  //printf("size: %d\n",size);
+  //printf("len :%d\n",len);
+  size_t ram_read_len = len;
   if(open_offset + len > size)
   {
     len = size - open_offset;
     read_end = size; 
-  }*/
-  int ret = ramdisk_read(buf, read_start, len);
+  }
+  int ret;
+    if(file_table[fd].write !=NULL)
+      ret = file_table[fd].read(buf, 0, len);
+    else 
+      ret = ramdisk_read(buf, read_start,ram_read_len);
   file_table[fd].open_offset = read_end;
   printf("ret: %d\n",ret); 
   return ret;
@@ -123,10 +127,10 @@ size_t fs_write(int fd, const void *buf, size_t len)
       write_end = size;
     }
     int ret;
-    if(file_table[fd].write ==NULL)
-      ret = ramdisk_write(buf, write_start,ram_write_len);
-    else 
+    if(file_table[fd].write !=NULL)
       ret = file_table[fd].write(buf, 0, len);
+    else 
+      ret = ramdisk_write(buf, write_start,ram_write_len);
     file_table[fd].open_offset = write_end;
     return ret; //VFS
   //}
