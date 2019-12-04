@@ -18,6 +18,7 @@ static const char *keyname[256] __attribute__((used)) = {
 
 size_t events_read(void *buf, size_t offset, size_t len) {
   //read event into buf;
+  printf("events read!!!!!\n");
   int cnt = 0;
   int key = read_key();
   char tmp[1024]={};
