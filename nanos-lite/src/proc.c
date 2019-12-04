@@ -24,7 +24,7 @@ void init_proc() {
 
   Log("Initializing processes...");
 
-  naive_uload(NULL,"/dev/events");
+  naive_uload(NULL,"/bin/events");
  
   // load program here
 
