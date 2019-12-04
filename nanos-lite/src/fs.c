@@ -32,7 +32,7 @@ static Finfo file_table[] __attribute__((used)) = {
   {"stdin", 0, 0, invalid_read, invalid_write}, //占位
   {"stdout", 0, 0, invalid_read, serial_write},
   {"stderr", 0, 0, invalid_read, serial_write},
-  {"/dev/fb",0, 0, invalid_read,serail_write},
+  {"/dev/fb",0, 0, invalid_read, fb_write},
   {"/dev/events" ,0,0, events_read, invalid_write}, 
   
 #include "files.h"
@@ -42,6 +42,7 @@ static Finfo file_table[] __attribute__((used)) = {
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
+
 }
 
 int fs_open(const char *pathname, int flags, int mode)
