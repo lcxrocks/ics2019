@@ -20,13 +20,13 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
   Elf_Ehdr ehdr;
   int fd = fs_open(filename, 0, 0);
   //printf("openfile:%d\n",fd);
-  int a = fs_read(fd, &ehdr, sizeof(ehdr));
-  printf("fs_read: %d\n",a);
+  fs_read(fd, &ehdr, sizeof(ehdr));
+  //printf("fs_read: %d\n",a);
   //ramdisk_read(&ehdr, 0, sizeof(ehdr));
   Elf_Phdr phdr[ehdr.e_phnum]; //segement view
   fs_lseek(fd,ehdr.e_phoff,SEEK_SET);
-  int b = fs_read(fd, &phdr, ehdr.e_phentsize * ehdr.e_phnum);
-  printf("fs_read2: %d\n",b);
+  fs_read(fd, &phdr, ehdr.e_phentsize * ehdr.e_phnum);
+  //printf("fs_read2: %d\n",b);
   //ramdisk_read(&phdr, ehdr.e_phoff, ehdr.e_phentsize * ehdr.e_phnum);
 
   for (uint16_t i = 0; i < ehdr.e_phnum; i++)
