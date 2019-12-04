@@ -29,7 +29,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
     else cnt = sprintf(tmp, "ku %s\n", keyname[key & 0x7fff]);
   }
   else 
-    cnt = sprintf(tmp, "t %d", uptime());
+    cnt = sprintf(tmp, "t %d\n", uptime());
   if (len<cnt)
     cnt = len;
   memcpy(buf, tmp, cnt);
