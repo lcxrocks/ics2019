@@ -12,7 +12,7 @@ int _ioe_init() {
 
 size_t __am_timer_read(uintptr_t reg, void *buf, size_t size);
 size_t __am_video_read(uintptr_t reg, void *buf, size_t size);
-size_t __am_video_write(uintptr_t reg, void *buf, size_t size);
+size_t __am_video_write(uintptr_t reg, void *buf, size_t size); 
 size_t __am_input_read(uintptr_t reg, void *buf, size_t size);
 
 size_t _io_read(uint32_t dev, uintptr_t reg, void *buf, size_t size) {

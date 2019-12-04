@@ -17,7 +17,23 @@ static const char *keyname[256] __attribute__((used)) = {
 };
 
 size_t events_read(void *buf, size_t offset, size_t len) {
-  return 0;
+  //read event into buf;
+  int cnt = 0;
+  int key = read_key();
+  char tmp[1024]={};
+  bool down =false;
+  if(key&8000) down = true;
+
+  if((key&0x7fff)!=_KEY_NONE){
+    if(down) cnt = sprintf(tmp, "kd %s", keyname[key & 0x7fff]);
+    else cnt = sprintf(tmp, "ku %s", keyname[key & 0x7fff]);
+  }
+  else 
+    cnt = sprintf(tmp, "t %d", uptime());
+  if (len<cnt)
+    cnt = len;
+  memcpy(buf, tmp, cnt);
+  return cnt;
 }
 
 static char dispinfo[128] __attribute__((used)) = {};
