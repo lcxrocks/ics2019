@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 int main() {
+  //printf("hahahahah\n");
   FILE *fp = fopen("/dev/events", "r");
   int time = 0;
   printf("Start to receive events...\n");

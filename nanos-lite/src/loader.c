@@ -14,9 +14,10 @@ size_t ramdisk_read(void *buf, size_t offset, size_t len);
 /* write `len' bytes starting from `buf' into the `offset' of ramdisk */
 size_t ramdisk_write(const void *buf, size_t offset, size_t len) ;
 /*return the size of ramdisk. unit: 1 byte*/
-size_t get_ramdisk_size() ;
+size_t get_ramdisk_size();
 
 static uintptr_t loader(PCB *pcb, const char *filename) { //
+  Log("filename: %s\n",filename);
   Elf_Ehdr ehdr;
   int fd = fs_open(filename, 0, 0);
   //printf("openfile:%d\n",fd);
