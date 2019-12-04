@@ -67,6 +67,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
                 out = strcpy(out, s);  
                 string_length=strlen(s);
                 out+=string_length;
+                cnt+=string_length-1;
                 continue;
 
       case 'd': myitoa(va_arg(ap, int),_buf,10);
