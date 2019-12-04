@@ -56,11 +56,11 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
   int string_length=0;
   for (; *fmt; fmt++)
   {
+    cnt++;
     if( *fmt != '%' ){
       *out++ = *fmt;
       continue;
     }
-    cnt++;
     fmt++; //skip '%'
     switch(*fmt){
       case 's': s = va_arg(ap, char *);

@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+int myvsprintf(char *out, const char *fmt, va_list ap);
 void _putc(char ch) {
   putchar(ch);
 }
@@ -70,13 +71,15 @@ int myprintf(const char *fmt, ...) {
   char *f=output;
   va_list ap;
   va_start(ap,fmt);
-  ans = vsprintf(output, fmt, ap);
+  ans = myvsprintf(output, fmt, ap);
+  printf("ans: %d\n",ans);
   va_end(ap);
   //printf("%s\n",output);
-  
+  ans = mystrlen(output);
+  printf("ans: %d\n",ans);
   for(;*f;f++)
     _putc(*f);
-    return ans;
+  return ans;
 }
 int myvsprintf(char *out, const char *fmt, va_list ap) {
   int cnt = 0;
@@ -84,18 +87,21 @@ int myvsprintf(char *out, const char *fmt, va_list ap) {
   int string_length=0;
   for (; *fmt; fmt++)
   {
+    cnt++;
     if( *fmt != '%' ){
       *out++ = *fmt;
       //printf("this char: %c\n",*(out-1));
       continue;
     }
-    cnt++;
+    //cnt++; //+ %
+    //printf("cnt : %d\n",cnt);
     fmt++; //skip '%'
     switch(*fmt){
       case 's': ;
                 s = va_arg(ap, char *);
                 out = mystrcpy(out, s);  
                 string_length=mystrlen(s);
+                printf("string_length: %d\n",string_length);
                 out+=string_length;
                 continue;
 
@@ -108,7 +114,9 @@ int myvsprintf(char *out, const char *fmt, va_list ap) {
                 out+=string_length;
                 continue;
     }
+    //cnt++;
   }
+  printf("cnt: %d\n",cnt);
   return cnt;
 }
 
@@ -128,9 +136,10 @@ int main(){
   myprintf("%s", "Hello world!\n");
   //printf("hahahhahahah\n");
   //printf("buf1: %s\n",buf);
-	char s[128] = "FUCK!!!\n";
-	mysprintf(buf, "receive event %s\n", s);
-  myprintf("buf2: %s\n",buf);
+	//char s[128] = "FUCK!!!\n";
+	//int haha = mysprintf(buf, "vent %s\n", s);
+  //printf("hahah: %d\n",haha);
+  //myprintf("buf2: %s\n",buf);
 	//assert(strcmp(buf, "1 + 1 = 2\n") == 0);
 
 	//mysprintf(buf, "%d + %d = %d\n", 2, 10, 12);

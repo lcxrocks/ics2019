@@ -31,7 +31,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   }
   else 
     cnt = sprintf(tmp, "t %d\n", uptime());
-  if (len<cnt)
+  if (len < cnt)
     cnt = len;
   memcpy(buf, tmp, cnt);
   return cnt;
