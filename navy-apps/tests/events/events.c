@@ -19,11 +19,10 @@ int main() {
     int is_time = buf[0] == 't';
     time += is_time;
     if (!is_time) {
-      printf("receive event: %s\n", buf);
+      printf("receive event: %s", buf);
     }
     else if (time % 1024 == 0) {
-      printf("receive time event for the %dth time: %s\n", time, buf);
-      printf("heihei\n");
+      printf("receive time event for the %dth time: %s", time, buf);
     }
   }
 
