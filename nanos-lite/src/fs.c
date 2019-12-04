@@ -75,6 +75,7 @@ size_t fs_read(int fd, void *buf, size_t len)
   }
   int ret = ramdisk_read(buf, read_start, len);
   file_table[fd].open_offset = read_end;
+  printf("ret: %d\n",ret);
   return ret;
 }
 
