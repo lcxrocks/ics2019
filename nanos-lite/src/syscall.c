@@ -2,6 +2,7 @@
 #include "syscall.h"
 #include "fs.h"
 int sys_write(int fd, void *buf, size_t count);
+
 void *sys_brk(intptr_t increment); 
 _Context* do_syscall(_Context *c) {
   uintptr_t a[4];
