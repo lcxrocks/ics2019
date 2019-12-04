@@ -41,7 +41,12 @@ size_t events_read(void *buf, size_t offset, size_t len) {
 static char dispinfo[128] __attribute__((used)) = {};
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
-  return 0;
+  int cnt;
+  int size = strlen(dispinfo);
+  if(len + offset > size) cnt = size-offset;
+  else cnt = len; 
+  memcpy(buf, &(dispinfo+offset), cnt);
+  return cnt;
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
