@@ -40,7 +40,7 @@ void read_ModR_M(vaddr_t *, Operand *, bool, Operand *, bool);
 make_DHelper(I2E);
 make_DHelper(I2a);
 make_DHelper(I2r);
-make_DHelper(SI2E);
+make_DHelper(SI2E); 
 make_DHelper(SI_E2G);
 make_DHelper(I_E2G);
 make_DHelper(I_G2E);

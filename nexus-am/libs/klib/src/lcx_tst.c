@@ -34,34 +34,37 @@ void* mymemset(void* v,int c,size_t n) {
 char _buf[256]={};
 char str[256]={};
 char *myitoa(int val, char *_buf, int base){
+    if(base !=10) val = (unsigned)val;
     mymemset(_buf,0,sizeof(_buf));
     mymemset(str,0,sizeof(str));
     char *p = _buf;
     char *firstdig = str;
     char tmp;
     unsigned digval;
-    if(val < 0){
-        *p++ = '-';
+    int neg=0;
+    if(val < 0 && base ==10 ){
+        neg = 1;
+        printf("buf: %s \np: %p\n",_buf, p);
         val = (unsigned long)(-(long)val);
     }
 
     do{
         digval = (unsigned) (val % base);
         val /= base;
-
+        //if(base =)
         if(digval > 9)
             *p++ = (char)(digval -10 +'a');
         else
             *p++ = (char)(digval + '0');
-
     }while(val > 0);
+    if(neg) *p++ = '-';
     *p++ = '\0';
     int len = mystrlen(_buf);
-    for (int i = 0; i < len; i++)
+    for (int i = 0; i <= len; i++)
     {
         str[i] = _buf[len-1-i]; 
     }
-
+    printf("buf: %s\n",str);
     return str;
 }
 char output[1024]={};
@@ -85,16 +88,14 @@ int myvsprintf(char *out, const char *fmt, va_list ap) {
   int cnt = 0;
   char *s;
   int string_length=0;
+  char *start = out;
   for (; *fmt; fmt++)
   {
-    cnt++;
     if( *fmt != '%' ){
       *out++ = *fmt;
       //printf("this char: %c\n",*(out-1));
       continue;
     }
-    cnt--;
-    //cnt++; //+ %
     //printf("cnt : %d\n",cnt);
     fmt++; //skip '%'
     switch(*fmt){
@@ -119,9 +120,9 @@ int myvsprintf(char *out, const char *fmt, va_list ap) {
     }
     //cnt++;
   }
-  cnt++; //'\0'
-  printf("cnt: %d\n",cnt);
-  return cnt;
+  int ret = out - start;
+  printf("cnt: %d\n",ret);
+  return ret;
 }
 
 int mysprintf(char *out, const char *fmt, ...) {
@@ -137,12 +138,12 @@ int mysprintf(char *out, const char *fmt, ...) {
 char buf[128];
 int main(){
   //if(down) cnt = sprintf(tmp, "kd %s\n", keyname[key & 0x7fff]);
-  char key[20] ="lcxsb";
-  int wtf = mysprintf(buf, "ku %s %s %s \n",key, key,key);
-  int thell= sprintf(buf,"ku %s %s %s \n",key,key, key);
+  // char key[20] ="lcxsb";
+  // int wtf = mysprintf(buf, "ku %s %s %s \n",key, key,key);
+  // int thell= sprintf(buf,"ku %s %s %s \n",key,key, key);
 
-  printf("wtf: %d\n",wtf);
-  printf("thell: %d\n",thell);
+  // printf("wtf: %d\n",wtf);
+  // printf("thell: %d\n",thell);
   // int hello = myprintf("%s", "Hello world!\n");
   // printf("hello %d\n",hello);
   // //printf("hahahhahahah\n");
@@ -158,6 +159,9 @@ int main(){
 	//mysprintf(buf, "%d + %d = %d\n", 2, 10, 12);
 	//myprintf("buf3: %s\n",buf);
   //assert(strcmp(buf, "2 + 10 = 12\n") == 0);
-
+  int x = 300;
+  myitoa(x,buf,16);
+  int y = -256;
+  myitoa(y,buf,16);
 	return 0;
 }

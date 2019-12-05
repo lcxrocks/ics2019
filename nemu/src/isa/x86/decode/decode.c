@@ -305,6 +305,9 @@ make_DHelper(out_a2dx) {
   print_Dop(id_dest->str, OP_STR_SIZE, "(%%dx)");
 }
 
+make_DHelper(){
+  
+}
 void operand_write(Operand *op, rtlreg_t* src) {
   if (op->type == OP_TYPE_REG) { rtl_sr(op->reg, src, op->width); }//reg. Intel version mov opreg, src;
   else if (op->type == OP_TYPE_MEM) { rtl_sm(&op->addr, src, op->width); }//mem. Intel version move opaddr, src

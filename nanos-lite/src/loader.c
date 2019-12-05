@@ -22,6 +22,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
   int fd = fs_open(filename, 0, 0);
   //printf("openfile:%d\n",fd);
   fs_read(fd, &ehdr, sizeof(ehdr));
+
   //printf("fs_read: %d\n",a);
   //ramdisk_read(&ehdr, 0, sizeof(ehdr));
   Elf_Phdr phdr[ehdr.e_phnum]; //segement view

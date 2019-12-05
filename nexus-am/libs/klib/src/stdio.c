@@ -11,8 +11,9 @@ char *myitoa(int val, char *_buf, int base){
     memset(str,0,sizeof(str));
     char *p = _buf;
     unsigned digval;
-    if(val < 0){
-        *p++ = '-';
+    int neg = 0;
+    if(val < 0 && base == 10){
+        neg = 1;
         val = (unsigned long)(-(long)val);
     }
 
@@ -23,9 +24,9 @@ char *myitoa(int val, char *_buf, int base){
         if(digval > 9)
             *p++ = (char)(digval -10 +'a');
         else
-            *p++ = (char)(digval + '0');
-
+            *p++ = (char)(digval + '0'); //didn't support hex number. Keep working.
     }while(val > 0);
+    if(neg) *p++ = '-';
     *p++ = '\0';
     int len = strlen(_buf);
     for (int i = 0; i < len; i++)
@@ -51,12 +52,11 @@ int printf(const char *fmt, ...) {
 }
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
-  int cnt = 0;
   char *s;
+  char *start = out;
   int string_length=0;
   for (; *fmt; fmt++)
   {
-    cnt++;
     if( *fmt != '%' ){
       *out++ = *fmt;
       continue;
@@ -67,7 +67,6 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
                 out = strcpy(out, s);  
                 string_length=strlen(s);
                 out+=string_length;
-                cnt+=string_length-1;
                 continue;
 
       case 'd': myitoa(va_arg(ap, int),_buf,10);
@@ -76,16 +75,15 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
                 //printf("_buf: %s\n",str);  
                 string_length=strlen(str);
                 out+=string_length;
-                cnt+=string_length-1;
                 continue;
       case 'x': myitoa(va_arg(ap,int),_buf,16);
                 out = strcpy(out,str);
                 string_length=strlen(str);
                 out+=string_length;
-                cnt+=string_length-1;
                 continue;
     }
   }
+  int cnt = out - start;
   return cnt;
 }
 
