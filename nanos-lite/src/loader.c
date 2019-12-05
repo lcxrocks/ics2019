@@ -17,69 +17,42 @@ size_t ramdisk_write(const void *buf, size_t offset, size_t len) ;
 size_t get_ramdisk_size();
 
 static uintptr_t loader(PCB *pcb, const char *filename) { //
-//   Log("Load filename: %s\n",filename);
-//   Elf_Ehdr ehdr;
-//   int fd = fs_open(filename, 0, 0);
-//   //printf("openfile:%d\n",fd);
-//   fs_read(fd, &ehdr, sizeof(ehdr));
+  Log("Load filename: %s\n",filename);
+  Elf_Ehdr ehdr;
+  int fd = fs_open(filename, 0, 0);
+  //printf("openfile:%d\n",fd);
+  fs_read(fd, &ehdr, sizeof(ehdr));
 
-//   //printf("fs_read: %d\n",a);
-//   //ramdisk_read(&ehdr, 0, sizeof(ehdr));
-//   Elf_Phdr phdr[ehdr.e_phnum]; //segement view
-//   fs_lseek(fd,ehdr.e_phoff,SEEK_SET);
-//   fs_read(fd, &phdr, ehdr.e_phentsize * ehdr.e_phnum);
-//   //printf("fs_read2: %d\n",b);
-//   //ramdisk_read(&phdr, ehdr.e_phoff, ehdr.e_phentsize * ehdr.e_phnum);
+  //printf("fs_read: %d\n",a);
+  //ramdisk_read(&ehdr, 0, sizeof(ehdr));
+  Elf_Phdr phdr[ehdr.e_phnum]; //segement view
+  fs_lseek(fd,ehdr.e_phoff,SEEK_SET);
+  fs_read(fd, &phdr, ehdr.e_phentsize * ehdr.e_phnum);
+  //printf("fs_read2: %d\n",b);
+  //ramdisk_read(&phdr, ehdr.e_phoff, ehdr.e_phentsize * ehdr.e_phnum);
 
-//   for (uint16_t i = 0; i < ehdr.e_phnum; i++)
-//   {
-//     if (phdr[i].p_type == PT_LOAD)
-//     {
-//       size_t content[phdr[i].p_filesz];
-//       //ramdisk_read(content, phdr[i].p_offset, phdr[i].p_filesz);
-//       fs_lseek(fd, phdr[i].p_offset, SEEK_SET);
-//       fs_read(fd, content, phdr[i].p_filesz);
-//       uint32_t *p_start = (uint32_t *)phdr[i].p_vaddr;
-//       //fs_write(fd, p_start, phdr[i].p_filesz);
-//       memcpy(p_start, content, phdr[i].p_filesz);
-
-//       if (phdr[i].p_memsz > phdr[i].p_filesz) //.bss
-//       {
-//         char *bss_start = (char *)(phdr[i].p_vaddr + phdr[i].p_filesz);
-//         memset(bss_start, 0, phdr[i].p_memsz - phdr[i].p_filesz);
-//       }
-//     }
-//   }
-//   //fs_close(fd);
-//   
-// return ehdr.e_entry;
-  int fd = fs_open(filename,0,0);
-  Elf_Ehdr elf;
-  fs_read(fd, &elf, sizeof(Elf_Ehdr));
-
-  Elf_Phdr segment[elf.e_phnum];
-  fs_lseek(fd, elf.e_phoff, SEEK_SET);
-  fs_read(fd, &segment, elf.e_phnum * elf.e_phentsize);
-
-  for (uint16_t i = 0; i < elf.e_phnum; i++)
+  for (uint16_t i = 0; i < ehdr.e_phnum; i++)
   {
-    if (segment[i].p_type == PT_LOAD)
+    if (phdr[i].p_type == PT_LOAD)
     {
-      size_t content[segment[i].p_filesz];
-      fs_lseek(fd, segment[i].p_offset, SEEK_SET);
-      fs_read(fd, content, segment[i].p_filesz);
-      uint32_t *ptr1 = (uint32_t *)segment[i].p_vaddr;
-      memcpy(ptr1, content, segment[i].p_filesz);
+      size_t content[phdr[i].p_filesz];
+      //ramdisk_read(content, phdr[i].p_offset, phdr[i].p_filesz);
+      fs_lseek(fd, phdr[i].p_offset, SEEK_SET);
+      fs_read(fd, content, phdr[i].p_filesz);
+      uint32_t *p_start = (uint32_t *)phdr[i].p_vaddr;
+      //fs_write(fd, p_start, phdr[i].p_filesz);
+      memcpy(p_start, content, phdr[i].p_filesz);
 
-      if (segment[i].p_memsz > segment[i].p_filesz)
+      if (phdr[i].p_memsz > phdr[i].p_filesz) //.bss
       {
-        char *ptr2 = (char *)(segment[i].p_vaddr + segment[i].p_filesz);
-        memset(ptr2, 0, segment[i].p_memsz - segment[i].p_filesz);
+        char *bss_start = (char *)(phdr[i].p_vaddr + phdr[i].p_filesz);
+        memset(bss_start, 0, phdr[i].p_memsz - phdr[i].p_filesz);
       }
     }
   }
-  Log("Finished Load.\n");
-  return elf.e_entry;
+  fs_close(fd);
+  Log("Finished Load\n");
+return ehdr.e_entry;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
