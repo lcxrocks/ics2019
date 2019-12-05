@@ -57,7 +57,6 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
   }
   //fs_close(fd);
   Log("Finished Load\n");
-  Log("e.entry:%x\n",ehdr.e_entry);
 return ehdr.e_entry;
 }
 
