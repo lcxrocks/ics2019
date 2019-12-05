@@ -36,10 +36,12 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
     Log("Starting iteration: %d / %d\n",i,ehdr.e_phnum);
     if (phdr[i].p_type == PT_LOAD)
     {
+      Log("phdr[%d] p_type\n",i);
       size_t content[phdr[i].p_filesz];
       //ramdisk_read(content, phdr[i].p_offset, phdr[i].p_filesz);
-      
+      Log("content size: %d\n",phdr[i].p_filesz);
       fs_lseek(fd, phdr[i].p_offset, SEEK_SET);
+      Log("lseek",phdr[i].p_offset);
       fs_read(fd, content, phdr[i].p_filesz);
       uint32_t *p_start = (uint32_t *)phdr[i].p_vaddr;
       //fs_write(fd, p_start, phdr[i].p_filesz);
