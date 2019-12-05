@@ -24,7 +24,7 @@ void init_proc() {
 
   Log("Initializing processes...");
 
-  naive_uload(NULL,"/bin/init");
+  naive_uload(NULL,"/bin/pal");
  
   // load program here
 
