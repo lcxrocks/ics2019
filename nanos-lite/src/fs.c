@@ -83,6 +83,7 @@ size_t fs_read(int fd, void *buf, size_t len)
   if(open_offset + len > size)
       len = size - open_offset;
   size_t ret;
+  Log("fs_read: fd: %d, len:%d\n",fd, len);
   if(!file_table[fd].read)
     ret = ramdisk_read(buf, read_start,len);
   else
