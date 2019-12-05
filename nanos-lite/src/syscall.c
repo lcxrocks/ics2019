@@ -1,8 +1,9 @@
 #include "common.h"
 #include "syscall.h"
 #include "fs.h"
+#include "proc.h"
 int sys_write(int fd, void *buf, size_t count);
-
+void naive_uload(PCB *pcb, const char *filename);
 int sys_brk(intptr_t increment); 
 _Context* do_syscall(_Context *c) {
   uintptr_t a[4];
@@ -21,6 +22,7 @@ _Context* do_syscall(_Context *c) {
     case SYS_close: c->GPRx = fs_close((int)a[1]); break;
     case SYS_lseek: c->GPRx = fs_lseek((int)a[1],(size_t)a[2],(int)a[3]); break;
     case SYS_brk: c->GPRx = (uintptr_t) sys_brk((intptr_t)a[1]); break;
+    case SYS_execve: naive_uload(NULL,(char *)a[1]);break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
