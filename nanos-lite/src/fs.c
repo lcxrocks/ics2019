@@ -75,7 +75,7 @@ int fs_close(int fd)
 
 size_t fs_read(int fd, void *buf, size_t len)
 {
-  Log("---fd: %d ---buf:%s; --- len:%d\n",fd, buf,len);
+  //Log("---fd: %d ---buf:%s; --- len:%d\n",fd, buf,len);
   int size = file_table[fd].size; 
   int disk_offset = file_table[fd].disk_offset;
   int open_offset = file_table[fd].open_offset;
