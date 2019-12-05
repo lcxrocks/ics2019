@@ -42,7 +42,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
       uint32_t *p_start = (uint32_t *)phdr[i].p_vaddr;
       //fs_write(fd, p_start, phdr[i].p_filesz);
       memcpy(p_start, content, phdr[i].p_filesz);
-
+      Log("Finished load phdr[%d], p_start:%x, content_length:%d, p_filesz:%d\n",i,p_start, sizeof(content), phdr[i].p_filesz);
       if (phdr[i].p_memsz > phdr[i].p_filesz) //.bss
       {
         char *bss_start = (char *)(phdr[i].p_vaddr + phdr[i].p_filesz);
