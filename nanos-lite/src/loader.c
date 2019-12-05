@@ -33,6 +33,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
 
   for (uint16_t i = 0; i < ehdr.e_phnum; i++)
   {
+    Log("Starting iteration: %d / %d\n",i,ehdr.e_phnum);
     if (phdr[i].p_type == PT_LOAD)
     {
       size_t content[phdr[i].p_filesz];
