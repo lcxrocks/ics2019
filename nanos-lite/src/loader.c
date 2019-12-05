@@ -37,6 +37,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
     {
       size_t content[phdr[i].p_filesz];
       //ramdisk_read(content, phdr[i].p_offset, phdr[i].p_filesz);
+      
       fs_lseek(fd, phdr[i].p_offset, SEEK_SET);
       fs_read(fd, content, phdr[i].p_filesz);
       uint32_t *p_start = (uint32_t *)phdr[i].p_vaddr;
@@ -52,11 +53,11 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
         memset(bss_start, 0, phdr[i].p_memsz - phdr[i].p_filesz);
         Log("Finished memset\n");
       }
-      Log("hahha\n");
     }
   }
   //fs_close(fd);
   Log("Finished Load\n");
+  Log("e.entry:%x\n",ehdr.e_entry);
 return ehdr.e_entry;
 }
 
