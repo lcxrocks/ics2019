@@ -79,16 +79,14 @@ size_t fs_read(int fd, void *buf, size_t len)
   int size = file_table[fd].size; 
   int disk_offset = file_table[fd].disk_offset;
   int open_offset = file_table[fd].open_offset;
-  size_t read_start = disk_offset + open_offset;
-  size_t ram_read_len = len;
-  
+  size_t read_start = disk_offset + open_offset;  
   if(open_offset + len > size)
-      ram_read_len = size - open_offset;
+      len = size - open_offset;
   size_t ret;
   if(!file_table[fd].read)
-    ret = ramdisk_read(buf, read_start,ram_read_len);
+    ret = ramdisk_read(buf, read_start,len);
   else
-    ret = file_table[fd].read(buf, read_start, ram_read_len);
+    ret = file_table[fd].read(buf, read_start, len);
   file_table[fd].open_offset += ret;
   //printf("ret: %d\n",ret); 
   return ret;
