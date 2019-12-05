@@ -88,8 +88,10 @@ size_t fs_read(int fd, void *buf, size_t len)
     ret = ramdisk_read(buf, read_start,len);
     Log("ret: %d\n",ret);
   }
-  else
+  else{
     ret = file_table[fd].read(buf, read_start, len);
+    Log("retelse: %d\n",ret);
+  }
   file_table[fd].open_offset += ret;
   //printf("ret: %d\n",ret); 
   return ret;
