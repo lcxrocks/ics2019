@@ -52,6 +52,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
         memset(bss_start, 0, phdr[i].p_memsz - phdr[i].p_filesz);
         Log("Finished memset\n");
       }
+      Log("hahha\n");
     }
   }
   //fs_close(fd);
