@@ -17,7 +17,7 @@ size_t ramdisk_write(const void *buf, size_t offset, size_t len) ;
 size_t get_ramdisk_size();
 
 static uintptr_t loader(PCB *pcb, const char *filename) { //
-  Log("filename: %s\n",filename);
+  Log("Load filename: %s\n",filename);
   Elf_Ehdr ehdr;
   int fd = fs_open(filename, 0, 0);
   //printf("openfile:%d\n",fd);
