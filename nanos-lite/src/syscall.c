@@ -3,7 +3,7 @@
 #include "fs.h"
 int sys_write(int fd, void *buf, size_t count);
 
-void *sys_brk(intptr_t increment); 
+int sys_brk(intptr_t increment); 
 _Context* do_syscall(_Context *c) {
   uintptr_t a[4];
   a[0] = c->GPR1; //sys-call type
@@ -45,16 +45,17 @@ int sys_write(int fd, void *buf, size_t count)
 
 extern intptr_t _end; //must have a type, or gcc complains.
 
-void *sys_brk(intptr_t increment)
+int sys_brk(intptr_t increment)
 {
-  
-  if(increment == 0) return (void *)_end;
+  Log("increment: %x\n",increment);
+  Log("_end: %x\n",_end);
+  if(increment == 0) return _end;
   else 
   {
     intptr_t pre_end = _end;
     _end += increment;
-    return (void *) pre_end;
+    Log("_end: %x\n",_end);
+    return pre_end;
   }
-  return (void *)-1;
-  return 0;
+  return -1;
 }
