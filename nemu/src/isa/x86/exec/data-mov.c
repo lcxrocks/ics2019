@@ -146,3 +146,14 @@ make_EHelper(lea) {
   operand_write(id_dest, &id_src->addr);
   print_asm_template2(lea);
 }
+
+make_EHelper(movs){
+  if(id_dest->width != 1)
+    id_dest->width = decinfo.isa.is_operand_size_16 ? 2 : 4;
+  s0 = cpu.esi;
+  rtl_lm(&s1, &s0, id_dest->width);
+  s0 = cpu.edi;
+  rtl_sm(&s0, &s1, id_dest->width);
+  
+  print_asm_template2(movs);
+}
