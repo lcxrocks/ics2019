@@ -154,6 +154,7 @@ make_EHelper(movs){
   rtl_lm(&s1, &s0, id_dest->width);
   s0 = cpu.edi;
   rtl_sm(&s0, &s1, id_dest->width);
-  
+  cpu.esi += id_dest->width;
+  cpu.edi += id_dest->width;
   print_asm_template2(movs);
 }
