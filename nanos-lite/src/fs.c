@@ -73,36 +73,50 @@ int fs_close(int fd)
   return 0;
 }
 
+// size_t fs_read(int fd, void *buf, size_t len)
+// {
+//   Log("---fd: %d; ---buf:%s; --- len:%d\n",fd, buf,len);
+//   int size = file_table[fd].size; 
+//   int disk_offset = file_table[fd].disk_offset;
+//   int open_offset = file_table[fd].open_offset;
+//   size_t read_start = disk_offset + open_offset;
+//   size_t read_end = open_offset + len;
+//   size_t ram_read_len = len;
+//   int ret;
+//   if(file_table[fd].read !=NULL)
+//   {
+//     ret = file_table[fd].read(buf, 0, len);
+//     file_table[fd].open_offset += len;
+//     return ret;
+//   }
+//   else
+//   {
+//     if(open_offset + len > size)
+//     {
+//       len = size - open_offset;
+//       read_end = size; 
+//     }
+//     ret = ramdisk_read(buf, read_start,ram_read_len);
+//     file_table[fd].open_offset = read_end;
+//   }
+//   //printf("ret: %d\n",ret); 
+//   return ret;
+// }
 size_t fs_read(int fd, void *buf, size_t len)
 {
-  Log("---fd: %d; ---buf:%s; --- len:%d\n",fd, buf,len);
-  int size = file_table[fd].size; 
-  int disk_offset = file_table[fd].disk_offset;
-  int open_offset = file_table[fd].open_offset;
-  size_t read_start = disk_offset + open_offset;
-  size_t read_end = open_offset + len;
-  size_t ram_read_len = len;
-  int ret;
-  if(file_table[fd].read !=NULL)
-  {
-    ret = file_table[fd].read(buf, 0, len);
-    file_table[fd].open_offset += len;
+  if (file_table[fd].read){
+	size_t ret = file_table[fd].read(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
+    file_table[fd].open_offset += ret;
     return ret;
   }
   else
   {
-    if(open_offset + len > size)
-    {
-      len = size - open_offset;
-      read_end = size; 
-    }
-    ret = ramdisk_read(buf, read_start,ram_read_len);
-    file_table[fd].open_offset = read_end;
+    size_t count = file_table[fd].open_offset + len >= file_table[fd].size ? file_table[fd].size - file_table[fd].open_offset : len;
+    ramdisk_read(buf, file_table[fd].open_offset + file_table[fd].disk_offset, count);
+    file_table[fd].open_offset += count;
+    return count;
   }
-  //printf("ret: %d\n",ret); 
-  return ret;
 }
-
 size_t fs_lseek(int fd, size_t offset, int whence)
 {
   switch (whence)
