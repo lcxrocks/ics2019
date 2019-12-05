@@ -26,7 +26,7 @@ char* strncpy(char* dst, const char* src, size_t n) {
     i++;
   }
   //assert( i!=n );
-  dst[i+1]='\0';
+  dst[i]='\0';
   return dst;
 }
 
