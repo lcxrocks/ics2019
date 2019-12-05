@@ -1,6 +1,8 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <ndl.h>
+#include<iostream>
+using namespace std;
 //#include <cstdio>
 
 int main() {
