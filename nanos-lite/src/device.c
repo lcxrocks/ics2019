@@ -49,10 +49,13 @@ static char dispinfo[128] __attribute__((used)) = {};
 //   memcpy(buf, (&dispinfo)+offset, cnt);
 //   return cnt;
 // }
+
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
   strncpy(buf, dispinfo + offset, len);
+  Log("buf:%s --- offset:%d ---len:%d ---dispinfosize:%d\n",buf,offset,len);
   return len;
 }
+
 size_t fb_write(const void *buf, size_t offset, size_t len) {
   uint32_t pixel_addr= offset/4; //uint32_t *pixel;
   int SCREEN_W = screen_width();
