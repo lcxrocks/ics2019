@@ -80,6 +80,7 @@ void* memset(void* v,int c,size_t n) {
 
 void *memcpy(void *dst, const void *src, size_t len)
 {
+  printf("hahhahahhahahah\n");
  if(NULL == dst || NULL == src){
   return NULL;
  }
