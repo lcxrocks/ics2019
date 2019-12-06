@@ -71,7 +71,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
   fs_read(fd, &segment, elf.e_phnum * elf.e_phentsize);
 
   for (uint16_t i = 0; i < elf.e_phnum; i++)
-  {
+  {Log("Starting iteration: %d / %d\n",i+1,elf.e_phnum);
     if (segment[i].p_type == PT_LOAD)
     {
       size_t content[segment[i].p_filesz];
