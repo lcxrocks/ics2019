@@ -106,6 +106,10 @@ size_t fs_read(int fd, void *buf, size_t len)
 
 size_t fs_lseek(int fd, size_t offset, int whence)
 {
+  if(strlen(dispinfo)!=21){
+    printf("dispinfo changed to :%s\n",dispinfo);
+    assert(0);
+  }
   switch (whence)
   {
   case SEEK_SET:
