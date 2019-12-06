@@ -17,7 +17,7 @@ typedef struct {
   WriteFn write;
   size_t open_offset;
 } Finfo;
-
+extern char dispinfo[128];
 enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_FB}; //0,1,2,3 fd value;
 
 size_t invalid_read(void *buf, size_t offset, size_t len) {
@@ -76,6 +76,10 @@ int fs_close(int fd)
 
 size_t fs_read(int fd, void *buf, size_t len)
 {
+  if(strlen(dispinfo)!=21){
+    printf("dispinfo changed to :%s\n",dispinfo);
+    assert(0);
+  }
   Log("---fd: %d ---buf:%s; --- len:%d,bufsize: %d\n",fd, buf,len,strlen(buf));
   int size = file_table[fd].size; 
   int disk_offset = file_table[fd].disk_offset;
@@ -118,7 +122,7 @@ size_t fs_lseek(int fd, size_t offset, int whence)
   }
   return file_table[fd].open_offset;
 }
-extern char dispinfo[128];
+
 size_t fs_write(int fd, const void *buf, size_t len){
   if(strlen(dispinfo)!=21){
     printf("dispinfo changed to :%s\n",dispinfo);
