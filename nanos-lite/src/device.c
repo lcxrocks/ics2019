@@ -51,10 +51,9 @@ static char dispinfo[128] __attribute__((used)) = {};
 // }
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
-  size_t count = (len + offset) > strlen(dispinfo) ? strlen(dispinfo) - offset : len;
-  memcpy(buf, &(dispinfo[offset]), count);
-  return strlen(&(dispinfo[offset]));
-  //return 0;
+  strncpy(buf, dispinfo + offset, len);
+  Log("buf:%s --- offset:%d ---len:%d ---dispinfosize:%d\n",buf,offset,len);
+  return len;
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
