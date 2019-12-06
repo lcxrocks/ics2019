@@ -15,7 +15,7 @@ size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t ramdisk_write(const void *buf, size_t offset, size_t len) ;
 /*return the size of ramdisk. unit: 1 byte*/
 size_t get_ramdisk_size();
-
+extern char dispinfo[128];
 static uintptr_t loader(PCB *pcb, const char *filename) { //
   Log("Load filename: %s\n",filename);
   Elf_Ehdr ehdr;
@@ -36,6 +36,10 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
     Log("Starting iteration: %d / %d\n",i+1,ehdr.e_phnum);
     if (phdr[i].p_type == PT_LOAD)
     {
+      if(strlen(dispinfo)!=21){
+    printf("dispinfo changed to :%s\n",dispinfo);
+    assert(0);
+  }
       Log("phdr[%d] p_type\n",i);
       size_t content[phdr[i].p_filesz];
       //ramdisk_read(content, phdr[i].p_offset, phdr[i].p_filesz);
