@@ -102,20 +102,27 @@ size_t fs_read(int fd, void *buf, size_t len)
 
 size_t fs_lseek(int fd, size_t offset, int whence)
 {
+  size_t tmp;
   switch (whence)
   {
   case SEEK_SET:
-    file_table[fd].open_offset = offset;
+    tmp = offset;
     break;
   case SEEK_CUR:
-    file_table[fd].open_offset += offset;
+    tmp = file_table[fd].open_offset + offset;
     break;
   case SEEK_END:
-    file_table[fd].open_offset = file_table[fd].size + offset;
+    tmp = file_table[fd].size + offset;
     break;
   default: panic("Should not reach fs_lseek() end\n");
     break;
   }
+  if(tmp > file_table[fd].size)
+  {
+    printf("fs_lseek setting beyond the size of file!\n");
+    tmp = file_table[fd].size;
+  }
+  file_table[fd].open_offset = tmp;
   return file_table[fd].open_offset;
 }
 
@@ -126,7 +133,11 @@ size_t fs_write(int fd, const void *buf, size_t len){
     size_t write_start = disk_offset + open_offset;
     size_t ram_write_len = len;
     if(open_offset + len >= size)
+    {
+      printf("writing too much !!\n");
       ram_write_len = size - open_offset;
+    }
+      
     int ret;
     if(!file_table[fd].write)
       ret = ramdisk_write(buf, write_start,ram_write_len);
