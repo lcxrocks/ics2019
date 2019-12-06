@@ -4,7 +4,7 @@
 #include "proc.h"
 int sys_write(int fd, void *buf, size_t count);
 void naive_uload(PCB *pcb, const char *filename);
-int sys_brk(intptr_t increment); 
+intptr_t sys_brk(intptr_t increment); 
 _Context* do_syscall(_Context *c) {
   uintptr_t a[4];
   a[0] = c->GPR1; //sys-call type
@@ -47,10 +47,10 @@ int sys_write(int fd, void *buf, size_t count)
 
 extern intptr_t _end; //must have a type, or gcc complains.
 
-int sys_brk(intptr_t increment)
+intptr_t sys_brk(intptr_t increment) //bug!!!
 {
   Log("increment: %x\n",increment);
-  Log("_end: %x\n",_end);
+  Log("pre_end: %x\n",_end);
   if(increment == 0) return _end;
   else 
   {
