@@ -5,7 +5,7 @@
 #include "memory.h"
 
 #define STACK_SIZE (8 * PGSIZE)
-size_t ramdisk_read(void *buf, size_t offset, size_t len);
+
 typedef union {
   uint8_t stack[STACK_SIZE] PG_ALIGN;
   struct {

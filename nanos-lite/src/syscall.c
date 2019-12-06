@@ -1,63 +1,92 @@
 #include "common.h"
 #include "syscall.h"
 #include "fs.h"
-#include "proc.h"
-int sys_write(int fd, void *buf, size_t count);
-void naive_uload(PCB *pcb, const char *filename);
-intptr_t sys_brk(intptr_t increment); 
+void sys_yield(_Context *c);
+void sys_exit(_Context *c);
+void sys_write(_Context *c);
+void sys_brk(_Context *c);
+void sys_open(_Context *c);
+void sys_close(_Context *c);
+void sys_read(_Context *c);
+void sys_lseek(_Context *c);
+void naive_uload(void*, const char*);
 _Context* do_syscall(_Context *c) {
   uintptr_t a[4];
-  a[0] = c->GPR1; //sys-call type
-  a[1] = c->GPR2; //arg1: 
-  a[2] = c->GPR3; //arg2: 
-  a[3] = c->GPR4; //arg3: 
-  //
-  printf("--------------a[0]: %x--------------\n",a[0]);
+  a[0] = c->GPR1;
+//  printf("a[0] %d\n",a[0]);
   switch (a[0]) {
-    case SYS_exit: _halt(c->GPRx); break;
-    case SYS_yield: _yield(); c->GPRx = 0; break;
-    case SYS_open: c->GPRx = fs_open((char *)a[1], (int)a[2], (int) a[3]); break;
-    case SYS_read: c->GPRx = fs_read((int)a[1],(void *)a[2],(size_t)a[3]); break;
-    case SYS_write: c->GPRx = fs_write((int)a[1],(void *)a[2],(size_t)a[3]); break;
-    case SYS_close: c->GPRx = fs_close((int)a[1]); break;
-    case SYS_lseek: c->GPRx = fs_lseek((int)a[1],(size_t)a[2],(int)a[3]); break;
-    case SYS_brk: c->GPRx = (uintptr_t) sys_brk((intptr_t)a[1]); break;
-    case SYS_execve: naive_uload(NULL,(char *)a[1]);break;
+	case SYS_exit: sys_exit(c); break;
+	case SYS_brk: sys_brk(c); break;
+    case SYS_write: sys_write(c); break;
+    case SYS_yield: sys_yield(c); break;
+    case SYS_open: sys_open(c); break;
+    case SYS_close: sys_close(c); break; 
+	case SYS_read: sys_read(c); break;
+	case SYS_lseek: sys_lseek(c); break;
+	case SYS_execve: naive_uload(NULL, (char*)c->GPR2); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
-  return NULL;
+  return c;
+}
+void sys_exit(_Context *c)
+{
+   //naive_uload(NULL, "/bin/init");
+	printf("exit\n");
+	_halt(c->GPRx);
 }
 
-int sys_write(int fd, void *buf, size_t count)
+void sys_yield(_Context *c)
 {
-  if(fd==1||fd==2) //stdout/stderr
-  { 
-    int cnt = 0;
-    for (int i = 0; i < count; i++)
-    {
-       _putc(((const char*)buf)[i]);
-       cnt++;
-    }
-    return cnt;
-  }            
-  else
-  return -1;
+//  printf("sys_yield\n");
+   	_yield();
+  c->GPRx = 0;
+//  do_syscall(c);
+ // _halt(0);
 }
 
-extern intptr_t _end; //must have a type, or gcc complains.
-
-intptr_t sys_brk(intptr_t increment) //bug!!!
+void sys_write(_Context *c)
 {
-  Log("increment: %x\n",increment);
-  Log("pre_end: %x\n",_end);
-  if(increment == 0) return _end;
-  else 
+ /* int fd = c->GPR2;
+  char *ptr = (char *)(c->GPR3);
+  uint32_t count = c->GPR4;
+  Log("%s", ptr);
+  if (fd == 1 || fd == 2)
   {
-    intptr_t pre_end = _end;
-    _end += increment;
-    Log("_end: %x\n",_end);
-    return pre_end;
+    int i = 0;
+    for (; i < count; i++)
+      _putc(ptr[i]);
+  c->GPRx = i;
   }
-  return -1;
+  else
+    c->GPRx = -1;*/
+  c->GPRx = fs_write(c->GPR2, (char *)c->GPR3, c->GPR4);
+  return;
+}
+
+void sys_brk(_Context *c)
+{
+  c->GPRx = 0;
+  return;
+}
+void sys_open(_Context *c)
+{
+  c->GPRx = fs_open((char *)c->GPR2);
+}
+
+void sys_close(_Context *c)
+{
+  c->GPRx = fs_close(c->GPR2);
+}
+
+void sys_read(_Context *c)
+{
+  c->GPRx = fs_read(c->GPR2, (char *)c->GPR3, c->GPR4);
+  //printf("gprx: %d\n",c->GPRx);
+}
+
+void sys_lseek(_Context *c)
+{
+  c->GPRx = fs_lseek(c->GPR2, c->GPR3, c->GPR4);
+  //printf("gprx: %d gpr1: %d\n", c->GPRx,c->GPR1);
 }

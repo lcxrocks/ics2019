@@ -1,7 +1,6 @@
+#include "fs.h"
 #include "proc.h"
 #include <elf.h>
-#include "fs.h"
-
 #ifdef __ISA_AM_NATIVE__
 # define Elf_Ehdr Elf64_Ehdr
 # define Elf_Phdr Elf64_Phdr
@@ -9,58 +8,76 @@
 # define Elf_Ehdr Elf32_Ehdr
 # define Elf_Phdr Elf32_Phdr
 #endif
-/* read `len' bytes starting from `offset' of ramdisk into `buf' */
-size_t ramdisk_read(void *buf, size_t offset, size_t len);
-/* write `len' bytes starting from `buf' into the `offset' of ramdisk */
-size_t ramdisk_write(const void *buf, size_t offset, size_t len) ;
-/*return the size of ramdisk. unit: 1 byte*/
-size_t get_ramdisk_size();
+//size_t ramdisk_read(void *buf, size_t offset, size_t len);
+static uintptr_t loader(PCB *pcb, const char *filename) {
+   // TODO();
+//   void *buf=NULL;
+//   int buf=0x00000000; 
+//   ramdisk_read((void *)buf,0x000000,0x0497f);
+//   vaddr_write(0x83000000, *buf, 0x0497f);
+//   ramdisk_read((void *)buf,0x005000,0x00878);
+//   vaddr_write(0x83005000, *buf, 0x00878);
+//   paddr_write((0x83005000+0x0083c),0,60);
+//    return buf;
+/*   Elf_Ehdr elf;
+  ramdisk_read(&elf, 0, sizeof(elf));
 
-static uintptr_t loader(PCB *pcb, const char *filename) { //
-  Log("Load filename: %s\n",filename);
-  Elf_Ehdr ehdr;
-  int fd = fs_open(filename, 0, 0);
-  //printf("openfile:%d\n",fd);
-  fs_read(fd, &ehdr, sizeof(ehdr));
+  Elf_Phdr segment[elf.e_phnum];
+  ramdisk_read(&segment, elf.e_phoff, elf.e_phentsize * elf.e_phnum);
 
-  //printf("fs_read: %d\n",a);
-  //ramdisk_read(&ehdr, 0, sizeof(ehdr));
-  Elf_Phdr phdr[ehdr.e_phnum]; //segement view
-  fs_lseek(fd,ehdr.e_phoff,SEEK_SET);
-  fs_read(fd, &phdr, ehdr.e_phentsize * ehdr.e_phnum);
-  //printf("fs_read2: %d\n",b);
-  //ramdisk_read(&phdr, ehdr.e_phoff, ehdr.e_phentsize * ehdr.e_phnum);
-
-  for (uint16_t i = 0; i < ehdr.e_phnum; i++)
+  for (uint16_t i = 0; i < elf.e_phnum; i++)
   {
-    Log("Starting iteration: %d / %d\n",i,ehdr.e_phnum);
-    if (phdr[i].p_type == PT_LOAD)
+    if (segment[i].p_type == PT_LOAD)
     {
-      Log("phdr[%d] p_type\n",i);
-      size_t content[phdr[i].p_filesz];
-      //ramdisk_read(content, phdr[i].p_offset, phdr[i].p_filesz);
-      Log("content size: %d\n",phdr[i].p_filesz);
-      fs_lseek(fd, phdr[i].p_offset, SEEK_SET);
-      Log("lseek offset: %d\n",phdr[i].p_offset);
-      fs_read(fd, content, phdr[i].p_filesz);
-      Log("read size: %d\n",phdr[i].p_filesz);
-      uint32_t *p_start = (uint32_t *)phdr[i].p_vaddr;
-      //fs_write(fd, p_start, phdr[i].p_filesz);
-      Log("Start load phdr[%d]\n",i);
-      memcpy(p_start, content, phdr[i].p_filesz);
-      Log("Finished load phdr[%d], p_start:%x, content_length:%d, p_filesz:%d\n",i,p_start, sizeof(content), phdr[i].p_filesz);
-      if (phdr[i].p_memsz > phdr[i].p_filesz) //.bss
+      size_t content[segment[i].p_filesz];
+      //printf("reading...\n");
+      ramdisk_read(content, segment[i].p_offset, segment[i].p_filesz);
+      //printf("%x\n %x\n", segment[i].p_offset, segment[i].p_filesz);
+      //printf("writing...\n");
+      //printf("%x\n", segment[i].p_vaddr);
+      //ramdisk_write(content, segment[i].p_vaddr - RAM_START, segment[i].p_filesz);
+      uint32_t *ptr1 = (uint32_t *)segment[i].p_vaddr;
+      memcpy(ptr1, content, segment[i].p_filesz);
+
+      if (segment[i].p_memsz > segment[i].p_filesz)
       {
-        char *bss_start = (char *)(phdr[i].p_vaddr + phdr[i].p_filesz);
-        Log("bss_start:%x\n",*bss_start);
-        memset(bss_start, 0, phdr[i].p_memsz - phdr[i].p_filesz);
-        Log("Finished memset\n");
+        //printf("dealing with vacant...\n");
+        //char vacant[segment[i].p_memsz - segment[i].p_filesz];
+        //for (int k = 0; k < segment[i].p_memsz-segment[i].p_filesz; k++) vacant[k] = 0;
+        char *ptr2 = (char *)(segment[i].p_vaddr + segment[i].p_filesz);
+        //ramdisk_write(vacant, segment[i].p_vaddr + segment[i].p_filesz - RAM_START, segment[i].p_memsz-segment[i].p_filesz);
+        //memcpy(ptr2, vacant, segment[i].p_memsz-segment[i].p_filesz);   
+        memset(ptr2, 0, segment[i].p_memsz - segment[i].p_filesz);
       }
     }
   }
-  //fs_close(fd);
-  Log("Finished Load\n");
-return ehdr.e_entry;
+return elf.e_entry;*/
+  int fd = fs_open(filename);
+  Elf_Ehdr elf;
+  fs_read(fd, &elf, sizeof(Elf_Ehdr));
+
+  Elf_Phdr segment[elf.e_phnum];
+  fs_lseek(fd, elf.e_phoff, SEEK_SET);
+  fs_read(fd, &segment, elf.e_phnum * elf.e_phentsize);
+
+  for (uint16_t i = 0; i < elf.e_phnum; i++)
+  {
+    if (segment[i].p_type == PT_LOAD)
+    {
+      size_t content[segment[i].p_filesz];
+      fs_lseek(fd, segment[i].p_offset, SEEK_SET);
+      fs_read(fd, content, segment[i].p_filesz);
+      uint32_t *ptr1 = (uint32_t *)segment[i].p_vaddr;
+      memcpy(ptr1, content, segment[i].p_filesz);
+
+      if (segment[i].p_memsz > segment[i].p_filesz)
+      {
+        char *ptr2 = (char *)(segment[i].p_vaddr + segment[i].p_filesz);
+        memset(ptr2, 0, segment[i].p_memsz - segment[i].p_filesz);
+      }
+    }
+  }
+  return elf.e_entry;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {

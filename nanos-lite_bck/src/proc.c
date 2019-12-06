@@ -1,11 +1,11 @@
 #include "proc.h"
 
 #define MAX_NR_PROC 4
-
+void naive_uload(PCB *pcb, const char *filename);
 static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
 static PCB pcb_boot = {};
 PCB *current = NULL;
-void naive_uload(PCB *pcb, const char *filename);
+
 void switch_boot_pcb() {
   current = &pcb_boot;
 }
@@ -21,9 +21,11 @@ void hello_fun(void *arg) {
 
 void init_proc() {
   switch_boot_pcb();
-  naive_uload(NULL,"/bin/pal");
+
   Log("Initializing processes...");
 
+  naive_uload(NULL,"/bin/pal");
+ 
   // load program here
 
 }
