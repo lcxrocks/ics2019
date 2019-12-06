@@ -43,7 +43,10 @@ static Finfo file_table[] __attribute__((used)) = {
   
 #include "files.h"
 };
-
+size_t getdisk(int fd)
+{
+	return file_table[fd].disk_offset; 
+}
 #define NR_FILES (sizeof(file_table) / sizeof(file_table[0]))
 
 void init_fs() {
