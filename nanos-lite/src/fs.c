@@ -118,8 +118,12 @@ size_t fs_lseek(int fd, size_t offset, int whence)
   }
   return file_table[fd].open_offset;
 }
-
+extern char dispinfo[128];
 size_t fs_write(int fd, const void *buf, size_t len){
+  if(strlen(dispinfo)!=21){
+    printf("dispinfo changed to :%s\n",dispinfo);
+    assert(0);
+  }
     int size = file_table[fd].size; 
     int disk_offset = file_table[fd].disk_offset;
     int open_offset = file_table[fd].open_offset;
