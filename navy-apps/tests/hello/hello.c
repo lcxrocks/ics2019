@@ -5,7 +5,6 @@ int main() {
   write(1, "Hello World!\n", 13);
   int i = 2;
   volatile int j = 0;
-  int i = 0;
   while (i<100000) {
     j ++;
     if (j == 10000) {
