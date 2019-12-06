@@ -133,15 +133,16 @@ static void get_display_info() {
   assert(dispinfo);
   screen_w = screen_h = 0;
   char buf[128], key[128], value[128], *delim;
-  while (fgets(buf, 128, dispinfo)) {
-    *(delim = strchr(buf, ':')) = '\0';
-    sscanf(buf, "%s", key);
-    sscanf(delim + 1, "%s", value);
-    printf("hahahhahah\n");
-    if (strcmp(key, "WIDTH") == 0) sscanf(value, "%d", &screen_w);
-    printf("value: %d\n",value);
+  while (fgets(buf, 128, dispinfo)) { //读一行，放进buf中；一共运行两次，找出屏幕的长宽
+    *(delim = strchr(buf, ':')) = '\0'; //在buf中查找第一个‘：’出现的位置
+    sscanf(buf, "%s", key); //把buf中的东西读到key中
+    printf("key: %d\n");
+    sscanf(delim + 1, "%s", value); //把：后面的地方读到value里面
+    printf("value: %d\n");
+    if (strcmp(key, "WIDTH") == 0) sscanf(value, "%d", &screen_w); //把value里面的值放进screen_w里面
+    printf("screen_w: %d\n",value);
     if (strcmp(key, "HEIGHT") == 0) sscanf(value, "%d", &screen_h);
-    printf("value: %d\n",value);
+    printf("screen_h: %d\n",value);
   }
   fclose(dispinfo);
   assert(screen_w > 0 && screen_h > 0);
