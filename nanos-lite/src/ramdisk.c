@@ -19,11 +19,11 @@ size_t ramdisk_read(void *buf, size_t offset, size_t len) {
   }
   assert(offset + len <= RAMDISK_SIZE);
   
-  memcpy(buf, &ramdisk_start + offset, len);Log("ramdisk brkptr2\n");
+  memcpy(buf, &ramdisk_start + offset, len);
   if(strlen(dispinfo)!=21){
     printf("dispinfo changed to :%s\n",dispinfo);
     assert(0);
-  }
+  }Log("ramdisk brkptr2\n");
   return len;
 }
 
