@@ -8,7 +8,7 @@
 #include <am.h>
 #include <klib.h>
 #include "debug.h"
-size_t ramdisk_read(void *buf, size_t offset, size_t len);
+
 typedef char bool;
 #define true 1
 #define false 0
