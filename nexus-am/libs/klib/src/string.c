@@ -20,16 +20,14 @@ char *strcpy(char* dst,const char* src) {
 }
 
 char* strncpy(char* dst, const char* src, size_t n) {
-  assert( n!=0 );
+  //assert(n!=0);
   size_t i=0;
   while(src[i]!='\0' && i<n){
     dst[i] = src[i];
     i++;
   }
-  
-  for (; i < n; i++){
-    dst[i] = '\0';
-  }
+  //assert( i!=n );
+  dst[i]='\0';
   return dst;
 }
 
