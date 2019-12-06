@@ -43,7 +43,7 @@ static char dispinfo[128] __attribute__((used)) = {};
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
   int cnt;
   int size = strlen(dispinfo);
-  Log("buf:%s---offset:%d---len:%d---dispinfosize:%d\n",buf,offset,len,size);
+  Log("buf:%s ---offset:%d---len:%d---dispinfosize:%d\n",buf, offset,len,size);
   if(len + offset > size) cnt = size-offset;
   else cnt = len; 
   memcpy(buf, (&dispinfo)+offset, cnt);
@@ -85,6 +85,8 @@ void init_device() {
   _ioe_init();
   int screen_w = screen_width();
   int screen_h = screen_height();
+  printf("screen_w: %d\n",screen_w);
+  printf("screen_h: %d\n",screen_h);
   sprintf(dispinfo,"WIDTH:%d\nHEIGHT:%d\n",screen_w,screen_h);
   Log("dispinfo:%s\n",dispinfo);
   // TODO: print the string to array `dispinfo` with the format
