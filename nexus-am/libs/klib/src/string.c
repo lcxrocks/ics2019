@@ -77,34 +77,20 @@ void* memset(void* v,int c,size_t n) {
 //   //printf("memcpy out=%d in=%d size=%d\n", out, in, n);
 //   return out;
 // }
-
-void *memcpy(void *dst, const void *src, size_t len)
+void *memcpy(void *pDest,const void *pSrc,size_t n)
 {
-  printf("hahhahahhahahah\n");
- if(NULL == dst || NULL == src){
-  return NULL;
- }
-  
- void *ret = dst;
-  
- if(dst <= src || (char *)dst >= (char *)src + len){
-  //没有内存重叠，从低地址开始复制
-  while(len--){
-   *(char *)dst = *(char *)src;
-   dst = (char *)dst + 1;
-   src = (char *)src + 1;
-  }
- }else{
-  //有内存重叠，从高地址开始复制
-  src = (char *)src + len - 1;
-  dst = (char *)dst + len - 1;
-  while(len--){
-   *(char *)dst = *(char *)src;
-   dst = (char *)dst - 1;
-   src = (char *)src - 1;
-  }
- }
- return ret;
+    assert((pDest!=NULL)&&(pSrc!=NULL));
+    int wordnum = n/4;            //计算有多少个32位，按4字节拷贝
+    int slice = n%4;              //剩余的按字节拷贝
+    int * pIntsrc = (int *)pSrc;
+    int * pIntdest = (int *)pDest;
+
+    while(wordnum--)
+        *pIntdest++ = *pIntsrc++;
+    while (slice--)
+        *((char *)pIntdest++) =*((char *)pIntsrc++);
+
+    return pDest;
 }
 
 int memcmp(const void* s1, const void* s2, size_t n){
