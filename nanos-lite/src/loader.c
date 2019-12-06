@@ -1,5 +1,6 @@
 #include "proc.h"
 #include <elf.h>
+#include "fs.h"
 
 #ifdef __ISA_AM_NATIVE__
 # define Elf_Ehdr Elf64_Ehdr
@@ -8,45 +9,63 @@
 # define Elf_Ehdr Elf32_Ehdr
 # define Elf_Phdr Elf32_Phdr
 #endif
+/* read `len' bytes starting from `offset' of ramdisk into `buf' */
+size_t ramdisk_read(void *buf, size_t offset, size_t len);
+/* write `len' bytes starting from `buf' into the `offset' of ramdisk */
+size_t ramdisk_write(const void *buf, size_t offset, size_t len) ;
+/*return the size of ramdisk. unit: 1 byte*/
+size_t get_ramdisk_size();
 
-size_t ramdisk_read(void *, size_t, size_t);//hjh
-int fs_open(const char *path,int flags,int mode);//hjh
-size_t getopen(int fd);
-size_t getsize(int fd);
-size_t getdisk(int fd);
+static uintptr_t loader(PCB *pcb, const char *filename) { //
+  Log("Load filename: %s\n",filename);
+  Elf_Ehdr ehdr;
+  int fd = fs_open(filename, 0, 0);
+  //printf("openfile:%d\n",fd);
+  fs_read(fd, &ehdr, sizeof(ehdr));
 
-static uintptr_t loader(PCB *pcb, const char *filename) 
-{
-	int fd=fs_open(filename,0,0);
-	int Base=getdisk(fd);
-	//printf("fd is %d\n",fd);
-  Elf_Ehdr ELFheader;
-  Elf_Phdr Proheader;	
-	//printf("getdisk(fd) is %d",getdisk(fd));
-  ramdisk_read(&ELFheader,Base,sizeof(Elf_Ehdr));
-	//for(int i=0;i<16;i++)
-  //printf("%02x ",ELFheader.e_ident[i]);
-  //printf("The e_phoff is 0x%08x\n",ELFheader.e_phoff);
-	//printf("The e_phnum is 0x%08x\n",ELFheader.e_phnum);
-	//printf("The size of ELFheader  is 0x%d\n",sizeof(Elf_Ehdr));
-	for(int i=0;i<ELFheader.e_phnum;i++)
-	{
-		//printf("The offset of the header term is %x\n",ELFheader.e_phoff+i*ELFheader.e_phentsize);
-		ramdisk_read(&Proheader,Base+ELFheader.e_phoff+i*ELFheader.e_phentsize,ELFheader.e_phentsize);
-	  if(Proheader.p_type==PT_LOAD)
+  //printf("fs_read: %d\n",a);
+  //ramdisk_read(&ehdr, 0, sizeof(ehdr));
+  Elf_Phdr phdr[ehdr.e_phnum]; //segement view
+  fs_lseek(fd,ehdr.e_phoff,SEEK_SET);
+  fs_read(fd, &phdr, ehdr.e_phentsize * ehdr.e_phnum);
+  //printf("fs_read2: %d\n",b);
+  //ramdisk_read(&phdr, ehdr.e_phoff, ehdr.e_phentsize * ehdr.e_phnum);
+
+  for (uint16_t i = 0; i < ehdr.e_phnum; i++)
+  {
+    Log("Starting iteration: %d / %d\n",i,ehdr.e_phnum);
+    if (phdr[i].p_type == PT_LOAD)
     {
-      ramdisk_read((void *)Proheader.p_vaddr,Base+Proheader.p_offset,Proheader.p_memsz);
-			memset((void *)(Proheader.p_vaddr+Proheader.p_filesz),0,Proheader.p_memsz-Proheader.p_filesz);
-		}
-	}
-  return ELFheader.e_entry;
+      Log("phdr[%d] p_type\n",i);
+      size_t content[phdr[i].p_filesz];
+      //ramdisk_read(content, phdr[i].p_offset, phdr[i].p_filesz);
+      Log("content size: %d\n",phdr[i].p_filesz);
+      fs_lseek(fd, phdr[i].p_offset, SEEK_SET);
+      Log("lseek offset: %d\n",phdr[i].p_offset);
+      fs_read(fd, content, phdr[i].p_filesz);
+      Log("read size: %d\n",phdr[i].p_filesz);
+      uint32_t *p_start = (uint32_t *)phdr[i].p_vaddr;
+      //fs_write(fd, p_start, phdr[i].p_filesz);
+      Log("Start load phdr[%d]\n",i);
+      memcpy(p_start, content, phdr[i].p_filesz);
+      Log("Finished load phdr[%d], p_start:%x, content_length:%d, p_filesz:%d\n",i,p_start, sizeof(content), phdr[i].p_filesz);
+      if (phdr[i].p_memsz > phdr[i].p_filesz) //.bss
+      {
+        char *bss_start = (char *)(phdr[i].p_vaddr + phdr[i].p_filesz);
+        Log("bss_start:%x\n",*bss_start);
+        memset(bss_start, 0, phdr[i].p_memsz - phdr[i].p_filesz);
+        Log("Finished memset\n");
+      }
+    }
+  }
+  //fs_close(fd);
+  Log("Finished Load\n");
+return ehdr.e_entry;
 }
 
-void naive_uload(PCB *pcb, const char *filename) 
-{
-	//printf("I am entering file %s",filename);
+void naive_uload(PCB *pcb, const char *filename) {
   uintptr_t entry = loader(pcb, filename);
-  Log("Jump to entry = %08x", entry);
+  Log("Jump to entry = %x", entry);
   ((void(*)())entry) ();
 }
 

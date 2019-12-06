@@ -30,7 +30,7 @@ int main() {
   Log("Finish initialization");
 
 #ifdef HAS_CTE
-  _yield();//hjh For now we call int 0x81;
+  _yield();
 #endif
 
   panic("Should not reach here");
