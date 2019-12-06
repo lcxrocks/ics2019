@@ -6,8 +6,8 @@
 
 __am_asm_trap:
   pushal
-#take up the space 
-  pushl $0 
+
+  pushl $0
 
   pushl %esp
   call __am_irq_handle

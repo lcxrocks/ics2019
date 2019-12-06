@@ -1,21 +1,15 @@
 #include <am.h>
 #include <amdev.h>
 #include <nemu.h>
-#include <stdio.h>
 
-static uint32_t starttime;
+#define rtc_port 0x48  //hjh
+static _DEV_TIMER_UPTIME_t rtc_init;
 size_t __am_timer_read(uintptr_t reg, void *buf, size_t size) {
   switch (reg) {
     case _DEVREG_TIMER_UPTIME: {
-      /* by lcx */
-      uint32_t cur_time = inl(RTC_ADDR);
-      /* current time */
       _DEV_TIMER_UPTIME_t *uptime = (_DEV_TIMER_UPTIME_t *)buf;
       uptime->hi = 0;
-      uptime->lo = cur_time - starttime;
-      //printf("cur_time: %d\n",cur_time);
-      //printf("starttime:%d\n",starttime);
-      //printf("lo:%d\n",uptime->lo);
+      uptime->lo = inl(rtc_port)-rtc_init.lo;//hjh
       return sizeof(_DEV_TIMER_UPTIME_t);
     }
     case _DEVREG_TIMER_DATE: {
@@ -32,7 +26,10 @@ size_t __am_timer_read(uintptr_t reg, void *buf, size_t size) {
   return 0;
 }
 
-void __am_timer_init() {
-  starttime = inl(RTC_ADDR);
-  //by lcx
+void __am_timer_init() 
+{
+  //begin{hjh}
+	rtc_init.hi=0;
+  rtc_init.lo=inl(rtc_port);
+	//end{hjh}
 }

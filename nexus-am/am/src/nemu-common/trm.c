@@ -21,7 +21,8 @@ void _halt(int code) {
   while (1);
 }
 
-void _trm_init() {
+void _trm_init() 
+{
   extern const char _start;
   const char *mainargs = &_start - 0x100000;
   int ret = main(mainargs);

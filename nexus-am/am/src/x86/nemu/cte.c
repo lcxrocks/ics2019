@@ -1,6 +1,7 @@
 #include <am.h>
 #include <x86.h>
-#include <stdio.h>
+
+#include "klib.h"
 static _Context* (*user_handler)(_Event, _Context*) = NULL;
 
 void __am_irq0();
@@ -10,25 +11,50 @@ void __am_vecnull();
 
 _Context* __am_irq_handle(_Context *c) {
   _Context *next = c;
-  // printf("-----context \% edi: 0x%x----\n",c->edi);
-  // printf("-----context \% esi: 0x%x----\n",c->esi);
-  // printf("-----context \% ebp: 0x%x----\n",c->ebp);
-  // printf("-----context \% esp: 0x%x----\n",c->esp);
-  // printf("-----context \% ebx: 0x%x----\n",c->ebx);
-  // printf("-----context \% edx: 0x%x----\n",c->edx);
-  // printf("-----context \% ecx: 0x%x----\n",c->ecx);
-  // printf("-----context \% eax: 0x%x----\n",c->eax);
-  // printf("-----context c.irq : 0x%x----\n",c->irq);
-  if (user_handler) {
+
+  //begin{hjh}
+//	printf("0x%p",c);
+	/*printf("The registers are:\n");
+	printf("0x%p\n",c->as);
+	printf("0x%p\n",c->edi);
+	printf("0x%x\n",c->esi);
+	printf("0x%x\n",c->ebp);
+	printf("0x%x\n",c->esp);
+	printf("0x%x\n",c->ebx);
+	printf("0x%x\n",c->edx);
+	printf("0x%x\n",c->ecx);
+	printf("0x%x\n",c->eax);
+	printf("Other fields are:\n");
+  for(int i=9;i<=12;i++)
+	{
+	  printf("%d\n",*(c+i*4));
+	}*/
+	//end{hjh}
+  if (user_handler) //usse_handler == do_event in irq.c
+	{
     _Event ev = {0};
-    switch (c->irq) {
-      case 0x81 : ev.event = _EVENT_YIELD; break;
-      case 0x80 : ev.event = _EVENT_SYSCALL; break;
-      default: ev.event = _EVENT_ERROR; break;
+    switch (c->irq) 
+		{
+			case 0x81:
+			{
+				ev.event=_EVENT_YIELD;
+				break;
+			}
+			case 0x80:
+			{
+				ev.event=_EVENT_SYSCALL;
+        break;
+			}
+      default: 
+			{
+				ev.event = _EVENT_ERROR; 
+				break;
+			}
     }
 
     next = user_handler(ev, c);
-    if (next == NULL) {
+    if (next == NULL) 
+		{
       next = c;
     }
   }
@@ -37,7 +63,7 @@ _Context* __am_irq_handle(_Context *c) {
 }
 
 int _cte_init(_Context*(*handler)(_Event, _Context*)) {
-  static GateDesc idt[NR_IRQ];
+  static GateDesc idt[NR_IRQ];//NR_IRQ number of interrupt request
 
   // initialize IDT
   for (unsigned int i = 0; i < NR_IRQ; i ++) {

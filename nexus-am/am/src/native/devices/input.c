@@ -58,7 +58,6 @@ size_t __am_input_read(uintptr_t reg, void *buf, size_t size) {
       SDL_UnlockMutex(key_queue_lock);
 
       kbd->keydown = (k & KEYDOWN_MASK ? 1 : 0);
-      //printf("kbd->keydown :%d\n",kbd->keydown);
       kbd->keycode = k & ~KEYDOWN_MASK;
 
       return sizeof(_DEV_INPUT_KBD_t);
