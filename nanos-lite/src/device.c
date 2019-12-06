@@ -39,7 +39,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
 static char dispinfo[128] __attribute__((used)) = {};
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
-  printf("hahahah is %s\n",dispinfo);
+  //printf("hahahah is %s\n",dispinfo);
   int cnt;
   int size = strlen(dispinfo);
   Log("buf:%s ---offset:%d---len:%d---dispinfosize:%d\n",buf, offset,len,size);
