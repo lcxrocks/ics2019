@@ -12,12 +12,14 @@ extern uint8_t ramdisk_end;
 /* read `len' bytes starting from `offset' of ramdisk into `buf' */
 extern char dispinfo[128];
 size_t ramdisk_read(void *buf, size_t offset, size_t len) {
+  Log("ramdisk brkptr1\n");
   if(strlen(dispinfo)!=21){
     printf("dispinfo changed to :%s\n",dispinfo);
     assert(0);
   }
   assert(offset + len <= RAMDISK_SIZE);
-  memcpy(buf, &ramdisk_start + offset, len);
+  
+  memcpy(buf, &ramdisk_start + offset, len);Log("ramdisk brkptr2\n");
   if(strlen(dispinfo)!=21){
     printf("dispinfo changed to :%s\n",dispinfo);
     assert(0);
