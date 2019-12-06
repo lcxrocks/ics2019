@@ -52,7 +52,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
       if (phdr[i].p_memsz > phdr[i].p_filesz) //.bss
       {
         char *bss_start = (char *)(phdr[i].p_vaddr + phdr[i].p_filesz);
-        Log("bss_start:%p\n",*bss_start);
+        Log("bss_start:%x\n",*bss_start);
         memset(bss_start, 0, phdr[i].p_memsz - phdr[i].p_filesz);
         Log("Finished memset\n");
       }
