@@ -44,6 +44,15 @@ make_EHelper(int) {
   difftest_skip_dut(1, 2);
 }
 
+make_EHelper(int3){
+  id_dest->val =3;
+    raise_intr(id_dest->val, decinfo.seq_pc);
+
+  print_asm("int %s", id_dest->str);
+
+  difftest_skip_dut(1, 2);
+}
+
 make_EHelper(iret) {
   //TODO();
 
