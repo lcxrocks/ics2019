@@ -86,7 +86,7 @@ size_t fs_read(int fd, void *buf, size_t len)
   size_t ret=0;
   Log("fs_read: fd: %d, len:%d\n",fd, len);
   if(file_table[fd].read){
-    Log("File_table[%d].read valid! reading...\n",fd);
+    //Log("File_table[%d].read valid! reading...\n",fd);
     ret = file_table[fd].read(buf, read_start, len);
     Log("ret: %d\n",ret);
   }
