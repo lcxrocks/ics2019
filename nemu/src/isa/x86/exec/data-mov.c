@@ -148,37 +148,37 @@ make_EHelper(lea) {
 }
 
 make_EHelper(movs){
-  // if(id_dest->width != 1)
-  //   id_dest->width = decinfo.isa.is_operand_size_16 ? 2 : 4;
-  // s0 = cpu.esi;
-  // rtl_lm(&s1, &s0, id_dest->width);
-  // s0 = cpu.edi;
-  // rtl_sm(&s0, &s1, id_dest->width);
-  // cpu.esi += id_dest->width;
-  // cpu.edi += id_dest->width;
-  // print_asm_template2(movs);
-  // printf("src->val = %d\n", id_src->val);
-  rtl_lm(&s0, &id_dest->addr, id_src->width);
-  // printf("dest->val = %d\n", s0);
-  operand_write(id_dest, &id_src->val);
-  rtl_lm(&s0, &id_dest->addr, id_src->width);
-  // printf("dest->val = %d\n", s0);
-  switch (id_src->width) {
-  case 4:
-    cpu.gpr[R_ESI]._32 += 4;
-    cpu.gpr[R_EDI]._32 += 4;
-    print_asm(movsd);
-    break;
-  case 1:
-    cpu.gpr[R_ESI]._32 += 1;
-    cpu.gpr[R_EDI]._32 += 1;
-    print_asm(movsb);
-    break;
-  case 2:
-    cpu.gpr[R_ESI]._32 += 2;
-    cpu.gpr[R_EDI]._32 += 2;
-    print_asm(movsw);
-    break;
-  default: assert(0);
-  }
+  if(id_dest->width != 1)
+    id_dest->width = decinfo.isa.is_operand_size_16 ? 2 : 4;
+  s0 = cpu.esi;
+  rtl_lm(&s1, &s0, id_dest->width);
+  s0 = cpu.edi;
+  rtl_sm(&s0, &s1, id_dest->width);
+  cpu.esi += id_dest->width;
+  cpu.edi += id_dest->width;
+  print_asm_template2(movs);
+  printf("src->val = %d\n", id_src->val);
+  // rtl_lm(&s0, &id_dest->addr, id_src->width);
+  // // printf("dest->val = %d\n", s0);
+  // operand_write(id_dest, &id_src->val);
+  // rtl_lm(&s0, &id_dest->addr, id_src->width);
+  // // printf("dest->val = %d\n", s0);
+  // switch (id_src->width) {
+  // case 4:
+  //   cpu.gpr[R_ESI]._32 += 4;
+  //   cpu.gpr[R_EDI]._32 += 4;
+  //   print_asm(movsd);
+  //   break;
+  // case 1:
+  //   cpu.gpr[R_ESI]._32 += 1;
+  //   cpu.gpr[R_EDI]._32 += 1;
+  //   print_asm(movsb);
+  //   break;
+  // case 2:
+  //   cpu.gpr[R_ESI]._32 += 2;
+  //   cpu.gpr[R_EDI]._32 += 2;
+  //   print_asm(movsw);
+  //   break;
+  // default: assert(0);
+  // }
 }
