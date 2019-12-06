@@ -17,7 +17,7 @@ _Context* do_syscall(_Context *c) {
     case SYS_exit: _halt(c->GPRx); break;
     case SYS_yield: _yield(); c->GPRx = 0; break;
     case SYS_open: c->GPRx = fs_open((char *)a[1], 0, 0); break;
-    case SYS_read: c->GPRx = fs_read((int)a[1],(void *)a[2],(size_t)a[3]); break;
+    case SYS_read: c->GPRx = fs_read((int)a[1],(void *)a[2],a[3]); break;
     case SYS_write: c->GPRx = fs_write((int)a[1],(void *)a[2],(size_t)a[3]); break;
     case SYS_close: c->GPRx = fs_close((int)a[1]); break;
     case SYS_lseek: c->GPRx = fs_lseek((int)a[1],(size_t)a[2],(int)a[3]); break;
