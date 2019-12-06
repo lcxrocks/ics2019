@@ -52,6 +52,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
       Log("lseek offset: %d\n",phdr[i].p_offset);
       Log("fd: %d, contentsize:%d, phdrsize:%d\n",fd, strlen((char *)content), phdr[i].p_filesz);
       fs_read(fd, content, phdr[i].p_filesz);
+      Log("finished fs_read on line 54\n");
       if(strlen(dispinfo)!=21){
     printf("dispinfo changed to :%s\n",dispinfo);
     assert(0);
