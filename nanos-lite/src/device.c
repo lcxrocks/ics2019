@@ -18,7 +18,6 @@ static const char *keyname[256] __attribute__((used)) = {
 
 size_t events_read(void *buf, size_t offset, size_t len) {
   //read event into buf;
-  //printf("events read!!!!!\n");
   int cnt = 0;
   int key = read_key();
   char tmp[1024]={};
@@ -84,8 +83,8 @@ void init_device() {
   _ioe_init();
   int screen_w = screen_width();
   int screen_h = screen_height();
-  printf("screen_w: %d\n",screen_w);
-  printf("screen_h: %d\n",screen_h);
+  //printf("screen_w: %d\n",screen_w);
+  //printf("screen_h: %d\n",screen_h);
   sprintf(dispinfo,"WIDTH:%d\nHEIGHT:%d\n",screen_w,screen_h);
   Log("dispinfo:%s\n",dispinfo);
   // TODO: print the string to array `dispinfo` with the format
