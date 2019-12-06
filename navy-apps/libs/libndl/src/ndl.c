@@ -134,6 +134,7 @@ static void get_display_info() {
   screen_w = screen_h = 0;
   char buf[128], key[128], value[128], *delim;
   while (fgets(buf, 128, dispinfo)) { //读一行，放进buf中；一共运行两次，找出屏幕的长宽
+    printf("buf: %s\n",buf);
     *(delim = strchr(buf, ':')) = '\0'; //在buf中查找第一个‘：’出现的位置
     sscanf(buf, "%s", key); //把buf中的东西读到key中
     printf("key: %s\n",key);
