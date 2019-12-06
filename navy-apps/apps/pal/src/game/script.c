@@ -541,7 +541,7 @@ PAL_AdditionalCredits(
 #endif
       " ",
       "\xA5\xBB\xB5\x7B\xA6\xA1\xAC\x4F\xA6\xDB\xA5\xD1\xB3\x6E\xC5\xE9\xA1\x41\xAB\xF6\xB7\xD3"
-      " GNU General",
+      //" GNU General",
       //"Public License (GPLv3) \xB5\x6F\xA7\x47",
       //" ",
       //"                 ...\xAB\xF6 Enter \xB5\xB2\xA7\xF4",
