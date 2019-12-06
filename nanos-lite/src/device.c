@@ -86,7 +86,7 @@ void init_device() {
   int screen_w = screen_width();
   int screen_h = screen_height();
   sprintf(dispinfo,"WIDTH:%d\nHEIGHT:%d\n",screen_w,screen_h);
-  //Log("dispinfo:%s\n",dispinfo);
+  Log("dispinfo:%s\n",dispinfo);
   // TODO: print the string to array `dispinfo` with the format
   // described in the Navy-apps convention
 }
