@@ -42,6 +42,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
       Log("content size: %d\n",phdr[i].p_filesz);
       fs_lseek(fd, phdr[i].p_offset, SEEK_SET);
       Log("lseek offset: %d\n",phdr[i].p_offset);
+      Log("fd: %d, contentsize:%d, phdrsize:%d\n",fd, strlen((char *)content), phdr[i].p_filesz);
       fs_read(fd, content, phdr[i].p_filesz);
       Log("read size: %d\n",phdr[i].p_filesz);
       uint32_t *p_start = (uint32_t *)phdr[i].p_vaddr;
