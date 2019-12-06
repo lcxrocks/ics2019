@@ -45,14 +45,26 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
       //ramdisk_read(content, phdr[i].p_offset, phdr[i].p_filesz);
       Log("content size: %d\n",phdr[i].p_filesz);
       fs_lseek(fd, phdr[i].p_offset, SEEK_SET);
+      if(strlen(dispinfo)!=21){
+    printf("dispinfo changed to :%s\n",dispinfo);
+    assert(0);
+  }
       Log("lseek offset: %d\n",phdr[i].p_offset);
       Log("fd: %d, contentsize:%d, phdrsize:%d\n",fd, strlen((char *)content), phdr[i].p_filesz);
       fs_read(fd, content, phdr[i].p_filesz);
+      if(strlen(dispinfo)!=21){
+    printf("dispinfo changed to :%s\n",dispinfo);
+    assert(0);
+  }
       Log("read size: %d\n",phdr[i].p_filesz);
       uint32_t *p_start = (uint32_t *)phdr[i].p_vaddr;
       //fs_write(fd, p_start, phdr[i].p_filesz);
       Log("Start load phdr[%d]\n",i);
       memcpy(p_start, content, phdr[i].p_filesz);
+      if(strlen(dispinfo)!=21){
+    printf("dispinfo changed to :%s\n",dispinfo);
+    assert(0);
+  }
       Log("Finished load phdr[%d], p_start:%x, content_length:%d, p_filesz:%d\n",i,p_start, sizeof(content), phdr[i].p_filesz);
       if (phdr[i].p_memsz > phdr[i].p_filesz) //.bss
       {
