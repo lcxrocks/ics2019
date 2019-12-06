@@ -33,22 +33,22 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
 
   for (uint16_t i = 0; i < ehdr.e_phnum; i++)
   {
-    //Log("Starting iteration: %d / %d\n",i,ehdr.e_phnum);
+    Log("Starting iteration: %d / %d\n",i+1,ehdr.e_phnum);
     if (phdr[i].p_type == PT_LOAD)
     {
-      //Log("phdr[%d] p_type\n",i);
+      Log("phdr[%d] p_type\n",i);
       size_t content[phdr[i].p_filesz];
       //ramdisk_read(content, phdr[i].p_offset, phdr[i].p_filesz);
-      //Log("content size: %d\n",phdr[i].p_filesz);
+      Log("content size: %d\n",phdr[i].p_filesz);
       fs_lseek(fd, phdr[i].p_offset, SEEK_SET);
-      //Log("lseek offset: %d\n",phdr[i].p_offset);
+      Log("lseek offset: %d\n",phdr[i].p_offset);
       fs_read(fd, content, phdr[i].p_filesz);
-      //Log("read size: %d\n",phdr[i].p_filesz);
+      Log("read size: %d\n",phdr[i].p_filesz);
       uint32_t *p_start = (uint32_t *)phdr[i].p_vaddr;
       //fs_write(fd, p_start, phdr[i].p_filesz);
-      //Log("Start load phdr[%d]\n",i);
+      Log("Start load phdr[%d]\n",i);
       memcpy(p_start, content, phdr[i].p_filesz);
-      //Log("Finished load phdr[%d], p_start:%x, content_length:%d, p_filesz:%d\n",i,p_start, sizeof(content), phdr[i].p_filesz);
+      Log("Finished load phdr[%d], p_start:%x, content_length:%d, p_filesz:%d\n",i,p_start, sizeof(content), phdr[i].p_filesz);
       if (phdr[i].p_memsz > phdr[i].p_filesz) //.bss
       {
         char *bss_start = (char *)(phdr[i].p_vaddr + phdr[i].p_filesz);
