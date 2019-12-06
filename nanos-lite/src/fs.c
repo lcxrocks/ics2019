@@ -86,14 +86,14 @@ size_t fs_read(int fd, void *buf, size_t len)
   size_t ret=0;
   Log("fs_read: fd: %d, len:%d\n",fd, len);
   if(file_table[fd].read){
-    Log("File_table[%d].read valid! reading...\n",fd);
+    //Log("File_table[%d].read valid! reading...\n",fd);
     ret = file_table[fd].read(buf, read_start, len);
-    Log("ret: %d\n",ret);
+    //Log("ret: %d\n",ret);
   }
   else{
-    Log("File_table[%d].read not valid. reading...\n",fd);
+    //Log("File_table[%d].read not valid. reading...\n",fd);
     ret = ramdisk_read(buf, read_start,len);
-    Log("retelse: %d\n",ret);
+    //Log("retelse: %d\n",ret);
   }
   file_table[fd].open_offset += ret;
   //printf("ret: %d\n",ret); 
