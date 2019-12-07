@@ -176,19 +176,18 @@ int sprintf(char *out, const char *fmt, ...) {
 
 int snprintf(char* out, size_t n, const char* fmt, ...)
 {
-    // char tmp[1024];
-    // va_list ap;
-    // va_start(ap, fmt);
-    // int ret = vsprintf(tmp, fmt, ap);
-    // if (ret >= n) {
-    //     strncpy(out, tmp, n - 1);
-    //     *(out + n - 1) = '\0';
-    //     return strlen(tmp);  //ATTENTION!
-    // } else {
-    //     strcpy(out, tmp);
-    //     return ret;
-    // }
-    return 0;
+    char tmp[1024];
+    va_list ap;
+    va_start(ap, fmt);
+    int ret = vsprintf(tmp, fmt, ap);
+    if (ret >= n) {
+        strncpy(out, tmp, n - 1);
+        *(out + n - 1) = '\0';
+        return strlen(tmp);  //ATTENTION!
+    } else {
+        strcpy(out, tmp);
+        return ret;
+    } /* from ht, will be changed later*/ 
 }
 
 #endif
