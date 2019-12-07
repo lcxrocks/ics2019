@@ -29,7 +29,6 @@ void reg_test() {
   assert(reg_b(R_DH) == ((sample[R_EDX] >> 8) & 0xff));
 
   assert(sample[R_EAX] == cpu.eax);
-  assert(sample[R_ECX] == cpu.ecx);
   assert(sample[R_EDX] == cpu.edx);
   assert(sample[R_EBX] == cpu.ebx);
   assert(sample[R_ESP] == cpu.esp);
@@ -41,30 +40,44 @@ void reg_test() {
 }
 
 void isa_reg_display() {
-    printf("eax  0x%8x        %8u\n", cpu.eax,cpu.eax);
-    printf("ecx  0x%8x        %8u\n", cpu.ecx,cpu.ecx);
-    printf("edx  0x%8x        %8u\n", cpu.edx,cpu.edx);
-    printf("ebx  0x%8x        %8u\n", cpu.ebx,cpu.ebx);
-    printf("esp  0x%8x        %8u\n", cpu.esp,cpu.esp);
-    printf("ebp  0x%8x        %8u\n", cpu.ebp,cpu.ebp);
-    printf("esi  0x%8x        %8u\n", cpu.esi,cpu.esi);
-    printf("edi  0x%8x        %8u\n", cpu.edi,cpu.edi);
-    printf("eip  0x%8x        %8u\n", cpu.pc,cpu.pc);
+  int i;
+  for(i=R_EAX;i<=R_EDI;i++)
+  {
+    printf("%s %d\n",regsl[i],reg_l(i));
+  }
+  printf("CF %d\n",cpu.EFLAGS.CF);
+  printf("OF %d\n",cpu.EFLAGS.OF);
+  printf("SF %d\n",cpu.EFLAGS.SF);
+  printf("ZF %d\n",cpu.EFLAGS.ZF);
 }
 
 uint32_t isa_reg_str2val(const char *s, bool *success) {
-  for (int i = 0; i < 8; i++)
-  {
-     if (!strcmp(s,regsl[i])) //equal 0: str1=str2
-       return cpu.gpr[i]._32;
-     else if (!strcmp(s,regsw[i]))
-       return cpu.gpr[i]._16;
-     else if ((!strcmp(s, regsb[i])&&(i<4)))
-       return cpu.gpr[i]._8[0];
-     else if ((!strcmp(s, regsb[i])&&(i>4)))
-       return cpu.gpr[i]._8[1];
-     else if (!strcmp(s, "eip"))
-       return cpu.pc;
+  int bj=0;
+  uint32_t re;
+  for(int i=R_EAX;i<=R_EDI;i++)
+  {  
+    if(strcmp(regsl[i],s)==0)
+    {
+      bj=1;
+      re=reg_l(i);
+    }
+    else
+    if(strcmp(regsw[i],s)==0)
+    {
+      bj=1;
+      re=reg_w(i);
+    }
+    else
+    if(strcmp(regsb[i],s)==0)
+    {
+      bj=1;
+      re=reg_b(i);
+    }
   }
-  return 0;
+  if(bj==0) 
+  {
+    *success=false;
+    return 1;
+  }
+  else return re;
 }

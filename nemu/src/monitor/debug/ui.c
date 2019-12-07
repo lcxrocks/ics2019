@@ -9,11 +9,10 @@
 
 void cpu_exec(uint64_t);
 void isa_reg_display();
-uint32_t expr();
-uint32_t vaddr_read();
 WP* new_wp();
-void free_wp();
-void watchpoint_info();
+void free_wp(int n);
+void WP_disp();
+
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
   static char *line_read = NULL;
@@ -37,121 +36,131 @@ static int cmd_c(char *args) {
   return 0;
 }
 
-static int cmd_si(char *args){
-  /* extract the first argument */
-  char *arg = strtok(NULL, " ");
-  if (arg==NULL) cpu_exec(1);
-  else{
-     //printf("arg: %s\n",arg);
-     int steps = atoi(arg);
-     cpu_exec(steps);
-}    
-   //printf("done");
-   return 0;
-}
-
-static int cmd_info (char *args){
-  /* extract the first argument */
-  char *arg = strtok(NULL, " ");
-  if(strcmp(arg, "r")==0) isa_reg_display();
-  else if(strcmp(arg, "w")==0) watchpoint_info();
-  else 
-  {
-    printf("Invaild operation");
-    return -1;
-  }
-  return 0;
-}
-
 static int cmd_q(char *args) {
   return -1;
 }
 
-static int cmd_x(char *args) {
- /* extract the first argument */
+static int cmd_si(char *args){
   char *arg = strtok(NULL, " ");
-  if(arg==NULL) {
-  printf("Please tell me how many times I should excute.");
-  return -1;
+  if (arg == NULL){
+		/* no arguments given, with default value 1 */
+		cpu_exec(1);	
   }
-  int n = atoi(arg);
-  
-  char *EXPR = strtok(NULL, " ");
-  if(EXPR==NULL){
-  printf("Show me the location please");
-  return -1;
-  }
-  if(strtok(NULL, " ")){
-  printf("Too many parameters!");
-  return -1;
-  }
-
-  char *str;
-  vaddr_t addr=strtol(EXPR, &str, 16); //convert to hex
-  for(int i=0; i<n; i++){
-    uint32_t data=vaddr_read(addr+4*i,4);
-    printf("0x%08x :", addr+4*i);
-    for(int j=0; j<4; j++){
-        printf("0x%02x  ", data &0xff);
-        data>>=8;
-    }
-    printf("\n");
+  else{
+		int num = atoi(arg);
+		if(!num) printf("Invalid argument! Only positive integer allowed.\n");
+		else cpu_exec(num);
   }
   return 0;
 }
 
+static int cmd_info(char *args){
+  char *arg = strtok(NULL, " ");
+  if (arg == NULL){
+  		/* no arguments given, print a message */
+		printf("Usage: info [r][w]\n");
+  }
+  else if(strcmp(arg,"r")==0){
+		isa_reg_display();
+  }
+  else if(strcmp(arg,"w")==0){
+		WP_disp();
+  }
+  else{
+		printf("Usage: info [r][w]\n");
+  }
+  return 0;
+}
+
+static int cmd_x(char *args){
+	/*partially finished, only 0x number acceptable */
+  char *arg1 = strtok(NULL," ");
+  char *arg2 = strtok(NULL," ");
+  if(arg1==NULL){
+		printf("Usage: x [n][address]\n");
+  }
+  else if (arg2==NULL){
+		printf("Usage: x [n][address]\n");
+  }
+  else{
+		uint32_t times=atoi(arg1);
+		uint32_t addr_head=0;
+		sscanf(arg2,"0x%x",&addr_head);
+		if(!times || !addr_head) printf("Usage: x [n][address]\n");
+		else{
+			uint32_t i;
+			for(i=0;i<times;i++){
+				printf("0x%x: 0x%08x\n",addr_head+4*i,vaddr_read(addr_head+4*i,4));
+			}
+		}
+  }
+  return 0;
+}
+
+static int cmd_p(char *args)
+{
+  if(args==NULL){
+	  printf("Usage: p [expr]\n");
+  }
+  else{
+	  bool success=true;
+	  uint32_t tmp=expr(args,&success);
+	  if(success) printf("%u\n",tmp);
+	  else printf("Error in evaluation.\n");
+  }
+  return 0;
+}
+
+static int cmd_w(char *args)
+{
+  if(args==NULL){
+	  printf("Usage: w [expr]\n");	
+  }
+  else{
+   	  bool success=true;
+  	  uint32_t tmp=expr(args,&success);
+  	  if(success){	
+		  WP* newWP=new_wp();
+		  newWP->val=tmp;
+		  strcpy(newWP->what,args);
+		  printf("Watchpoint:%d What:%s Value:%u\n",newWP->NO,newWP->what,newWP->val);
+	  } 
+	  else printf("Error in evaluation.\n");
+  }	
+  return 0;
+}
+static int cmd_d(char *args)
+{
+  if(args==NULL){
+	  printf("Usage: d [expr]\n");
+  }
+  else{
+  	  int i=atoi(args);
+  	  free_wp(i);
+  }
+  return 0;
+}
 static int cmd_help(char *args);
-static int cmd_p(char *args); 
-static int cmd_w(char *args);
-static int cmd_d(char *args);
+
 static struct {
   char *name;
   char *description;
   int (*handler) (char *);
 } cmd_table [] = {
-  { "help", "Display informations about all supported commands", cmd_help },
+  { "help", "Display informations about all supported commands", cmd_help 	 },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-  { "si", "single-step execution N times", cmd_si},
-  { "info", "'info r' print out the value of all register/'info w' watchpoint", cmd_info},
-  { "x", "print out the value(s) of given address", cmd_x},
-  { "p", "print expr's val and dereference and print the register", cmd_p},
-  { "w", "set watchpoint at expr", cmd_w},
-  { "d", "delete watchpoint [i]", cmd_d},
+  { "si","Usage: si [n]\nStep N instructions.",cmd_si },
+  { "info","Usage: info [r][w]\nGeneric command for showing things about the program being debugged.", cmd_info  },
+  { "x","Usage: x [n][address]\nExamine memory. ",cmd_x },
+  { "p","Usage: p [expr]\nprint the value of a expression.",cmd_p},
+  { "w","Usage: w [expr]\nset a watchpoint.",cmd_w},
+  { "d","Usage: d [expr]\ndelete a watchpoint.",cmd_d},
   /* TODO: Add more commands */
+
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
-
-static int cmd_w(char *args) {
-  char *arg = strtok(NULL, " ");
-  if(arg==NULL){
-    printf("Give me any expr to watch plz.\n");
-    assert(0);
-  }
-  WP* wp=new_wp();
-  bool success=true;
-  sscanf(arg, "%s", wp->expr);
-  wp->old_value = expr(args, &success);
-  printf("Watchpoint[%d] Successfully set at expr: %s with its original val: %d\n", wp->NO,wp->expr, wp->old_value);
-  return 0;
-}
-
-static int cmd_d(char *args){
-  //d 1 or d 1-2 or d all
-  char *arg = strtok(NULL, " ");
-  int num = atoi(arg);
-  free_wp(num);
-  printf("Deleted watchpoint %d\n",num);
-  return 0;
-}
-static int cmd_p(char *args) {
-   bool lcxnb=true;
-   char *arg = strtok(NULL, " ");
-   uint32_t expr_cpt=expr(arg, &lcxnb);
-   printf("%u    %8x\n",expr_cpt,expr_cpt);
-   return 0;
-}
 
 static int cmd_help(char *args) {
   /* extract the first argument */

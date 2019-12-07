@@ -6,8 +6,8 @@
 #define PC_START IMAGE_START
 
 enum { R_EAX, R_ECX, R_EDX, R_EBX, R_ESP, R_EBP, R_ESI, R_EDI };
-enum { R_AX, R_CX, R_DX, R_BX, R_SP, R_BP, R_SI, R_DI };//_8[0]
-enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };//_8[1]
+enum { R_AX, R_CX, R_DX, R_BX, R_SP, R_BP, R_SI, R_DI };
+enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
 
 /* TODO: Re-organize the `CPU_state' structure to match the register
  * encoding scheme in i386 instruction format. For example, if we
@@ -15,56 +15,50 @@ enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };//_8[1]
  * cpu.gpr[1]._8[1], we will get the 'ch' register. Hint: Use `union'.
  * For more details about the register encoding scheme, see i386 manual.
  */
+
+
 typedef struct {
-union{  
-  union{
+  union {
+  union {
     uint32_t _32;
     uint16_t _16;
     uint8_t _8[2];
   } gpr[8];
-
+  struct{
+  rtlreg_t eax,ecx,edx,ebx,esp,ebp,esi,edi;
+  };
+  };
+ 
   /* Do NOT change the order of the GPRs' definitions. */
   /* In NEMU, rtlreg_t is exactly uint32_t. This makes RTL instructions
    * in PA2 able to directly access these registers.
    */
-  struct{
-	rtlreg_t eax;
-	rtlreg_t ecx;
-	rtlreg_t edx;
-	rtlreg_t ebx;
-	rtlreg_t esp;
-	rtlreg_t ebp;
-	rtlreg_t esi;
-	rtlreg_t edi;
- };
-  //rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
-};
   vaddr_t pc;
-  
-union{
+  union {
+  struct {
+        bool CF;
+        unsigned : 1; 
+  	bool PF;
+  	unsigned : 1;
+  	bool AF;
+  	unsigned : 1; 
+  	bool ZF,SF,TF,IF,DF,OF;
+  	unsigned IOPL : 3;
+  	bool NT;
+  	unsigned : 1;  
+  	bool RF,VM,AC,VIF,VIP;
+        unsigned : 10;
+    }EFLAGS;
+   uint32_t eflags;
+   };
+  uint32_t cs;
   struct{
-    uint32_t CF:1;
-    uint32_t : 5;
-    uint32_t ZF:1;
-    uint32_t SF:1;
-    uint32_t :1;
-    uint32_t IF:1;
-    uint32_t :1;
-    uint32_t OF:1;
-    uint32_t :20;
-  };
-  uint32_t init; //give initial val.
-};
-struct{
-  vaddr_t base; //linear base address
-  uint32_t limit;
-}idtr;//Interrupt Descriptor Table register 
-rtlreg_t cs;
+     uint16_t len;
+     uint32_t addr;
+  }idtr;
 } CPU_state;
 
-
-
-static inline int check_reg_index(int index) {
+static inline int check_reg_index(int index ) {
   assert(index >= 0 && index < 8);
   return index;
 }

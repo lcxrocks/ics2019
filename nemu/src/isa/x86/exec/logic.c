@@ -2,75 +2,117 @@
 #include "cc.h"
 
 make_EHelper(test) {
-  //TODO();
-  rtl_and(&s0, &id_dest->val,&id_src->val);
+  rtl_and(&s0,&id_src->val,&id_dest->val);
+  s1=0;
   rtl_update_ZFSF(&s0,id_dest->width);
+  rtl_set_CF(&s1);
+  rtl_set_OF(&s1);
 
-  s0 = 0;
-  rtl_set_CF(&s0);
-  rtl_set_OF(&s0);
   print_asm_template2(test);
 }
 
 make_EHelper(and) {
-  rtl_and(&s0, &id_dest->val, &id_src->val);
-  //printf("s0: %8x; id_dest: %8x; id_src: %8x",s0,id_dest->val,id_src->val);
-  operand_write(id_dest,&s0);
-  rtl_update_ZFSF(&s0,id_dest->width);
-
+  rtl_and(&s0,&id_dest->val,&id_src->val);
+  s1=s0;
   s0=0;
-  rtl_set_OF(&s0);
+  operand_write(id_dest,&s1);
+  rtl_update_ZFSF(&s1,id_dest->width);
   rtl_set_CF(&s0);
+  rtl_set_OF(&s0);
   print_asm_template2(and);
 }
 
 make_EHelper(xor) {
-  rtl_xor(&s0,&id_dest->val, &id_src->val);
-  operand_write(id_dest,&s0);
-  rtl_update_ZFSF(&s0,id_dest->width);
-
+    // s0 = dest xor src
+  rtl_xor(&s0, &id_dest->val, &id_src->val);
+  // s1 = s0
+  s1=s0;
   s0=0;
+  operand_write(id_dest, &s1);
+  rtl_update_ZFSF(&s1, id_dest->width);
   rtl_set_CF(&s0);
   rtl_set_OF(&s0);
   print_asm_template2(xor);
 }
 
 make_EHelper(or) {
-  rtl_or(&s0,&id_dest->val, &id_src->val);
-  operand_write(id_dest,&s0);
-  rtl_update_ZFSF(&s0,id_dest->width);
-  
+  // s0 = dest or src
+  rtl_or(&s0, &id_dest->val, &id_src->val);
+  // s1 = s0
+  s1=s0;
   s0=0;
+  operand_write(id_dest, &s1);
+  rtl_update_ZFSF(&s1, id_dest->width);
   rtl_set_CF(&s0);
   rtl_set_OF(&s0);
   print_asm_template2(or);
 }
 
 make_EHelper(sar) {
- // printf("src: %8x; dest %8x, width: %8x \n",id_src->val,id_dest->val,id_dest->width);
-  rtl_sext(&id_dest->val,&id_dest->val,id_dest->width);
-  rtl_sar(&s0, &id_dest->val, &id_src->val);
-  //printf("s0: %8x; src: %8x; dest %8x\n",s0, id_src->val,id_dest->val);
-  operand_write(id_dest, &s0);
-  // unnecessary to update CF and OF in NEMU
+  rtl_sar(&s0,&id_dest->val,&id_src->val);
+  operand_write(id_dest,&s0);
   rtl_update_ZFSF(&s0,id_dest->width);
+  // unnecessary to update CF and OF in NEMU
+
   print_asm_template2(sar);
 }
 
 make_EHelper(shl) {
-  rtl_shl(&s0, &id_dest->val, &id_src->val);
-  operand_write(id_dest, &s0);
-  // unnecessary to update CF and OF in NEMU
+  rtl_shl(&s0,&id_dest->val,&id_src->val);
+  operand_write(id_dest,&s0);
   rtl_update_ZFSF(&s0,id_dest->width);
+  // unnecessary to update CF and OF in NEMU
+
   print_asm_template2(shl);
 }
 
 make_EHelper(shr) {
-  rtl_shr(&s0, &id_dest->val, &id_src->val);
-  operand_write(id_dest, &s0);
-  // unnecessary to update CF and OF in NEMU
+  rtl_shr(&s0,&id_dest->val,&id_src->val);
+  operand_write(id_dest,&s0);
   rtl_update_ZFSF(&s0,id_dest->width);
+  // unnecessary to update CF and OF in NEMU
+
   print_asm_template2(shr);
+}
+
+make_EHelper(rol) {
+  uint32_t time1=id_src->val;
+  s0=id_dest->val;
+  while(time1!=0)
+  {
+    uint32_t kb=s0>>(id_dest->width-1)&0x1;
+    s0=s0*2+kb;
+    time1--;
+  }
+  operand_write(id_dest,&s0);
+  if(id_src->val==1)
+  {
+    uint32_t kb=s0>>(id_dest->width-1)&0x1;
+    if(kb==cpu.EFLAGS.CF)  s1=0;
+    else s1=1;
+    rtl_set_OF(&s1);
+  }
+  print_asm_template2(rol);
+}
+
+make_EHelper(ror) {
+  uint32_t time1=id_src->val;
+  s0=id_dest->val;
+  while(time1!=0)
+  {
+    uint32_t kb=(s0&0x1)<<(id_dest->width-1);
+    s0=s0/2+kb;
+    time1--;
+  }
+  operand_write(id_dest,&s0);
+  if(id_src->val==1)
+  {
+    uint32_t kb=s0>>(id_dest->width-1)&0x1;
+    if(kb==cpu.EFLAGS.CF)  s1=0;
+    else s1=1;
+    rtl_set_OF(&s1);
+  }
+  print_asm_template2(ror);
 }
 
 make_EHelper(setcc) {
@@ -82,28 +124,11 @@ make_EHelper(setcc) {
   print_asm("set%s %s", get_cc_name(cc), id_dest->str);
 }
 
-make_EHelper(not) {//dest,src
-  
-  rtl_not(&s0, &id_dest->val);
-  operand_write(id_dest, &s0);
+make_EHelper(not) {
+  if(id_dest->width==4) s1=-1;
+  else s1=(1<<(id_dest->width*8))-1;
+  rtl_xor(&s0,&id_dest->val,&s1);
+  operand_write(id_dest,&s0);
+  rtl_update_ZFSF(&s0,id_dest->width);
   print_asm_template1(not);
-}
-
-make_EHelper(rol){
-  rtl_host_lm(&s0, &id_dest->val, id_dest->width);
-  rtl_host_lm(&s1, &id_src->val, id_dest->width);
-  uint32_t topdig = 0;
-  for (; s1 > 0; s1--){
-    rtl_msb(&topdig, &s0, id_dest->width);
-    rtl_shli(&s0, &s0, 1);
-    rtl_or(&s0, &s0, &topdig);
-  }
-  operand_write(id_dest, &s0);
-  if (s1 == 1){
-    rtl_get_CF(&s1);
-    rtl_msb(&topdig, &s0, id_dest->width);
-    rtl_xor(&s1, &s1, &topdig);
-    rtl_set_OF(&s1);
-  }
-  print_asm_template2(rol);
 }

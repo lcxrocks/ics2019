@@ -14,11 +14,11 @@ typedef struct {
   int width;
   union {
     uint32_t reg;
-    rtlreg_t addr; //rtl can only use this 
+    rtlreg_t addr;
     uint32_t imm;
     int32_t simm;
-  }; // why union? becuse this is the source : reg/addr/imm/simm. what is simm?
-  rtlreg_t val; //rtl can only use this 
+  };
+  rtlreg_t val;
   char str[OP_STR_SIZE];
 } Operand;
 
@@ -39,7 +39,7 @@ void operand_write(Operand *, rtlreg_t *);
 /* shared by all helper functions */
 extern DecodeInfo decinfo;
 
-#define id_src (&decinfo.src) //for convience. now i can use `id_src` to represent `&decinfo.src`
+#define id_src (&decinfo.src)
 #define id_src2 (&decinfo.src2)
 #define id_dest (&decinfo.dest)
 
