@@ -52,7 +52,7 @@ typedef struct _Context _Context;
 // and arch-dependent @ptr
 typedef struct _AddressSpace {
   size_t pgsize;
-  _Area area; //start & end 
+  _Area area;
   void *ptr;
 } _AddressSpace;
 
