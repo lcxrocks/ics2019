@@ -84,6 +84,15 @@ void init_difftest(char *ref_so_file, long img_size) {
 static void checkregs(CPU_state *ref, vaddr_t pc) {
   if (!isa_difftest_checkregs(ref, pc)) {
     extern void isa_reg_display(void);
+  printf("eax_QEMU 0x%8x %8u\n", ref->eax,ref->eax);
+  printf("ecx_QEMU 0x%8x %8u\n", ref->ecx, ref->ecx);
+  printf("edx_QEMU 0x%8x %8u\n", ref->edx,ref->edx);
+  printf("ebx_QEMU 0x%8x %8u\n", ref->ebx,ref->ebx);
+  printf("esp_QEMU 0x%8x %8u\n", ref->esp,ref->esp);
+  printf("ebp_QEMU 0x%8x %8u\n", ref->ebp,ref->ebp);
+  printf("esi_QEMU 0x%8x %8u\n", ref->esi,ref->esi);
+  printf("edi_QEMU 0x%8x %8u\n", ref->edi,ref->edi);
+  printf("eip_QEMU 0x%8x %8u\n", ref->pc,ref->pc);
     isa_reg_display();
     nemu_state.state = NEMU_ABORT;
     nemu_state.halt_pc = pc;
