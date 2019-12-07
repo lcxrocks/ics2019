@@ -65,7 +65,7 @@ int fs_open(const char *pathname, int flags, int mode)
       file_table[i].open_offset = 0;
       return i;
     }
-    printf("str comparing for the %d time\n", i);
+    //printf("str comparing for the %d time\n", i);
   }
   panic("File not found!\n");
 }
