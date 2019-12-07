@@ -14,6 +14,15 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   printf("edi_QEMU 0x%8x %8u\n", ref_r->edi,ref_r->edi);
   printf("eip_QEMU 0x%8x %8u\n", ref_r->pc,ref_r->pc);
   printf("############################################\n");
+  printf("eax_NEMU 0x%8x %8u\n", cpu.eax,cpu.eax);
+  printf("ecx_NEMU 0x%8x %8u\n", cpu.ecx, cpu.ecx);
+  printf("edx_NEMU 0x%8x %8u\n", cpu.edx,cpu.edx);
+  printf("ebx_NEMU 0x%8x %8u\n", cpu.ebx,cpu.ebx);
+  printf("esp_NEMU 0x%8x %8u\n", cpu.esp,cpu.esp);
+  printf("ebp_NEMU 0x%8x %8u\n", cpu.ebp,cpu.ebp);
+  printf("esi_NEMU 0x%8x %8u\n", cpu.esi,cpu.esi);
+  printf("edi_NEMU 0x%8x %8u\n", cpu.edi,cpu.edi);
+  printf("eip_NEMU 0x%8x %8u\n", cpu.pc,cpu.pc);
 //rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
   assert(equal ==true);
   return !equal;
