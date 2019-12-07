@@ -2,7 +2,7 @@
 #include "monitor/diff-test.h"
 
 bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
-  bool equal = memcmp(&cpu, ref_r, DIFFTEST_REG_SIZE);
+  bool equal = memcmp(&cpu, ref_r, DIFFTEST_REG_SIZE); //only check 9 registers
 
   printf("eax_QEMU 0x%8x %8u\n", ref_r->eax,ref_r->eax);
   printf("ecx_QEMU 0x%8x %8u\n", ref_r->ecx, ref_r->ecx);
