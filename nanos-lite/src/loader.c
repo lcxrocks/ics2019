@@ -20,7 +20,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
   Log("Load filename: %s\n",filename);
   Elf_Ehdr ehdr;
   int fd = fs_open(filename, 0, 0);
-  //printf("openfile:%d\n",fd);
+  printf("openfile:%d\n",fd);
   fs_read(fd, &ehdr, sizeof(ehdr));
 
   //printf("fs_read: %d\n",a);
