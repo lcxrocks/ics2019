@@ -17,6 +17,7 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   printf("############################################\n");
 //rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
   }
+  assert(equal == true);
   return !equal;
 }
 
