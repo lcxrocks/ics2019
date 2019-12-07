@@ -162,29 +162,19 @@ int vsprintf(char* out, const char* fmt, va_list ap)
     return outptr - out;
 }
 
-int sprintf(char* out, const char* fmt, ...)
-{
-    va_list ap;
-    va_start(ap, fmt);
-    int tmp = vsprintf(out, fmt, ap);
-    va_end(ap);
-    return tmp;
+int sprintf(char *out, const char *fmt, ...) {
+  int ans;
+  va_list ap;
+  memset(out,0,strlen(out));
+  va_start(ap,fmt);
+  ans = vsprintf(out,fmt,ap);
+  va_end(ap);
+
+  return ans;
 }
 
-int snprintf(char* out, size_t n, const char* fmt, ...)
-{
-    char tmp[1024];
-    va_list ap;
-    va_start(ap, fmt);
-    int ret = vsprintf(tmp, fmt, ap);
-    if (ret >= n) {
-        strncpy(out, tmp, n - 1);
-        *(out + n - 1) = '\0';
-        return strlen(tmp);  //ATTENTION!
-    } else {
-        strcpy(out, tmp);
-        return ret;
-    }
+int snprintf(char *out, size_t n, const char *fmt, ...) {
+  return 0;
 }
 
 #endif
