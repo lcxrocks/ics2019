@@ -3,7 +3,7 @@
 
 bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   bool equal = memcmp(&cpu, ref_r, DIFFTEST_REG_SIZE);
-  if(!equal)
+  if(equal == false)
   {
   printf("eax_QEMU 0x%8x %8u\n", ref_r->eax,ref_r->eax);
   printf("ecx_QEMU 0x%8x %8u\n", ref_r->ecx, ref_r->ecx);
