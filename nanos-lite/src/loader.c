@@ -84,6 +84,7 @@ return ehdr.e_entry;
 
 void naive_uload(PCB *pcb, const char *filename) {
   uintptr_t entry = loader(pcb, filename);
+  assert(entry);
   Log("Jump to entry = %x", entry);
   ((void(*)())entry) ();
 }
