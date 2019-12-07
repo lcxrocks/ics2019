@@ -98,11 +98,13 @@ size_t fs_read(int fd, void *buf, size_t len)
     printf("dispinfo changed to :%s\n",dispinfo);
     assert(0);
   }
+  /////////////////////////////////////////////////////////////////////////
   else{
     Log("File_table[%d].read not valid. reading...\n",fd);
     ret = ramdisk_read(buf, read_start,len);
     Log("retelse: %d\n",ret);
   }
+  ///////////////////HUGEBUG///////////////////////////////////////////////
   if(strlen(dispinfo)!=21){
     printf("dispinfo changed to :%s\n",dispinfo);
     assert(0);
