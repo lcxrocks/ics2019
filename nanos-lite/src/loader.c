@@ -15,24 +15,28 @@ extern size_t fs_read(int fd, void* buf, size_t len);
 extern size_t fs_lseek(int fd, size_t offset, int whence);
 size_t get_file_size(int fd);
 
-static uintptr_t loader(PCB* pcb, const char* filename)
-{
-    int fd = fs_open(filename, 'r', 0);
-    Elf_Ehdr E_hdr;
-    Elf_Phdr P_hdr;
-    fs_read(fd, &E_hdr, sizeof(Elf_Ehdr));
-
-    for (int i = 0; i < E_hdr.e_phnum; i++) {
-        fs_lseek(fd, E_hdr.e_phoff + i * E_hdr.e_phentsize, SEEK_SET);
-        fs_read(fd, &P_hdr, E_hdr.e_phentsize);
-        if (P_hdr.p_type == PT_LOAD) {
-            fs_lseek(fd, P_hdr.p_offset, SEEK_SET);
-            fs_read(fd, (uintptr_t*)P_hdr.p_vaddr, P_hdr.p_filesz);
-            memset((uintptr_t*)(P_hdr.p_vaddr + P_hdr.p_filesz), 0, P_hdr.p_memsz - P_hdr.p_filesz);
-        }
+static uintptr_t loader(PCB *pcb, const char *filename) { //
+  Log("Load filename: %s\n",filename);
+  Elf_Ehdr ehdr;
+  Elf_Phdr phdr;
+  int fd = fs_open(filename, 0, 0);
+  fs_read(fd, &ehdr, sizeof(ehdr));
+  for (uint16_t i = 0; i < ehdr.e_phnum; i++)
+  {
+    fs_lseek(fd,ehdr.e_phoff+ i*ehdr.e_phentsize,SEEK_SET);
+    fs_read(fd, &phdr, ehdr.e_phentsize);
+    if (phdr.p_type == PT_LOAD)
+    {
+      fs_lseek(fd, phdr.p_offset, SEEK_SET);
+      uint32_t *p_start = (uint32_t *)phdr.p_vaddr;
+      fs_read(fd, p_start,phdr.p_filesz);
+      memset(p_start+phdr.p_filesz,0,phdr.p_memsz - phdr.p_filesz);
     }
-    fs_close(fd);
-    return E_hdr.e_entry;
+    //Log("finished iteration :%d /%d\n", i+1, ehdr.e_phnum);
+  }
+  fs_close(fd);
+  Log("Finished Load\n");
+  return ehdr.e_entry;
 }
 
 void naive_uload(PCB* pcb, const char* filename)
