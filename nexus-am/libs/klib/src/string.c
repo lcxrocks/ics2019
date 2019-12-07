@@ -42,27 +42,25 @@ char* strcat(char* dst, const char* src) {
   return dst;
 }
 
-// int strcmp(const char* s1, const char* s2) {
-//   for(;*s1==*s2;++s1,++s2)
-//       if(*s1=='\0')
-//           return 0;
-//   return((*s1<*s2)?-1:+1);
-// } 
-int strcmp(const char* s1, const char* s2) 
-{
-	int p=0;
-  printf("s1: %s ; s2: %s\n", s1,s2);
-	for(;s1[p]!='\0'&&s2[p]!='\0';p++)
-	{
-		if((int)s1[p]>(int)s2[p]){printf("s1 longer\n"); return 1;}
-		else if((int)s1[p]<(int)s2[p]){printf("s2 longer\n"); return -1;}
-	}
-	if(s1[p]=='\0'&&s2[p]=='\0') {printf("equal\n");return 0;}
-	else if(s1[p]!='\0'&&s2[p]=='\0')return 1;
-	else if(s1[p]=='\0'&&s2[p]!='\0')return -1;
-
-	return 0;
-}
+int strcmp(const char* s1, const char* s2) {
+  for(;*s1==*s2;++s1,++s2)
+      if(*s1=='\0')
+          return 0;
+  return((*s1<*s2)?-1:+1);
+} 
+// int strcmp(const char* s1, const char* s2) 
+// {
+// 	int p=0;
+//   printf("s1: %s ; s2: %s\n", s1,s2);
+// 	for(;s1[p]!='\0'&&s2[p]!='\0';p++)
+// 	{
+// 		if((int)s1[p]>(int)s2[p]){printf("s1 longer\n"); return 1;}
+// 		else if((int)s1[p]<(int)s2[p]){printf("s2 longer\n"); return -1;}
+// 	}
+// 	if(s1[p]=='\0'&&s2[p]=='\0') return 0;
+// 	else if(s1[p]!='\0'&&s2[p]=='\0')return 1;
+// 	else if(s1[p]=='\0'&&s2[p]!='\0')return -1;
+// }
 
 int strncmp(const char* s1, const char* s2, size_t n) {
   size_t i=0;
