@@ -2,18 +2,19 @@
 #include <stdarg.h>
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
-
-int printf(const char* fmt, ...)
-{
-    va_list ap;
-    va_start(ap, fmt);
-
-    char out[1024];
-    int cnt = vsprintf(out, fmt, ap);
-    for (char* p = out; *p; p++) _putc(*p);
-    return cnt;
-
-    va_end(ap);
+char output[1024]={};
+int printf(const char *fmt, ...) {
+  
+  int ans;
+  memset(output,0,sizeof(output));
+  char *f=output;
+  va_list ap;
+  va_start(ap,fmt);
+  ans = vsprintf(output, fmt, ap);
+  va_end(ap);
+  for(;*f;f++)
+    _putc(*f);
+  return ans;
 }
 
 int vsprintf(char* out, const char* fmt, va_list ap)
