@@ -25,7 +25,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
   //ramdisk_read(&ehdr, 0, sizeof(ehdr));
   Elf_Phdr phdr[ehdr.e_phnum]; //segement view
   fs_lseek(fd,ehdr.e_phoff,SEEK_SET);
+  printf("hhahahah\n");
   fs_read(fd, &phdr, ehdr.e_phentsize * ehdr.e_phnum);
+
   //ramdisk_read(&phdr, ehdr.e_phoff, ehdr.e_phentsize * ehdr.e_phnum);
   printf("hahhaah\n");
   for (uint16_t i = 0; i < ehdr.e_phnum; i++)
