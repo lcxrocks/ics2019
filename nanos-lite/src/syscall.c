@@ -46,13 +46,13 @@ int sys_write(int fd, void *buf, size_t count)
 }
 
 extern intptr_t _end; //must have a type, or gcc complains.
-extern char dispinfo[128];
+//extern char dispinfo[128];
 intptr_t sys_brk(intptr_t increment) //bug!!!
 {
-  if(strlen(dispinfo)!=21){
-    printf("dispinfo changed to :%s\n",dispinfo);
-    assert(0);
-  }
+  // if(strlen(dispinfo)!=21){
+  //   printf("dispinfo changed to :%s\n",dispinfo);
+  //   assert(0);
+  // }
   Log("increment: %x\n",increment);
   Log("pre_end: %x\n",_end);
   if(increment == 0) return _end;

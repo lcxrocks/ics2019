@@ -80,7 +80,7 @@ size_t fs_read(int fd, void *buf, size_t len)
     printf("dispinfo changed to :%s\n",dispinfo);
     assert(0);
   }
-  Log("---fd: %d ---buf:%s; --- len:%d,bufsize: %d\n",fd, buf,len,strlen(buf));
+  //Log("---fd: %d ---buf:%s; --- len:%d,bufsize: %d\n",fd, buf,len,strlen(buf));
   int size = file_table[fd].size; 
   int disk_offset = file_table[fd].disk_offset;
   int open_offset = file_table[fd].open_offset;
@@ -88,27 +88,27 @@ size_t fs_read(int fd, void *buf, size_t len)
   if(open_offset + len > size)
       len = size - open_offset;
   size_t ret=0;
-  Log("fs_read: fd: %d, len:%d\n",fd, len);
+  //Log("fs_read: fd: %d, len:%d\n",fd, len);
   if(file_table[fd].read){ 
-    Log("File_table[%d].read valid! reading...\n",fd);
+    //Log("File_table[%d].read valid! reading...\n",fd);
     ret = file_table[fd].read(buf, read_start, len);
-    Log("ret: %d\n",ret);
+    //Log("ret: %d\n",ret);
   }
-  if(strlen(dispinfo)!=21){
-    printf("dispinfo changed to :%s\n",dispinfo);
-    assert(0);
-  }
+  // if(strlen(dispinfo)!=21){
+  //   printf("dispinfo changed to :%s\n",dispinfo);
+  //   assert(0);
+  // }
   /////////////////////////////////////////////////////////////////////////
   else{
-    Log("File_table[%d].read not valid. reading...\n",fd);
+    //Log("File_table[%d].read not valid. reading...\n",fd);
     ret = ramdisk_read(buf, read_start,len);
-    Log("retelse: %d\n",ret);
+    //Log("retelse: %d\n",ret);
   }
   ///////////////////HUGEBUG///////////////////////////////////////////////
-  if(strlen(dispinfo)!=21){
-    printf("dispinfo changed to :%s\n",dispinfo);
-    assert(0);
-  }
+  // if(strlen(dispinfo)!=21){
+  //   printf("dispinfo changed to :%s\n",dispinfo);
+  //   assert(0);
+  // }
   file_table[fd].open_offset += ret;
   //printf("ret: %d\n",ret); 
   return ret;
@@ -138,10 +138,10 @@ size_t fs_lseek(int fd, size_t offset, int whence)
 }
 
 size_t fs_write(int fd, const void *buf, size_t len){
-  if(strlen(dispinfo)!=21){
-    printf("dispinfo changed to :%s\n",dispinfo);
-    assert(0);
-  }
+  // if(strlen(dispinfo)!=21){
+  //   printf("dispinfo changed to :%s\n",dispinfo);
+  //   assert(0);
+  // }
     int size = file_table[fd].size; 
     int disk_offset = file_table[fd].disk_offset;
     int open_offset = file_table[fd].open_offset;
@@ -149,7 +149,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
     size_t ram_write_len = len;
     if(open_offset + len >= size)
     {
-      printf("writing too much !!\n");
+      //printf("writing too much !!\n");
       ram_write_len = size - open_offset;
     }
       

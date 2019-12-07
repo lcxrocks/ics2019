@@ -17,7 +17,7 @@ size_t ramdisk_write(const void *buf, size_t offset, size_t len) ;
 size_t get_ramdisk_size();
 extern char dispinfo[128];
 static uintptr_t loader(PCB *pcb, const char *filename) { //
-  Log("Load filename: %s\n",filename);
+  //Log("Load filename: %s\n",filename);
   Elf_Ehdr ehdr;
   int fd = fs_open(filename, 0, 0);
   //printf("openfile:%d\n",fd);
@@ -33,40 +33,40 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
 
   for (uint16_t i = 0; i < ehdr.e_phnum; i++)
   {
-    Log("Starting iteration: %d / %d\n",i+1,ehdr.e_phnum);
+    //Log("Starting iteration: %d / %d\n",i+1,ehdr.e_phnum);
     if (phdr[i].p_type == PT_LOAD)
     {
-      if(strlen(dispinfo)!=21){
-    printf("dispinfo changed to :%s\n",dispinfo);
-    assert(0);
-  }
-      Log("phdr[%d] p_type\n",i);
+    //   if(strlen(dispinfo)!=21){
+    // printf("dispinfo changed to :%s\n",dispinfo);
+    // assert(0);
+  //}
+      //Log("phdr[%d] p_type\n",i);
       size_t content[phdr[i].p_filesz];
       //ramdisk_read(content, phdr[i].p_offset, phdr[i].p_filesz);
-      Log("content size: %d\n",phdr[i].p_filesz);
+      //Log("content size: %d\n",phdr[i].p_filesz);
       fs_lseek(fd, phdr[i].p_offset, SEEK_SET);
-      if(strlen(dispinfo)!=21){
-    printf("dispinfo changed to :%s\n",dispinfo);
-    assert(0);
-  }
-      Log("lseek offset: %d\n",phdr[i].p_offset);
-      Log("fd: %d, contentsize:%d, phdrsize:%d\n",fd, strlen((char *)content), phdr[i].p_filesz);
+    //   if(strlen(dispinfo)!=21){
+    // printf("dispinfo changed to :%s\n",dispinfo);
+    // assert(0);
+  //}
+      //Log("lseek offset: %d\n",phdr[i].p_offset);
+      //Log("fd: %d, contentsize:%d, phdrsize:%d\n",fd, strlen((char *)content), phdr[i].p_filesz);
       fs_read(fd, content, phdr[i].p_filesz);
-      Log("finished fs_read on line 54\n");
-      if(strlen(dispinfo)!=21){
-    printf("dispinfo changed to :%s\n",dispinfo);
-    assert(0);
-  }
-      Log("read size: %d\n",phdr[i].p_filesz);
+      //Log("finished fs_read on line 54\n");
+  //     if(strlen(dispinfo)!=21){
+  //   printf("dispinfo changed to :%s\n",dispinfo);
+  //   assert(0);
+  // }
+      //Log("read size: %d\n",phdr[i].p_filesz);
       uint32_t *p_start = (uint32_t *)phdr[i].p_vaddr;
       //fs_write(fd, p_start, phdr[i].p_filesz);
-      Log("Start load phdr[%d]\n",i);
+     // Log("Start load phdr[%d]\n",i);
       memcpy(p_start, content, phdr[i].p_filesz);
-      if(strlen(dispinfo)!=21){
-    printf("dispinfo changed to :%s\n",dispinfo);
-    assert(0);
-  }
-      Log("Finished load phdr[%d], p_start:%x, content_length:%d, p_filesz:%d\n",i,p_start, sizeof(content), phdr[i].p_filesz);
+  //     if(strlen(dispinfo)!=21){
+  //   printf("dispinfo changed to :%s\n",dispinfo);
+  //   assert(0);
+  // }
+      //Log("Finished load phdr[%d], p_start:%x, content_length:%d, p_filesz:%d\n",i,p_start, sizeof(content), phdr[i].p_filesz);
       if (phdr[i].p_memsz > phdr[i].p_filesz) //.bss
       {
         char *bss_start = (char *)(phdr[i].p_vaddr + phdr[i].p_filesz);
@@ -75,10 +75,10 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
         //Log("Finished memset\n");
       }
     }
-    Log("finishde iteration :%d /%d\n", i+1, ehdr.e_phnum);
+    //Log("finished iteration :%d /%d\n", i+1, ehdr.e_phnum);
   }
   //fs_close(fd);
-  Log("Finished Load\n");
+  //Log("Finished Load\n");
 return ehdr.e_entry;
 }
 
