@@ -65,8 +65,8 @@ int fs_open(const char *pathname, int flags, int mode)
       printf("hahhaha\n");
       file_table[i].open_offset = 0;
       printf("Finish load %s\n",pathname);
-      return i;
       
+      return i;
     }
     printf("comparing for the %d time\n", i);
   }
