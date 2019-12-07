@@ -3,8 +3,7 @@
 static unsigned int FULL;
 
 static unsigned int dfs(unsigned int row, unsigned int ld, unsigned int rd) {
- //printf("row: %x,   %d\n",row,row);
- if (row == FULL) {
+  if (row == FULL) {
     return 1;
   } else {
     unsigned int pos = FULL & (~(row | ld | rd)), ans = 0;
