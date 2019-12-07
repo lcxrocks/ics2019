@@ -15,7 +15,7 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   printf("eip_QEMU 0x%8x %8u\n", ref_r->pc,ref_r->pc);
   printf("############################################\n");
 //rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
-  assert(equal == true);
+  assert(equal != true);
   return !equal;
 }
 
