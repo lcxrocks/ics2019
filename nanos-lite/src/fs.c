@@ -52,12 +52,12 @@ void init_fs() {
   int H = screen_height();
   file_table[FD_FB].size = W*H*4;
   file_table[FD_FB].open_offset = 0;
-  Log("file_table finished int!(size: %d)",file_table[FD_FB].size);
+  //Log("file_table finished int!(size: %d)",file_table[FD_FB].size);
 }
 
 int fs_open(const char *pathname, int flags, int mode)
 {
-  Log("pathname :%s\n",pathname);
+  //Log("pathname :%s\n",pathname);
   for (size_t i = 0; i < NR_FILES; i++)
   {
     if(strcmp(file_table[i].name, pathname)==0)
@@ -76,10 +76,10 @@ int fs_close(int fd)
 
 size_t fs_read(int fd, void *buf, size_t len)
 {
-  if(strlen(dispinfo)!=21){
-    printf("dispinfo changed to :%s\n",dispinfo);
-    assert(0);
-  }
+  // if(strlen(dispinfo)!=21){
+  //   printf("dispinfo changed to :%s\n",dispinfo);
+  //   assert(0);
+  // }
   //Log("---fd: %d ---buf:%s; --- len:%d,bufsize: %d\n",fd, buf,len,strlen(buf));
   int size = file_table[fd].size; 
   int disk_offset = file_table[fd].disk_offset;
@@ -116,10 +116,10 @@ size_t fs_read(int fd, void *buf, size_t len)
 
 size_t fs_lseek(int fd, size_t offset, int whence)
 {
-  if(strlen(dispinfo)!=21){
-    printf("dispinfo changed to :%s\n",dispinfo);
-    assert(0);
-  }
+  // if(strlen(dispinfo)!=21){
+  //   printf("dispinfo changed to :%s\n",dispinfo);
+  //   assert(0);
+  // }
   switch (whence)
   {
   case SEEK_SET:

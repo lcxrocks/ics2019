@@ -18,7 +18,7 @@ size_t ramdisk_read(void *buf, size_t offset, size_t len) {
   //   assert(0);
   // }
   assert(offset + len <= RAMDISK_SIZE);
-  Log("buf :%s, &offset :%x, len: %d",buf, offset, len);
+  //Log("buf :%s, &offset :%x, len: %d",buf, offset, len);
   memcpy(buf, &ramdisk_start + offset, len);
   // if(strlen(dispinfo)!=21){
   //   printf("dispinfo changed to :%s\n",dispinfo);
