@@ -26,7 +26,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
   Elf_Phdr phdr[ehdr.e_phnum]; //segement view
   fs_lseek(fd,ehdr.e_phoff,SEEK_SET);
   fs_read(fd, &phdr, ehdr.e_phentsize * ehdr.e_phnum);
-  //printf("fs_read2: %d\n",b);
+  printf("fs_read2aaa: %d\n",fd);
   //ramdisk_read(&phdr, ehdr.e_phoff, ehdr.e_phentsize * ehdr.e_phnum);
 
   for (uint16_t i = 0; i < ehdr.e_phnum; i++)
@@ -47,7 +47,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
     // printf("dispinfo changed to :%s\n",dispinfo);
     // assert(0);
   //}
-      Log("lseek offset: %d\n",phdr[i].p_offset);
+      //Log("lseek offset: %d\n",phdr[i].p_offset);
       //Log("fd: %d, contentsize:%d, phdrsize:%d\n",fd, strlen((char *)content), phdr[i].p_filesz);
       fs_read(fd, content, phdr[i].p_filesz);
       //Log("finished fs_read on line 54\n");
