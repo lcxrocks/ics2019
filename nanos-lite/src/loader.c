@@ -27,7 +27,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
   fs_lseek(fd,ehdr.e_phoff,SEEK_SET);
   fs_read(fd, &phdr, ehdr.e_phentsize * ehdr.e_phnum);
   //ramdisk_read(&phdr, ehdr.e_phoff, ehdr.e_phentsize * ehdr.e_phnum);
-
+  printf("hahhaah\n");
   for (uint16_t i = 0; i < ehdr.e_phnum; i++)
   {
     Log("Starting iteration: %d / %d\n",i+1,ehdr.e_phnum);
