@@ -4,7 +4,7 @@
 #define make_DopHelper(name) void concat(decode_op_, name) (vaddr_t *pc, Operand *op, bool load_val)
 
 /* Refer to Appendix A in i386 manual for the explanations of these abbreviations */
-
+//op is a Operand, defined in cpu/decode.h. 
 /* Ib, Iv */
 static inline make_DopHelper(I) {
   /* pc here is pointing to the immediate */
@@ -23,34 +23,23 @@ static inline make_DopHelper(I) {
 static inline make_DopHelper(SI) {
   assert(op->width == 1 || op->width == 4);
 
+  op->type = OP_TYPE_IMM;
   /* TODO: Use instr_fetch() to read `op->width' bytes of memory
    * pointed by 'pc'. Interpret the result as a signed immediate,
    * and assign it to op->simm.
    *
+   op->simm = ???
    */
-   op->type = OP_TYPE_IMM;
-    switch(op->width)
-    {
-	  case 1:{
-          t0=(uint8_t)instr_fetch(pc,op->width);
-          rtl_sext(&t1,&t0,op->width);
-	  break;
-	  }
-	  case 2:{
-          t0=(uint16_t)instr_fetch(pc,op->width);
-          rtl_sext(&t1,&t0,op->width);
-	  break;
-	  }
-	  case 4:{
-	  t1=(uint32_t)instr_fetch(pc,op->width);
-          break;
-          }
-	  default: assert(0);
-    }
-   op->simm = t1;
-
+  //op->simm = instr_fetch(pc,op->width); old version by lcx, wrong!!!
+  if(op->width==1){
+    rtl_li(&t0, instr_fetch(pc,op->width));
+    rtl_sext(&op->imm,&t0, op->width); 
+  }
+  else
+  {
+    op->simm = instr_fetch(pc,op->width);
+  }
   rtl_li(&op->val, op->simm);
-
   print_Dop(op->str, OP_STR_SIZE, "$0x%x", op->simm);
 }
 
@@ -181,7 +170,7 @@ make_DHelper(I) {
 }
 
 make_DHelper(r) {
-  decode_op_r(pc, id_dest, true);
+  decode_op_r(pc, id_dest, true); //id_dest is the one we want
 }
 
 make_DHelper(E) {
@@ -316,8 +305,11 @@ make_DHelper(out_a2dx) {
   print_Dop(id_dest->str, OP_STR_SIZE, "(%%dx)");
 }
 
+make_DHelper(){
+  
+}
 void operand_write(Operand *op, rtlreg_t* src) {
-  if (op->type == OP_TYPE_REG) { rtl_sr(op->reg, src, op->width); }
-  else if (op->type == OP_TYPE_MEM) { rtl_sm(&op->addr, src, op->width); }
+  if (op->type == OP_TYPE_REG) { rtl_sr(op->reg, src, op->width); }//reg. Intel version mov opreg, src;
+  else if (op->type == OP_TYPE_MEM) { rtl_sm(&op->addr, src, op->width); }//mem. Intel version move opaddr, src
   else { assert(0); }
 }

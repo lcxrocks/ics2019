@@ -36,11 +36,13 @@ static inline uint32_t instr_fetch(vaddr_t *pc, int len) {
   return instr;
 }
 
-/* Instruction Decode and EXecute */
+/* Instruction Decode and Execute */
 static inline void idex(vaddr_t *pc, OpcodeEntry *e) {
+  
   if (e->decode)
-    e->decode(pc);
-  e->execute(pc);
+    e->decode(pc); //help stores decinfo.src/src2/dest
+  
+  e->execute(pc); //then executes 
 }
 
 static inline void update_pc(void) {

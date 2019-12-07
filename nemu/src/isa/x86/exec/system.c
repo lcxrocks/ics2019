@@ -1,8 +1,24 @@
 #include "cpu/exec.h"
-void raise_intr(uint8_t NO, vaddr_t ret_addr);
+void raise_intr(uint32_t NO, vaddr_t ret_addr);
 make_EHelper(lidt) {
-  cpu.idtr.len=vaddr_read(id_dest->addr,2);
-  cpu.idtr.addr=vaddr_read(id_dest->addr+2,4);
+  //TODO();
+  //read a six byte data op(48 bit).
+  //16bit: 24+16; //higher order bit not used.
+  //32bit: 32+16; 
+  if (decinfo.isa.is_operand_size_16) {
+    rtl_lm((uint32_t*)&cpu.idtr.limit,&id_dest->addr,2);
+    s1=id_dest->addr+2;
+    rtl_lm(&s0,&s1,4);
+    s1=0x00ffffff;
+    rtl_and(&s0,&s0,&s1);
+    rtl_lm(&cpu.idtr.base,&s0,4);
+  } 
+  else {
+    s1=id_dest->addr+2;
+    rtl_lm((uint32_t*)&cpu.idtr.limit,&id_dest->addr,2);
+    rtl_lm(&cpu.idtr.base,&s1,4);
+    //printf("limit: 0x%8x    base: 0x%8x\n",cpu.idtr.limit,cpu.idtr.base);
+  }
   print_asm_template1(lidt);
 }
 
@@ -21,22 +37,32 @@ make_EHelper(mov_cr2r) {
 }
 
 make_EHelper(int) {
-  switch(decinfo.opcode){
-  case 0xcc : raise_intr(0x3,decinfo.seq_pc);break;
-  case 0xcd : raise_intr(id_dest->val,decinfo.seq_pc);break;
-  case 0xce : raise_intr(0x4,decinfo.seq_pc);break;
-  }
+  raise_intr(id_dest->val, decinfo.seq_pc);
+
+  print_asm("int %s", id_dest->str);
+
+  difftest_skip_dut(1, 2);
+}
+
+make_EHelper(int3){
+  id_dest->val =3;
+    raise_intr(id_dest->val, decinfo.seq_pc);
+
   print_asm("int %s", id_dest->str);
 
   difftest_skip_dut(1, 2);
 }
 
 make_EHelper(iret) {
+  //TODO();
+
   rtl_pop(&s0);
-  rtl_pop(&cpu.cs);    
-  rtl_pop(&cpu.eflags);
+  rtl_pop(&cpu.cs);
+  rtl_pop(&cpu.init); //eflags
   rtl_j(s0);
+  //printf("s0: 0x%x\n",s0);
   print_asm("iret");
+  
 }
 
 uint32_t pio_read_l(ioaddr_t);
@@ -47,23 +73,34 @@ void pio_write_w(ioaddr_t, uint32_t);
 void pio_write_b(ioaddr_t, uint32_t);
 
 make_EHelper(in) {
-  switch(id_dest->width){
-  case 1:s0=pio_read_b(id_src->val);break;
-  case 2:s0=pio_read_w(id_src->val);break;
-  case 4:s0=pio_read_l(id_src->val);break;
-  default:assert(0);break;
+  //TODO();
+  switch (id_src->width)
+  {
+  case 1:
+    rtl_li(&s1,pio_read_b(id_src->val));
+    break;
+  case 2:
+    rtl_li(&s1,pio_read_w(id_src->val));
+    break;
+  case 4:
+    rtl_li(&s1,pio_read_l(id_src->val));
+    break;
+
+  default:
+    printf("func Ehelper_in() down at %d\n", __LINE__); 
+    assert(0);
+    break;
   }
-  rtl_sr(id_dest->reg,&s0,id_dest->width);
+  operand_write(id_dest, &s1);
   print_asm_template2(in);
 }
 
 make_EHelper(out) {
-  s0=id_dest->val;
   switch(id_dest->width){
-  case 1:pio_write_b(s0,id_src->val);break;
-  case 2:pio_write_w(s0,id_src->val);break;
-  case 4:pio_write_l(s0,id_src->val);break;
-  default:assert(0);break;
+    case 1: pio_write_b(id_dest->val,id_src->val); break;
+    case 2: pio_write_w(id_dest->val,id_src->val); break;
+    case 4: pio_write_l(id_dest->val,id_src->val); break;
+    default: printf("func Ehelper_out() down at %d\n", __LINE__); assert(0); break;
   }
   print_asm_template2(out);
 }
