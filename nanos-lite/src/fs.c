@@ -53,19 +53,28 @@ static Finfo file_table[] __attribute__((used)) = {
 
 #define NR_FILES (sizeof(file_table) / sizeof(file_table[0]))
 
-void init_fs()
-{
-    file_table[FD_FB].size = screen_height() * screen_width() * 4;
+void init_fs() {
+  // TODO: initialize the size of /dev/fb
+  int W = screen_width();
+  int H = screen_height();
+  file_table[FD_FB].size = W*H*4;
+  file_table[FD_FB].open_offset = 0;
+  //Log("file_table finished int!(size: %d)",file_table[FD_FB].size);
 }
 
-int fs_open(const char* pathname, int flags, int mode)
+int fs_open(const char *pathname, int flags, int mode)
 {
-    for (int i = 0; i < NR_FILES; i++)
-        if (strcmp(file_table[i].name, pathname) == 0) {
-            file_table[i].open_offset = 0;
-            return i;
-        }
-    assert(0);
+  Log("pathname :%s\n",pathname);
+  for (size_t i = 0; i < NR_FILES; i++)
+  {
+    if(strcmp(file_table[i].name, pathname)==0)
+    { 
+      file_table[i].open_offset = 0;
+      return i;
+    }
+    //printf("str comparing for the %d time\n", i);
+  }
+  panic("File not found!\n");
 }
 
 int fs_close(int fd)
@@ -103,24 +112,19 @@ size_t fs_write(int fd, const void* buf, size_t len)
 
 size_t fs_lseek(int fd, size_t offset, int whence)
 {
-    Finfo* cur_file = &file_table[fd];
-    switch (whence) {
-        case SEEK_SET:
-            if (offset >= 0 && offset <= cur_file->size)
-                cur_file->open_offset = offset;
-            else
-                return -1;
-            break;
-        case SEEK_CUR:
-            if (cur_file->open_offset + offset >= 0 && cur_file->open_offset + offset <= cur_file->size)
-                cur_file->open_offset += offset;
-            else
-                return -1;
-            break;
-        case SEEK_END:
-            cur_file->open_offset = cur_file->size + offset;
-            break;
-        default: return (__off_t)(-1);
-    }
-    return cur_file->open_offset;
+  switch (whence)
+  {
+  case SEEK_SET:
+    file_table[fd].open_offset = offset;
+    break;
+  case SEEK_CUR:
+    file_table[fd].open_offset += offset;
+    break;
+  case SEEK_END:
+    file_table[fd].open_offset = file_table[fd].size + offset;
+    break;
+  default: panic("Should not reach fs_lseek() end\n");
+    break;
+  }
+  return file_table[fd].open_offset;
 }
