@@ -24,7 +24,7 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   printf("edi_NEMU 0x%8x %8u\n", cpu.edi,cpu.edi);
   printf("eip_NEMU 0x%8x %8u\n", cpu.pc,cpu.pc);
 //rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
-  assert(equal ==true);
+  if(equal==false) assert(0);
   return !equal;
 }
 
