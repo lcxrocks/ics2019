@@ -26,4 +26,4 @@ clock_t _times(void *buf);
 int _gettimeofday(struct timeval *tv);
 ```
 
-这些系统调用是平台相关的，libos包含实现这些系统调用的代码。对于不是POSIX兼容的系统(如自制迷你操作系统)，一些系统调用可以模拟实现，一些可以留空(返回失败或assert fail)。
+这些系统调用是==平台相关==的，libos包含实现这些系统调用的代码。对于不是POSIX兼容的系统(如自制迷你操作系统)，一些系统调用可以模拟实现，一些可以留空(返回失败或assert fail)。
