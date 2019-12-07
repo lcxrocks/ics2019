@@ -35,4 +35,3 @@ src/syscall.h: $(NAVY_HOME)/libs/libos/src/syscall.h
 
 update: update-ramdisk-fsimg src/syscall.h
 	@touch src/initrd.S
-
