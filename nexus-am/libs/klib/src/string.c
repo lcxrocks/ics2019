@@ -69,39 +69,39 @@ void* memset(void* v,int c,size_t n) {
   return v;
 }
 
-// void* memcpy(void* out, const void* in, size_t n) {
-//   int i;
-//   for (i = 0; i < n; i++){
-//     ((char*)out)[i] = ((char*)in)[i];
-//   }
-//   //printf("memcpy out=%d in=%d size=%d\n", out, in, n);
-//   return out;
-// }
-void * memcpy (void * dst,const void * src,size_t count)
-{
-   void * ret = dst;
-   if (dst <= src || (char *)dst >= ((char *)src + count))
-   {  // 若dst和src区域没有重叠，则从起始处开始逐一拷贝
-      while (count--)
-      {
-         *(char *)dst = *(char *)src;
-         dst = (char *)dst + 1;
-         src = (char *)src + 1;
-      }
-   }
-   else
-   {  // 若dst和src 区域交叉，则从尾部开始向起始位置拷贝，这样可以避免数据冲突
-      dst = (char *)dst + count - 1;
-      src = (char *)src + count - 1;
-      while (count--)
-      {
-         *(char *)dst = *(char *)src;
-         dst = (char *)dst - 1;
-         src = (char *)src - 1;
-      }
-   }
-   return(ret);
+void* memcpy(void* out, const void* in, size_t n) {
+  int i;
+  for (i = 0; i < n; i++){
+    ((char*)out)[i] = ((char*)in)[i];
+  }
+  //printf("memcpy out=%d in=%d size=%d\n", out, in, n);
+  return out;
 }
+// void * memcpy (void * dst,const void * src,size_t count)
+// {
+//    void * ret = dst;
+//    if (dst <= src || (char *)dst >= ((char *)src + count))
+//    {  // 若dst和src区域没有重叠，则从起始处开始逐一拷贝
+//       while (count--)
+//       {
+//          *(char *)dst = *(char *)src;
+//          dst = (char *)dst + 1;
+//          src = (char *)src + 1;
+//       }
+//    }
+//    else
+//    {  // 若dst和src 区域交叉，则从尾部开始向起始位置拷贝，这样可以避免数据冲突
+//       dst = (char *)dst + count - 1;
+//       src = (char *)src + count - 1;
+//       while (count--)
+//       {
+//          *(char *)dst = *(char *)src;
+//          dst = (char *)dst - 1;
+//          src = (char *)src - 1;
+//       }
+//    }
+//    return(ret);
+// }
 
 
 int memcmp(const void* s1, const void* s2, size_t n){
