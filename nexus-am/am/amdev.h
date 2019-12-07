@@ -20,14 +20,10 @@ extern "C" {
   enum { _DEVREG_##dev##_##reg = id }; \
   typedef struct { __VA_ARGS__; } __attribute__((packed)) \
     _DEV_##dev##_##reg##_t;
-/*
-#define _AM_DEVREG(dev, reg, id, ...) enum { _DEVREG_##dev##_##reg = id }; 
-typedef struct { __VA_ARGS__; } __attribute__((packed)) _DEV_##dev##_##reg##_t;
-*/
+
 // ================= Device Register Specifications ==================
 
 _AM_DEVREG(INPUT,  KBD,    1, int keydown, keycode);
-//enum { _DEVREG_INPUT_KBD = id,}; 
 _AM_DEVREG(TIMER,  UPTIME, 1, uint32_t hi, lo);
 _AM_DEVREG(TIMER,  DATE,   2, int year, month, day, hour, minute, second);
 _AM_DEVREG(VIDEO,  INFO,   1, int width, height);
