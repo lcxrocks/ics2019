@@ -51,6 +51,7 @@ char* strcat(char* dst, const char* src) {
 int strcmp(const char* s1, const char* s2) 
 {
 	int p=0;
+  printf("ahahhahah\n");
 	for(;s1[p]!='\0'&&s2[p]!='\0';p++)
 	{
 		if((int)s1[p]>(int)s2[p])return 1;
