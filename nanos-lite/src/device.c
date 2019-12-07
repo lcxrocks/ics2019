@@ -40,10 +40,10 @@ size_t events_read(void *buf, size_t offset, size_t len) {
 char dispinfo[128] __attribute__((used)) = {};
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
-  if(strlen(dispinfo)!=21){
-    printf("dispinfo changed to :%s\n",dispinfo);
-    assert(0);
-  }
+  // if(strlen(dispinfo)!=21){
+  //   printf("dispinfo changed to :%s\n",dispinfo);
+  //   assert(0);
+  // }
   int cnt;
   int size = strlen(dispinfo);
   Log("buf:%s ---offset:%d---len:%d---dispinfosize:%d\n",buf, offset,len,size);
