@@ -75,6 +75,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
         //Log("Finished memset\n");
       }
     }
+    Log("finishde iteration :%d /%d\n", i, ehdr.e_phnum);
   }
   //fs_close(fd);
   Log("Finished Load\n");
