@@ -100,6 +100,7 @@ static void redraw() {
       fb[i + j * W] = palette[vmem[i + j * W]];
 
   NDL_DrawRect(fb, 0, 0, W, H);
+  printf("redraw\n");
   NDL_Render();
 }
 
