@@ -12,7 +12,9 @@ __am_asm_trap:
   pushl %esp
   call __am_irq_handle
 
-  addl $4, %esp
+  addl $4, %esp ## dump the _Context*
+
+  movl %eax, %esp ##put the ret_Context* to %esp
 
   addl $4, %esp
   popal

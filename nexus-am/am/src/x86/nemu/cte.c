@@ -1,6 +1,7 @@
 #include <am.h>
 #include <x86.h>
 #include <stdio.h>
+#include <string.h>
 static _Context* (*user_handler)(_Event, _Context*) = NULL;
 
 void __am_irq0();
@@ -58,8 +59,14 @@ int _cte_init(_Context*(*handler)(_Event, _Context*)) {
   return 0;
 }
 
-_Context *_kcontext(_Area stack, void (*entry)(void *), void *arg) {
-  return NULL;
+//Area: *start, *end
+_Context *_kcontext(_Area stack, void (*entry)(void *), void *arg) { 
+  //return NULL;
+  _Context *c = (_Context*) stack.end - 1; //minus 1 sizeof(struct).
+  memset(c,0,sizeof(_Context));
+  c->pc = (uintptr_t) entry;
+  c->cs = 8;
+  return c;
 }
 
 void _yield() {
