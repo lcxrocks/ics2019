@@ -2,7 +2,7 @@
 
 #define MAX_NR_PROC 4
 void naive_uload(PCB* pcb, const char* filename);
-static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {};
+static PCB pcb[MAX_NR_PROC] __attribute__((used)) = {}; //max process num = 4
 static PCB pcb_boot = {};
 PCB* current = NULL;
 
@@ -32,5 +32,7 @@ void init_proc()
 
 _Context* schedule(_Context* prev)
 {
-    return NULL;
+    current->cp = prev;
+    current = &pcb[0];
+    return current->cp;
 }
