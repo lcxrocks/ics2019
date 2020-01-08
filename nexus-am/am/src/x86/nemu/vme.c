@@ -1,7 +1,7 @@
 #include <am.h>
 #include <x86.h>
 #include <nemu.h>
-
+#include <string.h>
 #define PG_ALIGN __attribute((aligned(PGSIZE)))
 
 static PDE kpdirs[NR_PDE] PG_ALIGN = {};
@@ -88,7 +88,7 @@ _Context *_ucontext(_AddressSpace *as, _Area ustack, _Area kstack, void *entry, 
   //   sizeof(main_stack_frame) = sizeof(argc) - sizeof(argv) - sizeof(envp)
   _Context *uc = (_Context *)u_end -1;
   memset(uc,0,sizeof(_Context));
-  uc->eip = (uintptr_t)entry;
+  uc->pc = (uintptr_t)entry;
   uc->cs = 0x8;
   return uc;
 }
