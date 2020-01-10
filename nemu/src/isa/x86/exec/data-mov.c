@@ -158,3 +158,11 @@ make_EHelper(movs){
   cpu.edi += id_dest->width;
   print_asm_template2(movs);
 }
+
+make_EHelper(mov_r2cr){
+  printf("id_dest->val: %d\n",id_dest->reg);
+  rtl_lm(&s0,&id_src->addr,id_dest->width);
+  rtl_sm(&id_dest->addr,&s0,id_dest->width);
+  assert(0);
+  print_asm_template2(mov_r2cr);
+}

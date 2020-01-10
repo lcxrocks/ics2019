@@ -17,7 +17,7 @@ typedef struct {
     rtlreg_t addr; //rtl can only use this 
     uint32_t imm;
     int32_t simm;
-  }; // why union? becuse this is the source : reg/addr/imm/simm. what is simm?
+  }; // why union? becuse this is the source : reg/addr/imm/simm. what is simm? signed imm
   rtlreg_t val; //rtl can only use this 
   char str[OP_STR_SIZE];
 } Operand;
