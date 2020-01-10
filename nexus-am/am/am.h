@@ -51,9 +51,9 @@ typedef struct _Context _Context;
 // A protected address space with user memory @area
 // and arch-dependent @ptr
 typedef struct _AddressSpace {
-  size_t pgsize;
-  _Area area; //start & end 
-  void *ptr;
+  size_t pgsize; //页面的大小
+  _Area area; //start & end 虚拟地址空间中用户态的范围
+  void *ptr;//指示具体的映射？
 } _AddressSpace;
 
 // ====================== Turing Machine (TRM) =======================
