@@ -17,7 +17,7 @@ paddr_t page_translate(vaddr_t addr, bool wren){
     paddr_t page_addr = page_idx *4 + (pde.page_frame << 12);
     pte.val = paddr_read(page_addr, 4);
     assert(pte.present);
-    assert(!((!pte.read_write)&&wren)); //can't write when (R/W = 0 && wren = 1)
+    //assert(!((!pte.read_write)&&wren)); //can't write when (R/W = 0 && wren = 1)
     pte.accessed = 1;
     pte.dirty = wren ? 1 : pte.dirty; // “由MMU在进行写操作的时候将该位置1”
 
@@ -49,7 +49,6 @@ uint32_t isa_vaddr_read(vaddr_t addr, int len) {
 }
 
 void isa_vaddr_write(vaddr_t addr, uint32_t data, int len) {
-  printf("called isa_vaddr_write\n");
   if(((addr+len-1)& ~PAGE_MASK) != (addr & ~PAGE_MASK)) //addr +len cross page.end
   {
     printf("data cross the page boundary --> isa_vaddr_write()\n");
