@@ -23,8 +23,11 @@ make_EHelper(lidt) {
 }
 
 make_EHelper(mov_r2cr) {
-  TODO();
-
+  //TODO();
+  printf("id_dest->val: %d\n",id_dest->reg);
+  rtl_lm(&s0,&id_src->addr,id_dest->width);
+  rtl_sm(&id_dest->addr,&s0,id_dest->width);
+  assert(0);
   print_asm("movl %%%s,%%cr%d", reg_name(id_src->reg, 4), id_dest->reg);
 }
 
