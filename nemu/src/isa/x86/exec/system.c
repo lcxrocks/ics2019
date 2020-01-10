@@ -30,24 +30,17 @@ make_EHelper(mov_r2cr) {
   case 0:
     //this is cr0 register
     cpu.cr0.val = id_src->val;
-    printf("cpu.cr0.val: %d\n",cpu.cr0.val);
-    assert(0);
     break;
   
   case 3: 
     //this is cr3 register
-    printf("src: %x\n",id_src->val);
     cpu.cr3.val = id_src->val;
-    printf("cpu.cr3.val: %x\n",cpu.cr3.val);
-    assert(0);
     break;
   default:
     printf("should not reach here --> mov_r2cr()\n");
     assert(0);
     break;
   }
-  rtl_lm(&s0,&id_src->addr,id_dest->width);
-  rtl_sm(&id_dest->addr,&s0,id_dest->width);
   print_asm("movl %%%s,%%cr%d", reg_name(id_src->reg, 4), id_dest->reg);
 }
 
