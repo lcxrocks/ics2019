@@ -35,6 +35,8 @@ make_EHelper(mov_r2cr) {
   case 3: 
     //this is cr3 register
     cpu.cr3.val = id_src->val;
+    printf("%x\n",cpu.cr3.val);
+    assert(0);
     break;
   default:
     printf("should not reach here --> mov_r2cr()\n");
