@@ -3,7 +3,8 @@
 static void *pf = NULL;
 
 void* new_page(size_t nr_page) {
-  void *p = pf;
+  panic("new_page!!");
+  void *p = pf; //get the new page frame
   pf += PGSIZE * nr_page;
   assert(pf < (void *)_heap.end);
   return p;
@@ -19,8 +20,8 @@ int mm_brk(uintptr_t brk, intptr_t increment) {
 }
 
 void init_mm() {
-  pf = (void *)PGROUNDUP((uintptr_t)_heap.start);
-  Log("free physical pages starting from %p", pf);
+  pf = (void *)PGROUNDUP((uintptr_t)_heap.start); //get a new page frame
+  Log("free physical pages starting from %p", pf); 
 
   _vme_init(new_page, free_page);
 }
