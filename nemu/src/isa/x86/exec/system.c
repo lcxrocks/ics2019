@@ -47,7 +47,7 @@ make_EHelper(mov_r2cr) {
 make_EHelper(mov_cr2r) {
   //TODO();
   printf("id_src->reg: %d\n",id_src->reg); //id_dest->reg = 3 / 0------ cr3 / cr0
-  printf("id_dest->val: %x\n",id_dest->val);
+  printf("id_dest->val: %x\n",id_dest->reg);
   assert(0);
   switch (id_src->reg)
   {
