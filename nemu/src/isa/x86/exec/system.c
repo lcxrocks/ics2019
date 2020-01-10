@@ -46,22 +46,19 @@ make_EHelper(mov_r2cr) {
 
 make_EHelper(mov_cr2r) {
   //TODO();
-  printf("id_src->reg: %d\n",id_src->reg); //id_dest->reg = 3 / 0------ cr3 / cr0
-  printf("id_dest->val: %x\n",id_dest->reg);
   assert(0);
   switch (id_src->reg)
   {
   case 0:
-    //this is cr0 register
-    cpu.cr0.val = id_src->val;
+    //use op_write function
+    operand_write(id_dest,&cpu.cr0.val);
     break;
   
   case 3: 
-    //this is cr3 register
-    cpu.cr3.val = id_src->val;
+    operand_write(id_dest,&cpu.cr3.val);
     break;
   default:
-    printf("should not reach here --> mov_r2cr()\n");
+    printf("should not reach here --> mov_cr2r()\n");
     assert(0);
     break;
   }
