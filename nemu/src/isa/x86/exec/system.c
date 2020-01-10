@@ -24,7 +24,7 @@ make_EHelper(lidt) {
 
 make_EHelper(mov_r2cr) {
   //TODO();
-  printf("id_dest->val: %d\n",id_dest->reg); //id_dest->reg = 3 / 0------ cr3 / cr0
+  //printf("id_dest->val: %d\n",id_dest->reg); //id_dest->reg = 3 / 0------ cr3 / cr0
   switch (id_dest->reg)
   {
   case 0:
@@ -45,8 +45,26 @@ make_EHelper(mov_r2cr) {
 }
 
 make_EHelper(mov_cr2r) {
-  TODO();
-
+  //TODO();
+  printf("id_src->reg: %d\n",id_src->reg); //id_dest->reg = 3 / 0------ cr3 / cr0
+  printf("id_dest->val: %d\n",id_dest->val);
+  assert(0);
+  switch (id_src->reg)
+  {
+  case 0:
+    //this is cr0 register
+    cpu.cr0.val = id_src->val;
+    break;
+  
+  case 3: 
+    //this is cr3 register
+    cpu.cr3.val = id_src->val;
+    break;
+  default:
+    printf("should not reach here --> mov_r2cr()\n");
+    assert(0);
+    break;
+  }
   print_asm("movl %%cr%d,%%%s", id_src->reg, reg_name(id_dest->reg, 4));
 
   difftest_skip_ref();
