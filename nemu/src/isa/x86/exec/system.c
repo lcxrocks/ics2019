@@ -36,9 +36,9 @@ make_EHelper(mov_r2cr) {
   
   case 3: 
     //this is cr3 register
-    printf("src: %d\n",id_src->val);
+    printf("src: %x\n",id_src->val);
     cpu.cr3.val = id_src->val;
-    printf("cpu.cr3.val: %d\n",cpu.cr3.val);
+    printf("cpu.cr3.val: %x\n",cpu.cr3.val);
     assert(0);
     break;
   default:
