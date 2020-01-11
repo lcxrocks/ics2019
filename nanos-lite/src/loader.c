@@ -13,7 +13,6 @@ extern int fs_open(const char* pathname, int flags, int mode);
 extern int fs_close(int fd);
 extern size_t fs_read(int fd, void* buf, size_t len);
 extern size_t fs_lseek(int fd, size_t offset, int whence);
-size_t get_file_size(int fd);
 /*
   _Context *cp;
   _AddressSpace as; (size_t pgsize; //页面的大小
@@ -23,26 +22,10 @@ size_t get_file_size(int fd);
 */
 #define DEFAULT_ENTRY ((void *)0x40000000); 
 static uintptr_t loader(PCB *pcb, const char *filename) { //
-  
   int fd = fs_open(filename, 0, 0);
-  int size = file_table[fd].size;
-  Log("Load filename: %s, size: %8x\n",filename, size);
-
-  void *pa = DEFAULT_ENTRY;
-  void *va = DEFAULT_ENTRY;
-  while (size > 0)
-  {
-    pa = new_page(1);
-    _map(&pcb->as,va,pa,0);
-    fs_read(fd,pa,PGSIZE);
-    va += PGSIZE;
-    size -= PGSIZE;
-  }
-  fs_close(fd);
-  return DEFAULT_ENTRY;
-  
-
-
+  Elf_Ehdr ehdr;
+  Elf_Phdr phdr;
+  Log("Load filename: %s\n",filename);
   fs_read(fd, &ehdr, sizeof(ehdr));
   for (uint16_t i = 0; i < ehdr.e_phnum; i++)
   {
@@ -51,9 +34,21 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
     if (phdr.p_type == PT_LOAD)
     {
       fs_lseek(fd, phdr.p_offset, SEEK_SET);
-      uint32_t *p_start = (uint32_t *)phdr.p_vaddr;
-      fs_read(fd, p_start,phdr.p_filesz);
-      memset(p_start+phdr.p_filesz,0,phdr.p_memsz - phdr.p_filesz);
+      void *pa = DEFAULT_ENTRY;
+      void *va = DEFAULT_ENTRY;
+      va = (void *)phdr.p_vaddr;
+      int pg_num=0;
+      for (size_t j = 0; j < phdr.p_memsz; j+=PGSIZE)
+      {
+        size_t bytes = ((phdr.p_memsz-i)>=PGSIZE) ? PGSIZE : (phdr.p_memsz-i);
+        pa = new_page(1);
+        pg_num++;
+        _map(&pcb->as,va,pa,0);
+        fs_read(fd,pa,bytes);
+        pcb->max_brk = (uintptr_t)va+PGSIZE;
+        va+=PGSIZE;
+      }
+      memset((void *)pa-(pg_num-1)*PGSIZE+phdr.p_filesz,0,phdr.p_memsz - phdr.p_filesz);
     }
     //Log("finished iteration :%d /%d\n", i+1, ehdr.e_phnum);
   }
