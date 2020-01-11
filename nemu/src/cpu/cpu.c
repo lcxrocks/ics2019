@@ -16,6 +16,7 @@ void isa_exec(vaddr_t *pc);
 vaddr_t exec_once(void) {
   decinfo.seq_pc = cpu.pc;
   isa_exec(&decinfo.seq_pc); // By instr_fetch, we updated decinfo.seq_pc
+  update_pc();
   if(isa_query_intr()) update_pc(); //update cpu.pc (global)
 
   return decinfo.seq_pc;
