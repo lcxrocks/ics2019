@@ -8,7 +8,7 @@ paddr_t page_translate(vaddr_t addr){
     uint32_t dir = addr >> 22; // 10 bits of DIR 页目录索引
     uint32_t page_idx = (addr >> 12) & 0x3ff; //10 bits of PAGE 页表索引
     uint32_t offset = addr & PAGE_MASK; // 12 bits of PAGE offset 页内地址
-    printf("accessing page: %8x\n",addr);
+    //printf("accessing page: %8x\n",addr);
     paddr_t page_dir = dir *4 + (cpu.cr3.page_directory_base << 12);
     pde.val = paddr_read(page_dir, 4); //get the page_directory 页表基地址
     assert(pde.present); //if pde.present == 0, then the page is not usable
