@@ -11,12 +11,12 @@ paddr_t page_translate(vaddr_t addr, bool wren){
     
     paddr_t page_dir = dir *4 + (cpu.cr3.page_directory_base << 12);
     pde.val = paddr_read(page_dir, 4); //get the page_directory 页表基地址
-    //assert(pde.present); //if pde.present == 0, then the page is not usable
+    assert(pde.present); //if pde.present == 0, then the page is not usable
     pde.accessed = 1; // “由MMU在进行地址转换时将该位置1”
 
     paddr_t page_addr = page_idx *4 + (pde.page_frame << 12);
     pte.val = paddr_read(page_addr, 4);
-    //assert(pte.present);
+    assert(pte.present);
     //assert(!((!pte.read_write)&wren)); //can't write when (R/W = 0 && wren = 1)
     pte.accessed = 1;
     pte.dirty = wren ? 1 : pte.dirty; // “由MMU在进行写操作的时候将该位置1”
