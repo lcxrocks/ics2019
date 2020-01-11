@@ -15,7 +15,6 @@ void raise_intr(uint32_t NO, vaddr_t ret_addr) {
   printf("cpu.idtr.limit:0x%8x\n", cpu.idtr.limit);
   */
   //1.push regs
-  printf("interupt NO: %d\n",NO);
   rtl_push(&cpu.init);//eflags
   cpu.IF = 1;
   rtl_push(&cpu.cs);
