@@ -5,6 +5,7 @@ paddr_t page_translate(vaddr_t addr, bool wren){
   PTE pte;
   if (cpu.cr0.paging)
   {
+    printf("translated\n");
     uint32_t dir = addr >> 22; // 10 bits of DIR 页目录索引
     uint32_t page_idx = (addr >> 12) & 0x3ff; //10 bits of PAGE 页表索引
     uint32_t offset = addr & PAGE_MASK; // 12 bits of PAGE offset 页内地址
