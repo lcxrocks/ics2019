@@ -41,6 +41,7 @@ uint32_t isa_vaddr_read(vaddr_t addr, int len) {
     uint32_t data;
     paddr_t paddr1 = page_translate(addr, false);
     paddr_t paddr2 = page_translate(addr2,false);
+    printf("paddr1: %8x, paddr2:%8x, pg1_len:%d, pg2_len:%d , len : %d\n", paddr1,paddr2,pg1_len,pg2_len,len);
     data = paddr_read(paddr1, pg1_len) | (paddr_read(paddr2,pg2_len) << pg1_len);
     return data;
     //assert(0);
