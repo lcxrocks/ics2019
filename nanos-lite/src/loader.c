@@ -42,7 +42,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
       int pg_num=0;
       for (size_t j = 0; j < phdr.p_memsz; j+=PGSIZE)
       {
-        size_t bytes = ((phdr.p_memsz-i)>=PGSIZE) ? PGSIZE : (phdr.p_memsz-i);
+        size_t bytes = ((phdr.p_memsz-j)>=PGSIZE) ? PGSIZE : (phdr.p_memsz-j);
         pa = new_page(1);
         pg_num++;
         _map(&pcb->as,va,pa,0);
