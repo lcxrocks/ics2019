@@ -24,7 +24,11 @@ paddr_t page_translate(vaddr_t addr, bool wren){
     return  ((pte.page_frame <<12) | offset);
   }
   else 
+  {
+    printf("didn't translate\n");
     return addr;
+  }
+    //return addr;
 }
 
 uint32_t isa_vaddr_read(vaddr_t addr, int len) {
