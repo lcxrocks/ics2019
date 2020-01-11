@@ -1,6 +1,6 @@
 #include "nemu.h"
 
-paddr_t page_translate(vaddr_t addr, bool wren){
+paddr_t page_translate(vaddr_t addr){
   PDE pde;
   PTE pte;
   if (cpu.cr0.paging)
@@ -37,7 +37,7 @@ uint32_t isa_vaddr_read(vaddr_t addr, int len) {
     //printf("data cross the page boundary --> isa_vaddr_read()\n");
     uint32_t data = 0;
 	  for(int i=0;i<len;i++){
-		  paddr_t paddr = page_translate(addr + i, false);
+		  paddr_t paddr = page_translate(addr + i);
 		  data += (paddr_read(paddr, 1))<<8*i;
 	  }
 	  return data;  
@@ -45,7 +45,7 @@ uint32_t isa_vaddr_read(vaddr_t addr, int len) {
   }
   else 
   {
-    paddr_t paddr = page_translate(addr, false);
+    paddr_t paddr = page_translate(addr);
     return paddr_read(paddr,len);
   }  
 }
@@ -58,7 +58,7 @@ void isa_vaddr_write(vaddr_t addr, uint32_t data, int len) {
   }
   else 
   {
-    paddr_t paddr = page_translate(addr, true);
+    paddr_t paddr = page_translate(addr);
     paddr_write(paddr,data,len);
   }
 }
