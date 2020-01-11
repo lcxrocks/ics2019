@@ -3,7 +3,7 @@
 static void *pf = NULL;
 
 void* new_page(size_t nr_page) {
-  panic("new_page!!");
+  //panic("new_page!!");
   void *p = pf; //get the new page frame
   pf += PGSIZE * nr_page;
   assert(pf < (void *)_heap.end);
