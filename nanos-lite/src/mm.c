@@ -22,21 +22,6 @@ void free_page(void *p) {
 int mm_brk(uintptr_t brk, intptr_t increment) {
   uintptr_t max_brk = current->max_brk;
   printf("former max brk: %8x, brk: %8x\n",max_brk,brk);
-  // void *va = NULL;
-  // void *pa = NULL;
-
-  // void *newpage_begin = (void *)PGROUNDUP(current->max_brk); //round off to next page
-  // void *newpage_end = (void *)PGROUNDUP(brk);
-  // if (max_brk<brk)
-  // {
-  //   for (void *i = newpage_begin; i < newpage_end; i+=PGSIZE)
-  //   {
-  //     va = (void*) i;
-  //     pa = new_page(1);
-  //     _map(&current->as, va, pa, 0);
-  //   }
-  //   current->max_brk = brk;
-  // }
   while (current->max_brk<=brk)
   {
     void *pa = new_page(1);
