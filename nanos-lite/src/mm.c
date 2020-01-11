@@ -20,10 +20,27 @@ void free_page(void *p) {
 /* The brk() system call handler. */
 /* 把新申请的堆区映射到虚拟地址空间中, 这样才能保证运行在分页机制上的用户进程可以正确地访问新申请的堆区. */
 int mm_brk(uintptr_t brk, intptr_t increment) {
-  // if (current->max_brk<brk)
-  // {
-  //   /* code */
-  // }
+  if (current->max_brk<brk)
+  {
+    void *va = NULL;
+    void *pa = NULL;
+    void *begin = (void *)PGROUNDUP(current->max_brk); //round off to next page
+    void *end = (void *)PGROUNDUP(brk);
+    for (void *i = begin; i < end; i+=PGSIZE)
+    {
+      va = (void*) i;
+      pa = new_page(1);
+      _map(&current->as,va,pa,0);
+    }
+    current->max_brk = brk;
+  }
+  while (current->max_brk<=brk)
+  {
+    void *pa = new_page(1);
+    _map(&current->as, (void *)current->max_brk, pa, 0);
+    current->max_brk += PGSIZE;
+  }
+  
   return 0;
 }
 

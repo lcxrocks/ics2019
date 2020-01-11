@@ -5,6 +5,7 @@
 int sys_write(int fd, void *buf, size_t count);
 void naive_uload(PCB *pcb, const char *filename);
 intptr_t sys_brk(intptr_t increment); 
+int mm_brk(uintptr_t brk, intptr_t increment);
 _Context* do_syscall(_Context *c) {
   uintptr_t a[4];
   a[0] = c->GPR1; //sys-call type
@@ -21,7 +22,7 @@ _Context* do_syscall(_Context *c) {
     case SYS_write: c->GPRx = fs_write((int)a[1],(void *)a[2],(size_t)a[3]); break;
     case SYS_close: c->GPRx = fs_close((int)a[1]); break;
     case SYS_lseek: c->GPRx = fs_lseek((int)a[1],(size_t)a[2],(int)a[3]); break;
-    case SYS_brk: c->GPRx = 0; break;
+    case SYS_brk: c->GPRx = mm_brk(a[1],0); break;
     case SYS_execve: naive_uload(NULL,(char *)a[1]);break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
@@ -44,5 +45,6 @@ int sys_write(int fd, void *buf, size_t count)
   else
   return -1;
 }
+
 
 extern intptr_t _end; //must have a type, or gcc complains.
