@@ -3,10 +3,11 @@ _Context* do_syscall(_Context *c);
 _Context* schedule(_Context* prev);
 static _Context* do_event(_Event e, _Context* c) {
   switch (e.event) {
-    case _EVENT_YIELD: //Log("haha,hit _EVENT_YIELD\n"); 
-    return schedule(c);
+    case _EVENT_YIELD: Log("haha,hit _EVENT_YIELD\n"); 
+      return schedule(c);
     break;
-    case _EVENT_SYSCALL: return do_syscall(c); break;
+    case _EVENT_SYSCALL: Log("EVENT_SYSCALL\n");
+      return do_syscall(c); break;
     default: panic("Unhandled event ID = %d", e.event);
   }
 
