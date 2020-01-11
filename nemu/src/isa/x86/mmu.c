@@ -35,14 +35,13 @@ uint32_t isa_vaddr_read(vaddr_t addr, int len) {
   if(((addr+len-1)& ~PAGE_MASK) != (addr & ~PAGE_MASK)) //addr + len cross page.end
   {
     printf("data cross the page boundary --> isa_vaddr_read()\n");
-    assert(0);
     vaddr_t addr2 = (addr+len-1)& ~PAGE_MASK; //the start of next
     int pg1_len = addr2 - addr; //next page's start - addr = len_already_read
     int pg2_len = len - pg1_len; //what's left;
     uint32_t data;
     paddr_t paddr1 = page_translate(addr, false);
     paddr_t paddr2 = page_translate(addr2,false);
-    data = paddr_read(paddr1, pg1_len) & (paddr_read(paddr2,pg2_len) << pg1_len);
+    data = paddr_read(paddr1, pg1_len) | (paddr_read(paddr2,pg2_len) << pg1_len);
     return data;
     //assert(0);
   }
