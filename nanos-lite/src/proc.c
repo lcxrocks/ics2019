@@ -25,7 +25,7 @@ void hello_fun(void* arg)
 
 void init_proc()
 {
-    context_uload(&pcb[1],"/bin/bmptest");
+    context_uload(&pcb[1],"/bin/pal");
     //context_uload(&pcb[1],"/bin/pal");
     context_uload(&pcb[0],"/bin/hello");
     switch_boot_pcb();
