@@ -14,7 +14,7 @@ _Context* do_syscall(_Context *c) {
   
   //printf("--------------a[0]: %x--------------\n",a[0]);
   switch (a[0]) {
-    case SYS_exit: _halt(c->GPRx); break;
+    case SYS_exit: _halt(a[1]); c->GPRx = 0; break; //_halt(c->GPRx); break;
     case SYS_yield: _yield(); c->GPRx = 0; break;
     case SYS_open: c->GPRx = fs_open((char *)a[1], (int)a[2], (int) a[3]); break;
     case SYS_read: c->GPRx = fs_read((int)a[1],(void *)a[2],(size_t)a[3]); break;

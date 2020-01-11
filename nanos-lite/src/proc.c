@@ -25,8 +25,9 @@ void hello_fun(void* arg)
 
 void init_proc()
 {
-    context_uload(&pcb[1],"/bin/pal");
-    context_kload(&pcb[0],(void *)hello_fun);
+    context_uload(&pcb[0],"bin/dummy");
+    //context_uload(&pcb[1],"/bin/pal");
+    //context_kload(&pcb[0],(void *)hello_fun);
     switch_boot_pcb();
 
     Log("Initializing processes...");
@@ -37,7 +38,7 @@ void init_proc()
 _Context* schedule(_Context* prev)
 {
     current->cp = prev;
-    //current = &pcb[0]; //always select pcb[0] as the new process (for now)
-    current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+    current = &pcb[0]; //always select pcb[0] as the new process (for now)
+    //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
     return current->cp;
 }

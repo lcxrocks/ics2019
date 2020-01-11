@@ -126,5 +126,6 @@ _Context *_ucontext(_AddressSpace *as, _Area ustack, _Area kstack, void *entry, 
   memset(uc,0,sizeof(_Context));
   uc->pc = (uintptr_t)entry;
   uc->cs = 0x8;
+  uc->as = as;
   return uc;
 }
