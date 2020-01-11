@@ -82,13 +82,25 @@ void __am_switch(_Context *c) {
 int _map(_AddressSpace *as, void *va, void *pa, int prot) {
   //return 0; //用于将地址空间as中虚拟地址va所在的虚拟页, 以prot的权限映射到pa所在的物理页
   //当prot中的present位为0时，表示让va的映射无效
-  // PDE *pgdir = as->ptr;
-  // PDE *pde = &pgdir[PDX(va)]; //get pde
-  // PTE *pgtab;  
-
-  // if(*pde & PTE_P){
-  //   pgtab = (PTE *)palloc_f();
-  // }
+  uint32_t pdx = PDX(va); // 10 bits of DIR 页目录索引
+  uint32_t ptx = PTX(va); //10 bits of PAGE 页表索引
+  PDE *pgdir = (PDE *) as->ptr; //页目录基址
+  PTE *ptdir; //页表基址
+  PDE pde;
+  PTE pte;
+  pde = pgdir[pdx]; 
+  if (!(pde & PTE_P)) //映射新的页表
+  {
+    PDE new_page_table = (uint32_t) pgalloc_usr(1) | PTE_P;
+    pgdir[pdx] = new_page_table;
+  }
+  pde = pgdir[pdx];
+  ptdir = (PTE *)PTE_ADDR(pde);
+  pte = ptdir[ptx];
+  if (!(pte & PTE_P))
+  {
+    ptdir[ptx] = (uint32_t) pa | PTE_P;
+  }
   return 0;
 }
 

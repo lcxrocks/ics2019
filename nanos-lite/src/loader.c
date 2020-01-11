@@ -14,12 +14,35 @@ extern int fs_close(int fd);
 extern size_t fs_read(int fd, void* buf, size_t len);
 extern size_t fs_lseek(int fd, size_t offset, int whence);
 size_t get_file_size(int fd);
-
+/*
+  _Context *cp;
+  _AddressSpace as; (size_t pgsize; //页面的大小
+                      _Area area; //start & end 虚拟地址空间中用户态的范围
+                      void *ptr;//指示具体的映射？)
+  uintptr_t max_brk;
+*/
+#define DEFAULT_ENTRY ((void *)0x40000000); 
 static uintptr_t loader(PCB *pcb, const char *filename) { //
-  Log("Load filename: %s\n",filename);
-  Elf_Ehdr ehdr;
-  Elf_Phdr phdr;
+  
   int fd = fs_open(filename, 0, 0);
+  int size = file_table[fd].size;
+  Log("Load filename: %s, size: %8x\n",filename, size);
+
+  void *pa = DEFAULT_ENTRY;
+  void *va = DEFAULT_ENTRY;
+  while (size > 0)
+  {
+    pa = new_page(1);
+    _map(&pcb->as,va,pa,0);
+    fs_read(fd,pa,PGSIZE);
+    va += PGSIZE;
+    size -= PGSIZE;
+  }
+  fs_close(fd);
+  return DEFAULT_ENTRY;
+  
+
+
   fs_read(fd, &ehdr, sizeof(ehdr));
   for (uint16_t i = 0; i < ehdr.e_phnum; i++)
   {
@@ -37,6 +60,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
   fs_close(fd);
   Log("Finished Load\n");
   return ehdr.e_entry;
+
 }
 
 void naive_uload(PCB* pcb, const char* filename)
