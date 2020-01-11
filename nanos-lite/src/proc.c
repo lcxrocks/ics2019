@@ -27,7 +27,7 @@ void init_proc()
 {
     context_uload(&pcb[1],"/bin/pal");
     //context_uload(&pcb[1],"/bin/pal");
-    context_kload(&pcb[0],(void *)hello_fun);
+    context_uload(&pcb[0],(void *)hello_fun);
     switch_boot_pcb();
 
     Log("Initializing processes...");
