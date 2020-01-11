@@ -42,10 +42,13 @@ _Context* schedule(_Context* prev)
 {
     //Log("Schedule ... \n");
     current->cp = prev;
-    //current = &pcb[0]; //always select pcb[0] as the new process (for now)
+    current = &pcb[0]; //always select pcb[0] as the new process (for now)
     //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
     switch (choose_pcb)
     {
+    case 0:
+        current = &pcb[0];
+        break;
     case 1:
         Log("Switch to pcb[1]...\n");
         current = &pcb[1];
