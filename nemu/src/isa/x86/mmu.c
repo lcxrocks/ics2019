@@ -33,33 +33,36 @@ paddr_t page_translate(vaddr_t addr, bool wren) {
     return addr;
 }
 
-uint32_t vaddr_read(vaddr_t addr, int len) {
-  //PAGE_MASK = 0xfff
-  if ((((addr) + (len) - 1) & ~PAGE_MASK) != ((addr) & ~PAGE_MASK)) {
-	//data cross the page boundary
-	uint32_t data = 0;
-	for(int i=0;i<len;i++){
-		paddr_t paddr = page_translate(addr + i, false);
-		data += (paddr_read(paddr, 1))<<8*i;
-	}
-	return data;
-	//assert(0);
-  } else {
-    paddr_t paddr = page_translate(addr, false);
-    return paddr_read(paddr, len);
+uint32_t isa_vaddr_read(vaddr_t addr, int len) {
+  if(((addr+len-1)& ~PAGE_MASK) != (addr & ~PAGE_MASK)) //addr + len cross page.end
+  {
+    printf("data cross the page boundary --> isa_vaddr_read()\n");
+    vaddr_t addr2 = (addr+len-1)& ~PAGE_MASK; //the start of next
+    int pg1_len = addr2 - addr; //next page's start - addr = len_already_read
+    int pg2_len = len - pg1_len; //what's left;
+    uint32_t data;
+    paddr_t paddr1 = page_translate(addr, false);
+    paddr_t paddr2 = page_translate(addr2,false);
+    data = paddr_read(paddr1, pg1_len) & (paddr_read(paddr2,pg2_len) << pg1_len);
+    return data;
+    //assert(0);
   }
+  else 
+  {
+    paddr_t paddr = page_translate(addr, false);
+    return paddr_read(paddr,len);
+  }  
 }
 
-void vaddr_write(vaddr_t addr, int len, uint32_t data) {
-  if ((((addr) + (len) - 1) & ~PAGE_MASK) != ((addr) & ~PAGE_MASK)) {
-	//data cross the page boundary
-	for(int i=0;i<len;i++){ //len 最大为4
-		paddr_t paddr = page_translate(addr + i,true);
-		paddr_write(paddr,1,data>>8*i);
-	}
-	//assert(0);
-  } else {
+void isa_vaddr_write(vaddr_t addr, uint32_t data, int len) {
+  if(((addr+len-1)& ~PAGE_MASK) != (addr & ~PAGE_MASK)) //addr +len cross page.end
+  {
+    printf("data cross the page boundary --> isa_vaddr_write()\n");
+    assert(0);
+  }
+  else 
+  {
     paddr_t paddr = page_translate(addr, true);
-    paddr_write(paddr, len, data);
+    paddr_write(paddr,data,len);
   }
 }
