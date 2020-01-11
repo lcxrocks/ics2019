@@ -120,22 +120,13 @@ int _map(_AddressSpace *as, void *va, void *pa, int prot) {
 }
 
 _Context *_ucontext(_AddressSpace *as, _Area ustack, _Area kstack, void *entry, void *args) {
-  // void *u_end = ustack.end - sizeof(int)- sizeof(char*) - sizeof(char*); 
-  // //   sizeof(main_stack_frame) = sizeof(argc) - sizeof(argv) - sizeof(envp)
-  // _Context *uc = (_Context *)u_end -1;
-  // memset(uc,0,sizeof(_Context));
-  // uc->pc = (uintptr_t)entry;
-  // uc->cs = 0x8;
-  // uc->eflags = 0x200;
-  // uc->as = as;
-  // return uc;
-  _Context *scontext = (_Context*)(ustack.end-sizeof(_Context));
-  scontext->pc = (intptr_t) NULL;
-
-  _Context *c = (_Context*)ustack.end - 2;
-  c->as = as;
-  c->pc = (uintptr_t)entry;
-  c->eflag = 0x200;
-  c->cs = 0x8;
-  return c;
+  void *u_end = ustack.end - sizeof(int)- sizeof(char*) - sizeof(char*); 
+  //   sizeof(main_stack_frame) = sizeof(argc) - sizeof(argv) - sizeof(envp)
+  _Context *uc = (_Context *)u_end -1;
+  memset(uc,0,sizeof(_Context));
+  uc->pc = (uintptr_t)entry;
+  uc->cs = 0x8;
+  uc->eflag = 0x200;
+  uc->as = as;
+  return uc;
 }
