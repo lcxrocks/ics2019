@@ -42,15 +42,15 @@ static uintptr_t loader(PCB *pcb, const char *filename) { //
       int pg_num=0;
       for (size_t j = 0; j < phdr.p_memsz; j+=PGSIZE)
       {
-        size_t bytes = ((phdr.p_memsz-j)>=PGSIZE) ? PGSIZE : (phdr.p_memsz-j);
+        size_t bytes = ((phdr.p_memsz-j)>=PGSIZE) ? PGSIZE : (phdr.p_memsz-j); //if more than a page, then read a page
         pa = new_page(1);
-        pg_num++;
         _map(&pcb->as,va,pa,0);
         fs_read(fd,pa,bytes);
+        pg_num++;
         pcb->max_brk = (uintptr_t)va+PGSIZE;
-        va+=PGSIZE;
+        va += PGSIZE;
       }
-      memset((void *)pa-(pg_num-1)*PGSIZE+phdr.p_filesz,0,phdr.p_memsz - phdr.p_filesz);
+      memset((void *)pa-(pg_num-1)*PGSIZE+phdr.p_filesz,0,phdr.p_memsz - phdr.p_filesz); // setting .bss to 0
     }
     //Log("finished iteration :%d /%d\n", i+1, ehdr.e_phnum);
   }

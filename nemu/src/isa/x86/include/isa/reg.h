@@ -49,7 +49,7 @@ typedef struct {
       uint32_t ZF:1;
       uint32_t SF:1;
       uint32_t :1;
-      uint32_t IF:1;
+      uint32_t IF:1; // 1<<9
       uint32_t :1;
       uint32_t OF:1;
       uint32_t :20;
@@ -64,6 +64,7 @@ typedef struct {
   rtlreg_t cs;
   CR0 cr0; //cr0 reg use: cpu.cr0.val = ...
   CR3 cr3; //cr3 reg
+  bool intr; 
 } CPU_state;
 
 

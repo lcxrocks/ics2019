@@ -1,4 +1,5 @@
 #include "rtl/rtl.h"
+#define IRQ_TIMER 32
 
 void raise_intr(uint32_t NO, vaddr_t ret_addr) {
   /* TODO: Trigger an interrupt/exception with ``NO''.
@@ -15,6 +16,7 @@ void raise_intr(uint32_t NO, vaddr_t ret_addr) {
   */
   //1.push regs
   rtl_push(&cpu.init);//eflags
+  cpu.IF = 1;
   rtl_push(&cpu.cs);
   rtl_push(&ret_addr);//woshishabi
   //2.read IDT addr
@@ -33,5 +35,11 @@ void raise_intr(uint32_t NO, vaddr_t ret_addr) {
 }
 
 bool isa_query_intr(void) {
+  if (cpu.intr && cpu.IF)
+  {
+    cpu.intr = false;
+    raise_intr(IRQ_TIMER, cpu.pc); //already updated but not start processing
+    return true;
+  }
   return false;
 }

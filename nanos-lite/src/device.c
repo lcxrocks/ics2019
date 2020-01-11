@@ -3,7 +3,6 @@
 // int32_t SCREEN_W;
 // int32_t SCREEN_H;
 size_t serial_write(const void *buf, size_t offset, size_t len) {
-  _yield();
   for (int i = 0; i < len; i++)
     _putc(((const char*)buf)[i]);
   return len;
@@ -19,7 +18,6 @@ static const char *keyname[256] __attribute__((used)) = {
 
 size_t events_read(void *buf, size_t offset, size_t len) {
   //read event into buf;
-  _yield();
   int cnt = 0;
   int key = read_key();
   char tmp[1024]={};
@@ -62,7 +60,6 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 // }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-  _yield();
   uint32_t pixel_addr= offset/4; //uint32_t *pixel;
   int SCREEN_W = screen_width();
   int x = pixel_addr % SCREEN_W;
@@ -95,6 +92,4 @@ void init_device() {
   //printf("screen_h: %d\n",screen_h);
   sprintf(dispinfo,"WIDTH:%d\nHEIGHT:%d\n",screen_w,screen_h);
   Log("dispinfo:%slength = %d\n",dispinfo,strlen(dispinfo));
-  // TODO: print the string to array `dispinfo` with the format
-  // described in the Navy-apps convention
 }

@@ -111,7 +111,7 @@ _Context *_ucontext(_AddressSpace *as, _Area ustack, _Area kstack, void *entry, 
   memset(uc,0,sizeof(_Context));
   uc->pc = (uintptr_t)entry;
   uc->cs = 0x8;
-  uc->eflag = 0x200;
   uc->as = as;
+  uc->eflag = 1<<9; //cpu.IF
   return uc;
 }
