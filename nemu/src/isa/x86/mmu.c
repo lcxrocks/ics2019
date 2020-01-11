@@ -19,7 +19,7 @@ paddr_t page_translate(vaddr_t addr){
     assert(pte.present);
     //assert(!((!pte.read_write)&wren)); //can't write when (R/W = 0 && wren = 1)
     pte.accessed = 1;
-    pte.dirty = wren ? 1 : pte.dirty; // “由MMU在进行写操作的时候将该位置1”
+    //pte.dirty = wren ? 1 : pte.dirty; // “由MMU在进行写操作的时候将该位置1”
 
     return  ((pte.page_frame <<12) | offset);
   }
