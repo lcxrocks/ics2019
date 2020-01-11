@@ -1,6 +1,8 @@
 #include "memory.h"
 
 static void *pf = NULL;
+int _map(_AddressSpace *as, void *va, void *pa, int prot);
+extern PCB *current;
 
 void* new_page(size_t nr_page) {
   //panic("new_page!!");
@@ -15,8 +17,13 @@ void free_page(void *p) {
 }
 
 /* The brk() system call handler. */
+/* 把新申请的堆区映射到虚拟地址空间中, 这样才能保证运行在分页机制上的用户进程可以正确地访问新申请的堆区. */
 int mm_brk(uintptr_t brk, intptr_t increment) {
-  return 0;
+  if (current->max_brk<brk)
+  {
+    /* code */
+  }
+  
 }
 
 void init_mm() {
