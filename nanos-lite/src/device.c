@@ -2,6 +2,7 @@
 #include <amdev.h>
 // int32_t SCREEN_W;
 // int32_t SCREEN_H;
+extern int choose_pcb;
 size_t serial_write(const void *buf, size_t offset, size_t len) {
   for (int i = 0; i < len; i++)
     _putc(((const char*)buf)[i]);
@@ -22,7 +23,17 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   int key = read_key();
   char tmp[1024]={};
   bool down =false;
-  if(key&8000) down = true;
+  if(key&8000) 
+  {
+    down = true;
+    switch(key&0x7fff)
+    {
+      case _KEY_F1: choose_pcb = 1; break;
+      case _KEY_F2: choose_pcb = 2; break;
+      case _KEY_F3: choose_pcb = 3; break;
+      default: Log("should not reach events_read() end \n"); assert(0); break;
+    }
+  }
   printf("key : %x\n",key);
   if((key&0x7fff)!=_KEY_NONE){
     if(down) cnt = sprintf(tmp, "kd %s\n", keyname[key & 0x7fff]);
@@ -52,12 +63,6 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
   memcpy(buf, (&dispinfo)+offset, cnt); 
   return cnt;
 }
-
-// size_t dispinfo_read(void *buf, size_t offset, size_t len) {
-//   strncpy(buf, dispinfo + offset, len);
-//   Log("buf:%s --- offset:%d ---len:%d ---dispinfosize:%d\n",buf,offset,len);
-//   return len;
-// }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
   uint32_t pixel_addr= offset/4; //uint32_t *pixel;

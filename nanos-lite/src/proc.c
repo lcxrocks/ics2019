@@ -1,6 +1,7 @@
 #include "proc.h"
 
 #define MAX_NR_PROC 4
+int choose_pcb = 0;
 void naive_uload(PCB* pcb, const char* filename);
 void context_kload(PCB* pcb, void* entry);
 void context_uload(PCB* pcb, const char* filename);
@@ -25,9 +26,9 @@ void hello_fun(void* arg)
 
 void init_proc()
 {
-    context_uload(&pcb[0],"/bin/pal");
+    context_uload(&pcb[0],"/bin/init");
     //context_uload(&pcb[1],"/bin/pal");
-    context_uload(&pcb[1],"/bin/hello");
+    context_uload(&pcb[1],"/bin/pal");
     context_uload(&pcb[2],"/bin/hello");
     context_uload(&pcb[3],"/bin/hello");
     switch_boot_pcb();
@@ -42,6 +43,25 @@ _Context* schedule(_Context* prev)
     //Log("Schedule ... \n");
     current->cp = prev;
     //current = &pcb[0]; //always select pcb[0] as the new process (for now)
-    current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+    //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
+    switch (choose_pcb)
+    {
+    case 1:
+        Log("Switch to pcb[1]...\n");
+        current = &pcb[1];
+        break;
+    case 2:
+        Log("Switch to pcb[1]...\n");
+        current = &pcb[2];
+        break;
+    case 3: 
+        Log("Switch to pcb[1]...\n");
+        current = &pcb[3];
+        break;
+    default:
+        Log("Should not reach schedule() end. \n");
+        assert(0);
+        break;
+    }
     return current->cp;
 }
