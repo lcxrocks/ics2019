@@ -45,15 +45,15 @@ _Context* schedule(_Context* prev)
     current->cp = prev;
     current = &pcb[0]; //always select pcb[0] as the new process (for now)
     //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
-    if (cnt<0x4000)
+    if (cnt<0x400)
     {
         cnt++;
         printf("cnt:%x\n",cnt);
     }
-    else cnt = 0;
     
-    if (cnt == 0x4000)
-    {
+    if (cnt == 0x400)
+    {   
+        cnt = 0;
         choose_pcb = 3;
     }
     
