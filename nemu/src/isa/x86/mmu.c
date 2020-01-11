@@ -62,4 +62,3 @@ void isa_vaddr_write(vaddr_t addr, uint32_t data, int len) {
     paddr_write(paddr,data,len);
   }
 }
-
