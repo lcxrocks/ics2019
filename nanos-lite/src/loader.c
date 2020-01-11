@@ -84,7 +84,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
           paddr = new_page(1);
           count++;
           //printf("%x\n",paddr);
-          printf("%x  %x\n",vaddr,paddr);
+          //printf("%x  %x\n",vaddr,paddr);
           _map(&pcb->as,vaddr,paddr,0);
           fs_read(fd,paddr,read_bytes);
           pcb->max_brk = (uintptr_t)vaddr+PGSIZE;
