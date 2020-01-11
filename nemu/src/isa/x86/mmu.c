@@ -5,7 +5,6 @@ paddr_t page_translate(vaddr_t addr, bool wren){
   PTE pte;
   if (cpu.cr0.paging)
   {
-    printf("translated\n");
     uint32_t dir = addr >> 22; // 10 bits of DIR 页目录索引
     uint32_t page_idx = (addr >> 12) & 0x3ff; //10 bits of PAGE 页表索引
     uint32_t offset = addr & PAGE_MASK; // 12 bits of PAGE offset 页内地址
@@ -26,7 +25,7 @@ paddr_t page_translate(vaddr_t addr, bool wren){
   }
   else 
   {
-    printf("didn't translate\n");
+    //printf("didn't translate\n");
     return addr;
   }
     //return addr;
@@ -36,6 +35,7 @@ uint32_t isa_vaddr_read(vaddr_t addr, int len) {
   if(((addr+len-1)& ~PAGE_MASK) != (addr & ~PAGE_MASK)) //addr + len cross page.end
   {
     printf("data cross the page boundary --> isa_vaddr_read()\n");
+    assert(0);
     vaddr_t addr2 = (addr+len-1)& ~PAGE_MASK; //the start of next
     int pg1_len = addr2 - addr; //next page's start - addr = len_already_read
     int pg2_len = len - pg1_len; //what's left;
