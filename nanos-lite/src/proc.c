@@ -37,7 +37,7 @@ void init_proc()
 
 _Context* schedule(_Context* prev)
 {
-    Log("Schedule ... \n");
+    //Log("Schedule ... \n");
     current->cp = prev;
     current = &pcb[0]; //always select pcb[0] as the new process (for now)
     //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
