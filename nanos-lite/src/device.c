@@ -35,10 +35,10 @@ size_t events_read(void *buf, size_t offset, size_t len) {
     if (pcb_cnt == 100)
     {   
         pcb_cnt = 0;
-        key = _KEY_F1;
+        key = _KEY_F1 | 0x8000;
     }
 
-  if(key&8000) 
+  if(key&0x8000) 
   {
     down = true;  
     switch(key&0x7fff)
