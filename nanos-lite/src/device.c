@@ -29,7 +29,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
     if (pcb_cnt<100)
     {
         pcb_cnt++;
-        printf("cnt:%x\n",pcb_cnt);
+        printf("cnt:%d\n",pcb_cnt);
     }
 
     if (pcb_cnt == 100)
@@ -43,7 +43,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
     down = true;  
     switch(key&0x7fff)
     {
-      case _KEY_F1: choose_pcb = 1; break;
+      case _KEY_F1: choose_pcb = 1; printf("hahahhahahit f1111111111111111111111111111111\n");break;
       case _KEY_F2: choose_pcb = 2; break;
       case _KEY_F3: choose_pcb = 3; break;
       default: Log("should not reach events_read() end \n"); assert(0); break;
