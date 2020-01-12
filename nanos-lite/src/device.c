@@ -26,13 +26,13 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   char tmp[1024]={};
   bool down =false;
 
-    if (pcb_cnt<0x100)
+    if (pcb_cnt<100)
     {
         pcb_cnt++;
         printf("cnt:%x\n",pcb_cnt);
     }
-    
-    if (pcb_cnt == 0x100)
+
+    if (pcb_cnt == 100)
     {   
         pcb_cnt = 0;
         key = _KEY_F1;
