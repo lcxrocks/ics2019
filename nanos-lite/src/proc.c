@@ -38,26 +38,13 @@ void init_proc()
     //naive_uload(NULL, "/bin/pal");
 }
 
-int cnt=0;
 _Context* schedule(_Context* prev)
 {
     //Log("Schedule ... \n");
     current->cp = prev;
     current = &pcb[0]; //always select pcb[0] as the new process (for now)
     //current = (current == &pcb[0] ? &pcb[1] : &pcb[0]);
-    if (cnt<0x400)
-    {
-        cnt++;
-        printf("cnt:%x\n",cnt);
-    }
-    
-    if (cnt == 0x400)
-    {   
-        cnt = 0;
-        choose_pcb = 3;
-    }
-    
-    
+
     switch (choose_pcb)
     {
     case 0:
